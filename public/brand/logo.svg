@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 80" width="100%" height="100%" fill="none">
+  <!-- Crest Icon -->
+  <g transform="translate(10, 10)">
+    <circle cx="30" cy="30" r="28" fill="#09090b" stroke="#ff1e42" stroke-width="2.5" stroke-dasharray="5 3"/>
+    <circle cx="30" cy="30" r="24" fill="#13131a" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+    <!-- Phone outline -->
+    <rect x="22" y="12" width="16" height="36" rx="3.5" fill="none" stroke="#ff1e42" stroke-width="1.5" opacity="0.6"/>
+    <!-- Stylized M -->
+    <path d="M12 40 L17 20 L24 32 L31 20 L31 40" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Stylized L -->
+    <path d="M35 20 L35 40 L48 40" stroke="#ff1e42" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Live Green Pulse Dot -->
+    <circle cx="50" cy="12" r="4" fill="#a3e635"/>
+  </g>
+  <!-- Wordmark Text -->
+  <g transform="translate(85, 24)">
+    <text x="0" y="20" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="22" fill="#ffffff" letter-spacing="-0.5">THE MOBILE LOUNGE</text>
+    <text x="0" y="38" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="11" fill="#a3e635" letter-spacing="1.5">KAKOD • BY VISHAL DISTRIBUTORS</text>
+  </g>
+</svg>

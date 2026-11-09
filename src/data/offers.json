@@ -1,0 +1,73 @@
+[
+  {
+    "id": "festive-gift-bundle",
+    "title": "5-in-1 Festive Mega Gift Hamper",
+    "tagline": "Guaranteed Free Gifts With Every Smartphone Purchase",
+    "badge": "STORE SIGNATURE",
+    "description": "Buy any smartphone at The Mobile Lounge Kakod and get an assured Smartwatch or ANC Earbuds, plus Free 9H Tempered Glass and MagSafe / Clear Cover on the spot!",
+    "code": "MLFESTIVE",
+    "discountValue": "Worth ₹3,999 FREE",
+    "validUntil": "2026-12-31",
+    "applicableCategory": "phones",
+    "terms": [
+      "Applicable on all 5G smartphones purchased in-store",
+      "One gift box per smartphone invoice",
+      "Valid while promotional stock lasts"
+    ],
+    "bannerColor": "from-rose-600 via-pink-600 to-amber-500",
+    "featured": true
+  },
+  {
+    "id": "zero-downpayment-bonanza",
+    "title": "₹0 Down Payment 0% Interest EMI",
+    "tagline": "Take Your Dream iPhone or Flagship Home in 5 Minutes",
+    "badge": "EASY FINANCE",
+    "description": "Zero down payment scheme available on Bajaj Finserv, IDFC First Bank, and all major bank cards. Bring only Aadhaar and PAN card.",
+    "code": "ZEROEMI",
+    "discountValue": "0% Interest",
+    "validUntil": "2026-12-31",
+    "applicableCategory": "emi",
+    "terms": [
+      "Subject to partner credit approval",
+      "Available on select iPhone and Android models",
+      "Processing fees may apply per financier terms"
+    ],
+    "bannerColor": "from-emerald-600 via-teal-600 to-cyan-700",
+    "featured": true
+  },
+  {
+    "id": "exchange-upgrade-bonus",
+    "title": "Instant Old Phone Exchange Bonus",
+    "tagline": "Get up to ₹5,000 Extra Over Market Value",
+    "badge": "UPGRADE BONUS",
+    "description": "Trade in your old 4G or 5G smartphone in any working condition. We inspect on the spot and deduct highest value directly from your new phone bill.",
+    "code": "EXCHANGEBONUS",
+    "discountValue": "Extra ₹2,000–₹5,000",
+    "validUntil": "2026-12-31",
+    "applicableCategory": "exchange",
+    "terms": [
+      "Phone must power on with display visible",
+      "Bring original box and charger if available for maximum valuation",
+      "Final value decided after 3-minute physical test at Kakod counter"
+    ],
+    "bannerColor": "from-amber-500 via-orange-600 to-red-600",
+    "featured": true
+  },
+  {
+    "id": "accessory-tws-drop",
+    "title": "Flat 50% Off On 20W/65W Adapters & Earbuds",
+    "tagline": "Special Combo Rates With Any Phone Purchase",
+    "badge": "COMBO DEAL",
+    "description": "Original Apple 20W PD adapter and SuperVOOC chargers at special combo pricing when bought with a new smartphone.",
+    "code": "COMBOPLUG",
+    "discountValue": "Up to 50% OFF",
+    "validUntil": "2026-12-31",
+    "applicableCategory": "accessories",
+    "terms": [
+      "Valid on the same invoice as a smartphone",
+      "100% genuine brand warranty covered"
+    ],
+    "bannerColor": "from-violet-600 via-purple-600 to-indigo-700",
+    "featured": false
+  }
+]

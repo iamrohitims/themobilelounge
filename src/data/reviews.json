@@ -1,0 +1,62 @@
+[
+  {
+    "id": "rev-1",
+    "author": "Rahul Sharma",
+    "location": "Kakod Main Market",
+    "rating": 5,
+    "date": "2026-10-18",
+    "phoneBought": "Apple iPhone 16 (128GB Teal)",
+    "comment": "Got my iPhone 16 from The Mobile Lounge at a better price than Amazon and Flipkart! Bajaj EMI process took only 7 minutes and Vishal bhai gave a free smartwatch and premium tempered glass. Best shop in Kakod!",
+    "verifiedPurchase": true,
+    "source": "Google",
+    "helpfulCount": 42
+  },
+  {
+    "id": "rev-2",
+    "author": "Amit Kumar",
+    "location": "Jahangirpur / Kakod",
+    "rating": 5,
+    "date": "2026-10-25",
+    "phoneBought": "Samsung Galaxy S24 Ultra",
+    "comment": "Exchanged my old OnePlus 9 Pro and got ₹18,500 instant discount on S24 Ultra. The store team transferred all my 40GB WhatsApp chats and photos completely free. 100% genuine sealed pack with GST bill.",
+    "verifiedPurchase": true,
+    "source": "Google",
+    "helpfulCount": 29
+  },
+  {
+    "id": "rev-3",
+    "author": "Pooja Verma",
+    "location": "Dankaur",
+    "rating": 5,
+    "date": "2026-11-01",
+    "phoneBought": "Vivo V40 Pro ZEISS",
+    "comment": "Saw their reels on Instagram (@themobilelounge_kakod) and drove down from Dankaur. Camera is unbelievable for portrait photos. Got ₹0 downpayment on IDFC bank card easily. Highly recommended!",
+    "verifiedPurchase": true,
+    "source": "Instagram",
+    "helpfulCount": 18
+  },
+  {
+    "id": "rev-4",
+    "author": "Deepak Nagar",
+    "location": "Sikandrabad",
+    "rating": 5,
+    "date": "2026-11-04",
+    "phoneBought": "OnePlus Nord 4 5G",
+    "comment": "Very polite behaviour and transparent pricing. No hidden fees or extra charges for credit card swipe. The genuine brand warranty and in-store support give full peace of mind. Kakod's top mobile lounge!",
+    "verifiedPurchase": true,
+    "source": "Store Walk-in",
+    "helpfulCount": 24
+  },
+  {
+    "id": "rev-5",
+    "author": "Vikas Bhati",
+    "location": "Chhatari / Kakod",
+    "rating": 5,
+    "date": "2026-11-06",
+    "phoneBought": "Realme 13 Pro+ 5G",
+    "comment": "Bought on 9 months No Cost EMI with Home Credit. Approval was done on spot with just Aadhaar OTP. Also got free noise-cancelling earbuds with it. Best mobile store in Bulandshahr district.",
+    "verifiedPurchase": true,
+    "source": "Google",
+    "helpfulCount": 15
+  }
+]

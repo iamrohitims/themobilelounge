@@ -1,0 +1,355 @@
+[
+  {
+    "id": "acc-1",
+    "slug": "apple-20w-usb-c-power-adapter",
+    "brand": "Apple",
+    "name": "Apple 20W USB-C Power Adapter (Original)",
+    "category": "accessory",
+    "subCategory": "Charger",
+    "images": [
+      {
+        "src": "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=600&q=80",
+        "alt": "Apple 20W USB-C Power Adapter (Original)"
+      }
+    ],
+    "variants": [
+      {
+        "color": "White",
+        "mrp": 1900,
+        "price": 1499,
+        "inStock": true
+      }
+    ],
+    "highlights": [
+      "100% Genuine Apple Sealed Pack with 1-Year Apple Warranty",
+      "Fast charging from 0 to 50% in approx 30 minutes",
+      "Universal compatibility with iPhone 16/15/14/13 & iPad"
+    ],
+    "specs": {
+      "performance": {
+        "Output": "20W Power Delivery (PD)",
+        "Port": "USB Type-C",
+        "Input": "100-240V ~ 50/60Hz"
+      },
+      "design": {
+        "Color": "Glossy White",
+        "Pin Type": "Indian 2-Pin BIS Approved"
+      },
+      "display": {},
+      "camera": {},
+      "battery": {},
+      "connectivity": {
+        "Connector": "USB-C"
+      }
+    },
+    "tags": [
+      "bestseller"
+    ],
+    "emiAvailable": false,
+    "releaseDate": "2024-01-01",
+    "warranty": "1 Year Official Apple Warranty",
+    "boxContents": [
+      "Apple 20W Power Adapter",
+      "User Documentation"
+    ]
+  },
+  {
+    "id": "acc-2",
+    "slug": "samsung-25w-super-fast-charger",
+    "brand": "Samsung",
+    "name": "Samsung 25W Type-C Super Fast Travel Adapter",
+    "category": "accessory",
+    "subCategory": "Charger",
+    "images": [
+      {
+        "src": "/products/samsung-25w-adapter/main.svg",
+        "alt": "Samsung 25W Super Fast Travel Adapter"
+      }
+    ],
+    "variants": [
+      {
+        "color": "Black",
+        "mrp": 1699,
+        "price": 1199,
+        "inStock": true
+      },
+      {
+        "color": "White",
+        "mrp": 1699,
+        "price": 1199,
+        "inStock": true
+      }
+    ],
+    "highlights": [
+      "Original Samsung 25W PD 3.0 PPS Fast Charging",
+      "Supports Galaxy S24, S23, A55, A35, M35 series",
+      "Safe charging with multi-protection against overcurrent"
+    ],
+    "specs": {
+      "performance": {
+        "Output": "25W Super Fast Charging",
+        "Standard": "USB PD 3.0 with PPS"
+      },
+      "design": {
+        "Finish": "Matte Durable Plastic"
+      },
+      "display": {},
+      "camera": {},
+      "battery": {},
+      "connectivity": {
+        "Port": "Type-C"
+      }
+    },
+    "tags": [
+      "bestseller"
+    ],
+    "emiAvailable": false,
+    "releaseDate": "2024-01-01",
+    "warranty": "6 Months Samsung Warranty",
+    "boxContents": [
+      "Samsung 25W Adapter",
+      "Warranty Leaflet"
+    ]
+  },
+  {
+    "id": "acc-3",
+    "slug": "magsafe-shockproof-clear-armor-case",
+    "brand": "The Mobile Lounge",
+    "name": "Military Grade MagSafe Shockproof Hybrid Armor Case",
+    "category": "accessory",
+    "subCategory": "Cover",
+    "images": [
+      {
+        "src": "/products/magsafe-case/main.svg",
+        "alt": "Military Grade MagSafe Shockproof Case"
+      }
+    ],
+    "variants": [
+      {
+        "color": "Crystal Clear",
+        "mrp": 999,
+        "price": 399,
+        "inStock": true
+      },
+      {
+        "color": "Matte Black",
+        "mrp": 999,
+        "price": 449,
+        "inStock": true
+      }
+    ],
+    "highlights": [
+      "Strong N52 Neodymium Magnets for Snap MagSafe accessories",
+      "Air-cushion drop protection on all 4 corners",
+      "Anti-yellowing German TPU backplate"
+    ],
+    "specs": {
+      "design": {
+        "Material": "Polycarbonate + Shockproof TPU",
+        "Raised Lip": "1.5mm Screen & Camera Protection"
+      },
+      "connectivity": {
+        "Wireless Charging": "Fully Qi & MagSafe Compatible"
+      },
+      "display": {},
+      "performance": {},
+      "camera": {},
+      "battery": {}
+    },
+    "tags": [
+      "new",
+      "bestseller"
+    ],
+    "emiAvailable": false,
+    "releaseDate": "2024-01-01",
+    "warranty": "Store Replacement Guarantee against defect",
+    "boxContents": [
+      "Hybrid Armor Case"
+    ]
+  },
+  {
+    "id": "acc-4",
+    "slug": "9h-tempered-glass-privacy-matte",
+    "brand": "The Mobile Lounge",
+    "name": "Super-Tough 9H Gorilla Tempered Glass (Free Counter Fitting)",
+    "category": "accessory",
+    "subCategory": "Glass",
+    "images": [
+      {
+        "src": "/products/tempered-glass/main.svg",
+        "alt": "9H Tempered Glass Screen Protector"
+      }
+    ],
+    "variants": [
+      {
+        "color": "HD Clear",
+        "mrp": 499,
+        "price": 149,
+        "inStock": true
+      },
+      {
+        "color": "28° Anti-Peeping Privacy",
+        "mrp": 699,
+        "price": 249,
+        "inStock": true
+      }
+    ],
+    "highlights": [
+      "Bubble-free precision machine fitting in 2 minutes at Kakod store",
+      "9H surface hardness resists keys, coins, and accidental pavement drops",
+      "Oleophobic coating repels fingerprints and smudges"
+    ],
+    "specs": {
+      "display": {
+        "Clarity": "99.9% Light Transmittance",
+        "Thickness": "0.33mm Ultra-thin"
+      },
+      "design": {
+        "Edges": "2.5D Curved Polished Edges"
+      },
+      "performance": {},
+      "camera": {},
+      "battery": {},
+      "connectivity": {}
+    },
+    "tags": [
+      "bestseller"
+    ],
+    "emiAvailable": false,
+    "releaseDate": "2024-01-01",
+    "warranty": "Instant Counter Replacement if bubbles found",
+    "boxContents": [
+      "Tempered Glass",
+      "Cleaning Wipes",
+      "Dust Absorber"
+    ]
+  },
+  {
+    "id": "acc-5",
+    "slug": "noise-ultra-amoled-smartwatch",
+    "brand": "Noise",
+    "name": "Noise ColorFit Ultra AMOLED Bluetooth Calling Smartwatch",
+    "category": "accessory",
+    "subCategory": "Smartwatch",
+    "images": [
+      {
+        "src": "/products/noise-smartwatch/main.svg",
+        "alt": "Noise ColorFit Ultra AMOLED Smartwatch"
+      }
+    ],
+    "variants": [
+      {
+        "color": "Jet Black Metallic",
+        "mrp": 5999,
+        "price": 1899,
+        "inStock": true
+      },
+      {
+        "color": "Silver Grey Metallic",
+        "mrp": 5999,
+        "price": 1899,
+        "inStock": true
+      }
+    ],
+    "highlights": [
+      "1.96-inch High-Brightness AMOLED Display with Always-On",
+      "TruSync Bluetooth Calling with Noise-Reduction Microphone",
+      "Eligible as FREE Mystery Gift on select smartphone purchases"
+    ],
+    "specs": {
+      "display": {
+        "Size": "1.96 inch AMOLED",
+        "Resolution": "410 x 502 pixels, 600 nits"
+      },
+      "battery": {
+        "Life": "Up to 7 Days typical use",
+        "Standby": "Up to 30 Days"
+      },
+      "connectivity": {
+        "Bluetooth": "v5.3",
+        "App": "NoiseFit App (Android & iOS)"
+      },
+      "performance": {},
+      "camera": {},
+      "design": {
+        "Chassis": "Zinc Alloy Metallic Frame",
+        "Water Resistance": "IP68 Dust & Water Resistant"
+      }
+    },
+    "tags": [
+      "new",
+      "bestseller"
+    ],
+    "emiAvailable": false,
+    "releaseDate": "2024-01-01",
+    "warranty": "1 Year Brand Warranty",
+    "boxContents": [
+      "Smartwatch",
+      "Magnetic Charging Cable",
+      "User Manual"
+    ]
+  },
+  {
+    "id": "acc-6",
+    "slug": "boat-airdopes-anc-tws",
+    "brand": "boAt",
+    "name": "boAt Airdopes 300 Active Noise Cancelling (ANC) Earbuds",
+    "category": "accessory",
+    "subCategory": "Earbuds",
+    "images": [
+      {
+        "src": "/products/boat-airdopes/main.svg",
+        "alt": "boAt Airdopes Active Noise Cancelling Earbuds"
+      }
+    ],
+    "variants": [
+      {
+        "color": "Carbon Black",
+        "mrp": 3990,
+        "price": 1399,
+        "inStock": true
+      },
+      {
+        "color": "Gunmetal White",
+        "mrp": 3990,
+        "price": 1399,
+        "inStock": true
+      }
+    ],
+    "highlights": [
+      "32dB Active Noise Cancellation + Quad Mics with ENx technology",
+      "50 Hours mammoth total playback time with ASAP Fast Charge",
+      "BEAST Mode with 50ms ultra-low latency for mobile gaming"
+    ],
+    "specs": {
+      "performance": {
+        "Drivers": "10mm Titanium-Coated Bass Boost Drivers",
+        "Latency": "50ms Ultra-low Game Mode"
+      },
+      "battery": {
+        "Playback": "10 Hours per charge, 50 Hours with case",
+        "Fast Charge": "10 mins charge = 150 mins playtime"
+      },
+      "connectivity": {
+        "Bluetooth": "v5.3 with Instant Wake 'N' Pair (IWP)"
+      },
+      "design": {
+        "Rating": "IPX5 Sweat & Splash Resistance"
+      },
+      "display": {},
+      "camera": {}
+    },
+    "tags": [
+      "bestseller"
+    ],
+    "emiAvailable": false,
+    "releaseDate": "2024-01-01",
+    "warranty": "1 Year Official Brand Warranty",
+    "boxContents": [
+      "Earbuds Pair",
+      "Charging Case",
+      "Type-C Cable",
+      "Extra Eartips"
+    ]
+  }
+]

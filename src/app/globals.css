@@ -1,26 +1,193 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:where(.dark, .dark *));
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #f8fafc;
+    --foreground: #09090b;
+    --card: #ffffff;
+    --card-foreground: #09090b;
+    --card-subtle: #f1f5f9;
+    --primary: #ff5a1f;
+    --primary-foreground: #ffffff;
+    --accent: #c5e84a;
+    --accent-foreground: #09090b;
+    --purple: #7b2fbe;
+    --purple-dk: #4a1580;
+    --pink: #cc0074;
+    --border: #e2e8f0;
+    --muted: #f1f5f9;
+    --muted-foreground: #64748b;
+  }
+
+  .dark {
+    --background: #09090b;
+    --foreground: #f8fafc;
+    --card: #141724;
+    --card-foreground: #ffffff;
+    --card-subtle: #1c2132;
+    --primary: #ff5a1f;
+    --primary-foreground: #ffffff;
+    --accent: #c5e84a;
+    --accent-foreground: #09090b;
+    --purple: #7b2fbe;
+    --purple-dk: #4a1580;
+    --pink: #cc0074;
+    --border: rgba(255, 255, 255, 0.12);
+    --muted: #1e2433;
+    --muted-foreground: #cbd5e1;
   }
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: var(--font-plus-jakarta), var(--font-inter), system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Trips24x7 Inspired Vibrant Gradients */
+.gradient-hero {
+  background: linear-gradient(135deg, #38105c 0%, #6d1fae 45%, #b50058 100%);
+  position: relative;
+}
+
+.gradient-purple-orange {
+  background: linear-gradient(135deg, #7b2fbe 0%, #ff5a1f 100%);
+}
+
+.gradient-accent-lime {
+  background: #c5e84a;
+  color: #121417;
+}
+
+/* Glassmorphism & High-Contrast Bento Cards */
+.bento-card {
+  background: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark .bento-card {
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.35);
+}
+
+.bento-card:hover {
+  border-color: rgba(255, 90, 31, 0.5);
+  box-shadow: 0 12px 32px -8px rgba(255, 90, 31, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Trips24x7 Style Capsule Search Bar */
+.search-capsule {
+  background: #ffffff;
+  border-radius: 9999px;
+  padding: 6px 6px 6px 18px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* Trips24x7 Capsule Filter Chips */
+.capsule-chip {
+  flex-shrink: 0;
+  padding: 0.45rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  color: var(--muted-foreground);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.capsule-chip.active, .capsule-chip:hover {
+  background: #ffffff;
+  color: #0f172a;
+  border-color: #ffffff;
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
+}
+
+/* Custom Interactive Range Sliders */
+input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  background: transparent;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #ff5a1f 0%, #c5e84a 100%);
+  border-radius: 999px;
+}
+input[type=range]::-webkit-slider-thumb {
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid #ff5a1f;
+  -webkit-appearance: none;
+  margin-top: -8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  cursor: pointer;
+}
+
+/* Hide scrollbars but keep scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Continuous Smooth Scrolling Marquee */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-marquee-reverse {
+  display: flex;
+  width: max-content;
+  animation: marquee-reverse 32s linear infinite;
 }

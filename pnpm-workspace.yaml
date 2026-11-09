@@ -1,3 +1,7 @@
 allowBuilds:
-  sharp: false
-  unrs-resolver: false
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
+  "@tailwindcss/turbopack": true
+  "@next/swc-darwin-x64": true
+  "@rolldown/binding-darwin-x64": true

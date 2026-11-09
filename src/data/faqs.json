@@ -1,0 +1,44 @@
+[
+  {
+    "id": "faq-1",
+    "category": "EMI & Finance",
+    "question": "Which documents are required for ₹0 Down Payment EMI at The Mobile Lounge?",
+    "answer": "To buy any smartphone on ₹0 Downpayment EMI, you only need your original Aadhaar Card, PAN Card, and an active bank account (for auto-debit approval via debit card or netbanking). Approval is done electronically within 5 to 10 minutes at our Kakod store counter."
+  },
+  {
+    "id": "faq-2",
+    "category": "EMI & Finance",
+    "question": "Can I buy a phone on EMI if I don't have a credit card?",
+    "answer": "Yes! 80% of our EMI customers do not use a credit card. We have direct tie-ups with Bajaj Finserv EMI Network, IDFC FIRST Bank Consumer Durable Loans, TVS Credit, and Home Credit. You can get instant paperless finance using just your Aadhaar and PAN card."
+  },
+  {
+    "id": "faq-3",
+    "category": "Products & Warranty",
+    "question": "Are all phones 100% genuine sealed pack with GST bill?",
+    "answer": "Absolutely 100%. Every smartphone sold at The Mobile Lounge (by Vishal Distributors) is brand new, sealed pack with original brand security seal. You receive a valid GST invoice with IMEI number registered in the official brand warranty database (Apple, Samsung, Vivo, etc.)."
+  },
+  {
+    "id": "faq-4",
+    "category": "Products & Warranty",
+    "question": "How does the warranty work on smartphones and accessories?",
+    "answer": "Every smartphone and accessory sold at The Mobile Lounge includes the official Indian manufacturer warranty (typically 1 Year for smartphones; 6 to 12 months for original accessories and wearables). Warranty terms depend directly on the brand and model. Your GST invoice from our shop is 100% valid across all authorized service centers, and our Kakod team provides full in-store assistance if you ever need service."
+  },
+  {
+    "id": "faq-5",
+    "category": "Exchange",
+    "question": "How does the Old Phone Exchange process work?",
+    "answer": "Bring your old 4G or 5G smartphone in any working condition to our Kakod shop. Our technician checks the screen, camera, and body in 3 minutes, calculates the highest market trade-in value, and instantly deducts it from your new smartphone bill."
+  },
+  {
+    "id": "faq-6",
+    "category": "Store & Visit",
+    "question": "What are your store timings and exact location in Kakod?",
+    "answer": "The Mobile Lounge is open all 7 days from 9:30 AM to 9:00 PM. We are located in Main Market, Kakod, District Bulandshahr (Uttar Pradesh), near Vishal Distributors. You can tap 'Directions' on our website to navigate directly via Google Maps or WhatsApp us at +91 70172 89590."
+  },
+  {
+    "id": "faq-7",
+    "category": "Store & Visit",
+    "question": "Can you transfer my WhatsApp chats and photos to my new phone?",
+    "answer": "Yes, absolutely! Whether moving Android to Android, Android to iPhone, or iPhone to iPhone, our staff performs full data transfer, WhatsApp chat backup restoration, and contact setup free of cost while you wait."
+  }
+]
