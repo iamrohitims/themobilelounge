@@ -209,3 +209,19 @@ input[type=range]::-webkit-slider-thumb {
   width: max-content;
   animation: marquee-reverse 32s linear infinite;
 }
+
+/* Instagram Reel Embed Normalization */
+.instagram-media,
+.instagram-media-rendered,
+iframe.instagram-media {
+  margin: 0 auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  vertical-align: top !important;
+}
+

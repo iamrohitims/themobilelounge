@@ -52,7 +52,7 @@ export interface InstagramReelsProps {
 export function InstagramReels({
   reels = defaultReels,
   title = "Watch Kakod Customer Deliveries & Live Unboxings",
-  subtitle = "Swipe through live unboxings, customer handovers, and assured gift hampers directly from our official Instagram channel @themobilelounge_kakod (by Vishal Distributors).",
+  subtitle = "Swipe through customer unboxings, phone deliveries, and gift giveaways directly from our official Instagram channel @themobilelounge_kakod (by Vishal Distributors).",
   showHeader = true,
   showVipBanner = true,
   className = "",
@@ -90,10 +90,9 @@ export function InstagramReels({
     setCanScrollLeft(scrollLeft > 10);
     setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
 
-    // Calculate approximate active card index
     const cardWidth = el.firstElementChild
-      ? (el.firstElementChild as HTMLElement).offsetWidth + 16
-      : 360;
+      ? (el.firstElementChild as HTMLElement).offsetWidth + 20
+      : 350;
     const index = Math.round(scrollLeft / cardWidth);
     setActiveIndex(Math.max(0, Math.min(validReels.length - 1, index)));
   }, [validReels.length]);
@@ -109,8 +108,8 @@ export function InstagramReels({
     const el = scrollRef.current;
     if (!el) return;
     const cardWidth = el.firstElementChild
-      ? (el.firstElementChild as HTMLElement).offsetWidth + 16
-      : 360;
+      ? (el.firstElementChild as HTMLElement).offsetWidth + 20
+      : 350;
     const offset = direction === "left" ? -cardWidth : cardWidth;
     el.scrollBy({ left: offset, behavior: "smooth" });
   };
@@ -120,8 +119,8 @@ export function InstagramReels({
     const el = scrollRef.current;
     if (!el) return;
     const cardWidth = el.firstElementChild
-      ? (el.firstElementChild as HTMLElement).offsetWidth + 16
-      : 360;
+      ? (el.firstElementChild as HTMLElement).offsetWidth + 20
+      : 350;
     el.scrollTo({ left: index * cardWidth, behavior: "smooth" });
   };
 
@@ -205,7 +204,7 @@ export function InstagramReels({
               href={siteConfig.contact.instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 hover:opacity-95 text-white font-extrabold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-md transition active:scale-95"
+              className="bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 hover:opacity-95 text-white font-extrabold text-xs px-3.5 py-2.5 rounded-xl flex items-center gap-1.5 shadow-md transition active:scale-95"
             >
               <InstagramIcon className="w-3.5 h-3.5 shrink-0" />
               <span>Follow @{siteConfig.contact.instagramHandle}</span>
@@ -215,7 +214,7 @@ export function InstagramReels({
             {/* Fullscreen Video Player */}
             <Link
               href="/reels"
-              className="bg-zinc-100 hover:bg-zinc-200 dark:bg-white/10 dark:hover:bg-white/15 text-zinc-900 dark:text-white font-extrabold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 transition active:scale-95 border border-zinc-200 dark:border-white/10"
+              className="bg-zinc-100 hover:bg-zinc-200 dark:bg-white/10 dark:hover:bg-white/15 text-zinc-900 dark:text-white font-extrabold text-xs px-3.5 py-2.5 rounded-xl flex items-center gap-1.5 transition active:scale-95 border border-zinc-200 dark:border-white/10"
             >
               <Play className="w-3.5 h-3.5 fill-current" />
               <span>All Reels</span>
@@ -259,7 +258,7 @@ export function InstagramReels({
         </div>
       )}
 
-      {/* 2. Horizontal Left-to-Right Scroller Track */}
+      {/* 2. Horizontal Left-to-Right Scroller Track with Uniform HW */}
       {validReels.length === 0 ? (
         <div className="p-8 text-center rounded-3xl bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200 dark:border-white/10 space-y-3">
           <p className="font-bold text-sm text-zinc-600 dark:text-zinc-400">
@@ -280,21 +279,22 @@ export function InstagramReels({
           <div
             ref={scrollRef}
             onScroll={updateScrollState}
-            className="flex gap-4 sm:gap-5 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory py-2 px-1 -mx-1"
+            className="flex items-start gap-5 sm:gap-6 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory py-3 px-1 -mx-1"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             {validReels.map((reel, index) => {
               const waDealUrl = `https://wa.me/${siteConfig.contact.whatsapp}?text=${encodeURIComponent(
-                `Namaste Vishal bhai! I saw your Kakod customer delivery Reel on Instagram (${reel.canonical}) and want to inquire about current price & free gift offer.`
+                `Namaste Vishal bhai! I saw your Kakod customer delivery Reel on Instagram (${reel.canonical}) and want to lock in the special deal price with free gifts!`
               )}`;
 
               return (
                 <div
                   key={reel.shortcode}
-                  className="w-[86vw] xs:w-[340px] sm:w-[360px] md:w-[380px] shrink-0 snap-center sm:snap-start rounded-3xl overflow-hidden bg-white dark:bg-[#11141e] border-2 border-zinc-200 dark:border-white/10 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                  /* Fixed uniform Width (330px on mobile, 340px on tablet/desktop) and fixed uniform Height (610px) */
+                  className="w-[300px] xs:w-[328px] sm:w-[340px] h-[610px] shrink-0 snap-center sm:snap-start rounded-3xl overflow-hidden bg-white dark:bg-[#11141e] border-2 border-zinc-200 dark:border-white/10 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
                 >
-                  {/* Card Header Pill */}
-                  <div className="p-3 bg-zinc-50 dark:bg-white/5 border-b border-zinc-200 dark:border-white/10 flex items-center justify-between gap-2 text-xs">
+                  {/* Fixed-Height Card Header (48px) */}
+                  <div className="h-12 px-3.5 bg-zinc-50 dark:bg-white/5 border-b border-zinc-200 dark:border-white/10 flex items-center justify-between gap-2 text-xs shrink-0">
                     <div className="flex items-center gap-2 min-w-0">
                       <div className="w-6 h-6 rounded-full p-0.5 bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 shrink-0">
                         <div className="w-full h-full rounded-full bg-white dark:bg-zinc-950 flex items-center justify-center">
@@ -311,37 +311,37 @@ export function InstagramReels({
                     </span>
                   </div>
 
-                  {/* Embed Container with Min-Height & Shimmer Fallback */}
-                  <div className="relative w-full min-h-[480px] sm:min-h-[520px] bg-zinc-100 dark:bg-zinc-900/60 flex items-center justify-center p-1 sm:p-2 overflow-hidden">
+                  {/* Fixed-Height Embed Viewport (506px) with Top Alignment (items-start) */}
+                  <div className="h-[506px] w-full bg-zinc-100 dark:bg-zinc-900/60 relative overflow-hidden flex items-start justify-center p-0 shrink-0">
                     {/* Underlay Skeleton / Fallback State */}
                     <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center space-y-3 pointer-events-none opacity-60">
                       <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 flex items-center justify-center text-white shadow-lg animate-pulse">
                         <InstagramIcon className="w-6 h-6" />
                       </div>
                       <p className="text-xs font-bold text-zinc-500 dark:text-zinc-400">
-                        Loading Reel from Instagram...
+                        Loading Reel #{index + 1}...
                       </p>
                       <span className="text-[10px] text-zinc-400">
                         Main Market, Kakod Showroom
                       </span>
                     </div>
 
-                    {/* Official Instagram Embed Blockquote */}
+                    {/* Official Instagram Embed Blockquote - Top Aligned, Uncaptioned for Uniform Height */}
                     {mounted && (
                       <blockquote
                         className="instagram-media relative z-10 w-full"
-                        data-instgrm-captioned
                         data-instgrm-permalink={reel.canonical}
                         data-instgrm-version="14"
                         style={{
                           background: "#FFF",
                           border: 0,
-                          borderRadius: "16px",
+                          borderRadius: "0px",
                           margin: "0 auto",
                           maxWidth: "100%",
-                          minWidth: "280px",
+                          minWidth: "100%",
                           padding: 0,
                           width: "100%",
+                          verticalAlign: "top",
                         }}
                       >
                         <div className="p-4 text-center">
@@ -359,8 +359,8 @@ export function InstagramReels({
                     )}
                   </div>
 
-                  {/* Bottom Card Action Bar */}
-                  <div className="p-3 bg-zinc-50 dark:bg-white/5 border-t border-zinc-200 dark:border-white/10 flex items-center gap-2">
+                  {/* Fixed-Height Bottom Card Action Bar (56px) */}
+                  <div className="h-14 px-3 bg-zinc-50 dark:bg-white/5 border-t border-zinc-200 dark:border-white/10 flex items-center gap-2 shrink-0">
                     <a
                       href={waDealUrl}
                       target="_blank"
