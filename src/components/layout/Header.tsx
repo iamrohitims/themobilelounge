@@ -60,16 +60,16 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 w-full shadow-md">
-      {/* 1. Top Announcement Marquee Ticker (Trips24x7 Vibrant Gradient) */}
-      <div className="bg-gradient-to-r from-[#ff5a1f] via-[#7b2fbe] to-[#cc0074] text-white py-1.5 px-3 overflow-hidden text-xs font-black tracking-wide border-b border-white/20">
+      {/* 1. Top Announcement Marquee Ticker */}
+      <div className="bg-gradient-to-r from-[#ff5a1f] via-[#7b2fbe] to-[#cc0074] text-white py-1 px-3 overflow-hidden text-xs font-black tracking-wide border-b border-white/20">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2 overflow-hidden whitespace-nowrap">
-            <span className="bg-black/40 text-[#c5e84a] px-2.5 py-0.5 rounded-full text-[10px] uppercase font-black shrink-0 flex items-center gap-1 border border-white/10">
-              <Flame className="w-3 h-3 text-amber-300 fill-current" />
+          <div className="flex items-center gap-2 overflow-hidden whitespace-nowrap min-w-0">
+            <span className="bg-black/40 text-[#c5e84a] px-2 py-0.2 rounded-full text-[9px] sm:text-[10px] uppercase font-black shrink-0 flex items-center gap-1 border border-white/10">
+              <Flame className="w-2.5 h-2.5 text-amber-300 fill-current" />
               <span>Kakod Store</span>
             </span>
-            <span className="truncate text-[11px] sm:text-xs font-semibold">
-              iPhone 16 Ready Stock • ₹0 Downpayment 0% EMI (Bajaj/IDFC) • Free Smartwatch & Gifts on Every Smartphone!
+            <span className="truncate text-[10px] sm:text-xs font-semibold">
+              iPhone 16 Ready Stock • ₹0 Downpayment 0% EMI • Free Smartwatch & Gifts!
             </span>
           </div>
 
@@ -90,37 +90,37 @@ export function Header() {
       </div>
 
       {/* 2. Main Navigation Bar */}
-      <div className="bg-white/95 dark:bg-[#121624]/95 backdrop-blur-xl border-b border-zinc-200 dark:border-white/10 px-3 sm:px-6 py-2.5 sm:py-3 transition-colors duration-200">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
+      <div className="bg-white/95 dark:bg-[#121624]/95 backdrop-blur-xl border-b border-zinc-200 dark:border-white/10 px-2.5 sm:px-6 py-2 sm:py-2.5 transition-colors duration-200">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-1.5 sm:gap-4">
           {/* Brand Identity & Store Subtitle */}
-          <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-            <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition shrink-0 border border-zinc-200 dark:border-white/10 bg-zinc-950">
+          <Link href="/" className="flex items-center gap-2 shrink-0 group min-w-0">
+            <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-xl overflow-hidden shadow-sm group-hover:scale-105 transition shrink-0 border border-zinc-200 dark:border-white/10 bg-zinc-950">
               <Image
                 src="/brand/logo.png"
                 alt={siteConfig.name}
                 fill
-                sizes="40px"
+                sizes="36px"
                 className="object-cover"
                 priority
               />
             </div>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <span className="font-display font-black text-sm sm:text-base lg:text-lg text-zinc-950 dark:text-white tracking-tight">
+            <div className="min-w-0">
+              <div className="flex items-center gap-1">
+                <span className="font-display font-black text-xs xs:text-sm sm:text-base text-zinc-950 dark:text-white tracking-tight truncate">
                   {siteConfig.name}
                 </span>
-                <span className="bg-[#c5e84a]/20 text-[#3f6212] dark:text-[#c5e84a] text-[9px] sm:text-[10px] font-black px-1.5 py-0.2 rounded-full border border-[#c5e84a]/30 hidden xs:inline">
+                <span className="bg-[#c5e84a]/20 text-[#3f6212] dark:text-[#c5e84a] text-[8px] sm:text-[9px] font-black px-1 rounded-full border border-[#c5e84a]/30 hidden sm:inline">
                   Verified
                 </span>
               </div>
-              <p className="text-[10px] sm:text-[11px] text-zinc-600 dark:text-zinc-300 font-medium">
+              <p className="text-[9px] sm:text-[10px] text-zinc-500 dark:text-zinc-400 font-medium truncate">
                 📍 Kakod • by Vishal Distributors
               </p>
             </div>
           </Link>
 
-          {/* Desktop Navigation Links (Visible on lg: 1024px and up) */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
+          {/* Desktop Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-1">
             {mainNav.map((item) => {
               const isActive = pathname === item.href;
 
@@ -146,15 +146,15 @@ export function Header() {
           </nav>
 
           {/* Right Action Icons & Buttons */}
-          <div className="flex items-center gap-1.5 sm:gap-2">
-            {/* Quick Search Button (Routes to Catalogue) */}
+          <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+            {/* Search Button */}
             <Link
               href="/phones"
-              className="p-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-white/10 text-zinc-700 hover:text-zinc-950 dark:text-zinc-200 dark:hover:text-white transition"
+              className="p-1.5 sm:p-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-white/10 text-zinc-700 hover:text-zinc-950 dark:text-zinc-200 dark:hover:text-white transition"
               title="Search Phones"
               aria-label="Search Phones"
             >
-              <Search className="w-4 h-4" />
+              <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </Link>
 
             {/* Light / Dark Mode Toggle */}
@@ -163,13 +163,13 @@ export function Header() {
             {/* Compare Badge Link */}
             <Link
               href="/compare"
-              className="relative p-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-white/10 text-zinc-700 hover:text-zinc-950 dark:text-zinc-200 dark:hover:text-white transition"
+              className="relative p-1.5 sm:p-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-white/10 text-zinc-700 hover:text-zinc-950 dark:text-zinc-200 dark:hover:text-white transition"
               title="Compare Phones"
               aria-label="Compare Phones"
             >
-              <ArrowLeftRight className="w-4 h-4" />
+              <ArrowLeftRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               {compareItems.length > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#ff1e42] text-white text-[9px] font-extrabold rounded-full flex items-center justify-center animate-in zoom-in">
+                <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-[#ff1e42] text-white text-[8px] font-extrabold rounded-full flex items-center justify-center animate-in zoom-in">
                   {compareItems.length}
                 </span>
               )}
@@ -178,7 +178,7 @@ export function Header() {
             {/* Direct Phone Call Button (Medium screens & up) */}
             <a
               href={`tel:${siteConfig.contact.phoneRaw}`}
-              className="hidden md:flex items-center gap-1.5 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-white/10 px-3 py-2 rounded-xl text-xs font-bold text-zinc-800 dark:text-white transition"
+              className="hidden md:flex items-center gap-1.5 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-white/10 px-2.5 py-1.5 rounded-xl text-xs font-bold text-zinc-800 dark:text-white transition"
               title="Call Showroom"
             >
               <Phone className="w-3.5 h-3.5 text-emerald-600 dark:text-lime-400" />
@@ -186,27 +186,27 @@ export function Header() {
               <span className="xl:hidden">Call</span>
             </a>
 
-            {/* WhatsApp Deal Button (Prominent Brand Pill) */}
+            {/* WhatsApp Deal Button */}
             <a
               href={`https://wa.me/${siteConfig.contact.whatsapp}?text=${encodeURIComponent(
                 "Namaste The Mobile Lounge Kakod! I want to check today's best smartphone offers and unlock counter deals."
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-[#c5e84a] hover:bg-lime-400 text-black font-black text-xs px-3 sm:px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-[0_0_15px_rgba(197,232,74,0.35)] transition shrink-0 transform active:scale-95"
+              className="bg-[#25D366] hover:bg-[#20ba59] text-white font-black text-xs px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl flex items-center gap-1 shadow-sm transition shrink-0 transform active:scale-95"
             >
               <MessageSquare className="w-3.5 h-3.5 fill-current" />
               <span className="hidden xs:inline">WhatsApp</span>
             </a>
 
-            {/* Mobile & Tablet Hamburger Toggle (Visible on screens under 1024px) */}
+            {/* Mobile & Tablet Hamburger Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 border border-zinc-200 dark:border-white/10 text-zinc-800 dark:text-white transition"
+              className="lg:hidden p-1.5 sm:p-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 border border-zinc-200 dark:border-white/10 text-zinc-800 dark:text-white transition"
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileMenuOpen}
             >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? <X className="w-4 h-4 sm:w-5 sm:h-5" /> : <Menu className="w-4 h-4 sm:w-5 sm:h-5" />}
             </button>
           </div>
         </div>
@@ -214,9 +214,9 @@ export function Header() {
 
       {/* 3. Mobile & Tablet Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white/98 dark:bg-[#0f141e]/98 backdrop-blur-2xl border-b border-zinc-200 dark:border-white/15 px-4 py-4 space-y-4 animate-in slide-in-from-top-2 duration-200 shadow-2xl max-h-[calc(100vh-100px)] overflow-y-auto">
+        <div className="lg:hidden bg-white/98 dark:bg-[#0f141e]/98 backdrop-blur-2xl border-b border-zinc-200 dark:border-white/15 px-4 py-4 space-y-3.5 animate-in slide-in-from-top-2 duration-200 shadow-2xl max-h-[calc(100vh-100px)] overflow-y-auto">
           {/* Top Live Status */}
-          <div className="pb-3 border-b border-zinc-200 dark:border-white/10 flex items-center justify-between">
+          <div className="pb-2.5 border-b border-zinc-200 dark:border-white/10 flex items-center justify-between">
             <LiveStatusBadge />
             <span className="text-xs text-zinc-600 dark:text-zinc-300 font-medium">Main Market, Kakod</span>
           </div>
@@ -232,22 +232,22 @@ export function Header() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`p-3 rounded-2xl border transition flex flex-col justify-between space-y-2 ${
+                  className={`p-2.5 rounded-xl border transition flex flex-col justify-between space-y-1.5 ${
                     isActive
                       ? "bg-zinc-100 dark:bg-white/15 border-zinc-400 dark:border-white/30 text-zinc-950 dark:text-white shadow-xs"
-                      : "bg-zinc-50 dark:bg-[#161d2a] border-zinc-200 dark:border-white/10 text-zinc-800 dark:text-zinc-200 hover:border-zinc-300 dark:hover:border-white/20"
+                      : "bg-zinc-50 dark:bg-[#161d2a] border-zinc-200 dark:border-white/10 text-zinc-800 dark:text-zinc-200"
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <div className="w-7 h-7 rounded-lg bg-zinc-200 dark:bg-white/10 flex items-center justify-center text-zinc-800 dark:text-white">
-                      <Icon className="w-4 h-4" />
+                    <div className="w-6 h-6 rounded-lg bg-zinc-200 dark:bg-white/10 flex items-center justify-center text-zinc-800 dark:text-white">
+                      <Icon className="w-3.5 h-3.5" />
                     </div>
                     {item.badge ? (
-                      <span className="bg-[#ff1e42] text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded-full">
+                      <span className="bg-[#ff1e42] text-white text-[8px] font-extrabold px-1.5 py-0.2 rounded-full">
                         {item.badge}
                       </span>
                     ) : (
-                      <ChevronRight className="w-3.5 h-3.5 text-zinc-400 opacity-60" />
+                      <ChevronRight className="w-3 h-3 text-zinc-400 opacity-60" />
                     )}
                   </div>
                   <span className="text-xs font-extrabold">{item.title}</span>
@@ -258,14 +258,12 @@ export function Header() {
 
           {/* Action Row & Theme Switcher inside drawer */}
           <div className="pt-2 border-t border-zinc-200 dark:border-white/10 space-y-2">
-            <ThemeToggle showLabel className="w-full justify-center py-2.5 rounded-xl border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-zinc-900" />
-
-            <div className="grid grid-cols-2 gap-2 pt-1">
+            <div className="grid grid-cols-2 gap-2">
               <a
                 href={`tel:${siteConfig.contact.phoneRaw}`}
-                className="p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-white/15 text-xs font-bold text-zinc-800 dark:text-white flex items-center justify-center gap-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition"
+                className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-white/15 text-xs font-bold text-zinc-800 dark:text-white flex items-center justify-center gap-1.5"
               >
-                <Phone className="w-4 h-4 text-emerald-600 dark:text-lime-400" />
+                <Phone className="w-3.5 h-3.5 text-emerald-600 dark:text-lime-400" />
                 <span>Call Store</span>
               </a>
 
@@ -273,9 +271,9 @@ export function Header() {
                 href={siteConfig.location.googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-white/15 text-xs font-bold text-zinc-800 dark:text-white flex items-center justify-center gap-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition"
+                className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-white/15 text-xs font-bold text-zinc-800 dark:text-white flex items-center justify-center gap-1.5"
               >
-                <MapPin className="w-4 h-4 text-rose-500 dark:text-rose-400" />
+                <MapPin className="w-3.5 h-3.5 text-rose-500" />
                 <span>Directions</span>
               </a>
             </div>

@@ -14,9 +14,8 @@ import {
   Heart,
   Check,
   Gift,
-  Lock,
   Star,
-  Sparkles,
+  ArrowRight,
 } from "lucide-react";
 
 interface ProductCardProps {
@@ -65,68 +64,61 @@ export function ProductCard({ product }: ProductCardProps) {
   const whatsappUrl = `https://wa.me/${siteConfig.contact.whatsapp}?text=${encodeURIComponent(waQuery)}`;
 
   return (
-    <div className="bento-card group p-3.5 sm:p-4 flex flex-col justify-between relative overflow-hidden bg-white dark:bg-[#161a26] border-2 border-zinc-200 dark:border-white/10 hover:border-[#ff5a1f]/60 transition-all duration-300 shadow-lg dark:shadow-xl">
-      <div>
-        {/* Top Image Showcase Frame (Trips24x7 Portrait Inspired) */}
-        <div className="relative h-60 rounded-2xl bg-gradient-to-b from-zinc-50 via-zinc-100 to-zinc-50 dark:from-zinc-900/90 dark:to-black/80 border border-zinc-200 dark:border-white/10 p-3 flex items-center justify-center overflow-hidden">
+    <div className="bento-card group p-3 sm:p-4 flex flex-col justify-between relative overflow-hidden bg-white dark:bg-[#161a26] border border-zinc-200 dark:border-white/10 hover:border-[#ff5a1f]/60 transition-all duration-300 shadow-md hover:shadow-xl dark:shadow-xl">
+      <div className="space-y-3">
+        {/* Top Image Showcase Frame */}
+        <div className="relative h-48 sm:h-56 rounded-2xl bg-gradient-to-b from-zinc-50 via-zinc-100 to-zinc-50 dark:from-zinc-900/90 dark:to-black/80 border border-zinc-200 dark:border-white/10 p-3 flex items-center justify-center overflow-hidden">
           {/* Top Tag Badges */}
           <div className="absolute top-2.5 left-2.5 z-10 flex flex-col gap-1 items-start">
             {product.tags.includes("flagship") ? (
-              <span className="bg-[#ff5a1f] text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-md">
+              <span className="bg-[#ff5a1f] text-white text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded-full shadow-md">
                 👑 FLAGSHIP
               </span>
             ) : product.tags.includes("new") ? (
-              <span className="bg-[#c5e84a] text-black text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-md">
+              <span className="bg-[#c5e84a] text-black text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded-full shadow-md">
                 ⚡ NEW LAUNCH
               </span>
             ) : product.tags.includes("bestseller") ? (
-              <span className="bg-amber-400 text-black text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-md">
+              <span className="bg-amber-400 text-black text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded-full shadow-md">
                 🔥 BESTSELLER
               </span>
             ) : (
-              <span className="bg-zinc-800 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full">
+              <span className="bg-zinc-800 text-white text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded-full">
                 5G READY
               </span>
             )}
-
-            <span className="bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-500/30 text-[9px] font-extrabold px-2 py-0.2 rounded-full backdrop-blur-md">
+            <span className="bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-500/30 text-[8px] sm:text-[9px] font-extrabold px-1.5 py-0.2 rounded-full backdrop-blur-md">
               ₹0 DOWNPAYMENT
             </span>
           </div>
 
           {/* Top Right Quick Actions (Rating & Compare/Wishlist) */}
-          <div className="absolute top-2.5 right-2.5 z-10 flex flex-col gap-1.5 items-end">
-            {/* Trips24x7 Frosted Rating Badge */}
-            <div className="bg-white/85 dark:bg-black/75 backdrop-blur-md text-zinc-900 dark:text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-zinc-200 dark:border-white/15 flex items-center gap-1 shadow">
-              <Star className="w-3 h-3 text-amber-500 fill-current" />
-              <span>4.9</span>
-            </div>
+          <div className="absolute top-2.5 right-2.5 z-10 flex items-center gap-1">
+            <button
+              onClick={handleCompareClick}
+              className={`w-7 h-7 rounded-xl flex items-center justify-center text-xs transition border ${
+                inCompare
+                  ? "bg-[#ff5a1f] border-[#ff5a1f] text-white"
+                  : "bg-white/90 dark:bg-black/75 border-zinc-200 dark:border-white/20 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white shadow-sm"
+              }`}
+              title={inCompare ? "Remove from compare" : "Add to compare"}
+              aria-label="Compare"
+            >
+              {inCompare ? <Check className="w-3 h-3" /> : <ArrowLeftRight className="w-3 h-3" />}
+            </button>
 
-            <div className="flex gap-1 pt-0.5">
-              <button
-                onClick={handleCompareClick}
-                className={`w-7 h-7 rounded-xl flex items-center justify-center text-xs transition border ${
-                  inCompare
-                    ? "bg-[#ff5a1f] border-[#ff5a1f] text-white"
-                    : "bg-white/85 dark:bg-black/75 border-zinc-200 dark:border-white/20 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white shadow-sm"
-                }`}
-                title={inCompare ? "Remove from compare" : "Add to compare"}
-              >
-                {inCompare ? <Check className="w-3.5 h-3.5" /> : <ArrowLeftRight className="w-3.5 h-3.5" />}
-              </button>
-
-              <button
-                onClick={handleWishlistClick}
-                className={`w-7 h-7 rounded-xl flex items-center justify-center text-xs transition border ${
-                  inWish
-                    ? "bg-rose-500 border-rose-500 text-white"
-                    : "bg-white/85 dark:bg-black/75 border-zinc-200 dark:border-white/20 text-zinc-700 dark:text-zinc-300 hover:text-rose-500 shadow-sm"
-                }`}
-                title={inWish ? "Remove from wishlist" : "Add to wishlist"}
-              >
-                <Heart className={`w-3.5 h-3.5 ${inWish ? "fill-current" : ""}`} />
-              </button>
-            </div>
+            <button
+              onClick={handleWishlistClick}
+              className={`w-7 h-7 rounded-xl flex items-center justify-center text-xs transition border ${
+                inWish
+                  ? "bg-rose-500 border-rose-500 text-white"
+                  : "bg-white/90 dark:bg-black/75 border-zinc-200 dark:border-white/20 text-zinc-700 dark:text-zinc-300 hover:text-rose-500 shadow-sm"
+              }`}
+              title={inWish ? "Remove from wishlist" : "Add to wishlist"}
+              aria-label="Wishlist"
+            >
+              <Heart className={`w-3 h-3 ${inWish ? "fill-current" : ""}`} />
+            </button>
           </div>
 
           {/* Real Phone Photography Image with Link */}
@@ -136,45 +128,41 @@ export function ProductCard({ product }: ProductCardProps) {
                 src={primaryImage.src}
                 alt={primaryImage.alt || product.name}
                 fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                className="object-contain drop-shadow-[0_12px_20px_rgba(0,0,0,0.25)] dark:drop-shadow-[0_12px_20px_rgba(0,0,0,0.7)]"
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                className="object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.18)] dark:drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)]"
                 priority={false}
               />
             </div>
           </Link>
 
-          {/* Bottom Gift Overlay inside Image Box */}
-          <div className="absolute bottom-2 inset-x-2 flex items-center justify-between pointer-events-none text-[10px]">
+          {/* Bottom Gift Overlay */}
+          <div className="absolute bottom-2 inset-x-2 flex items-center justify-between pointer-events-none text-[9px] sm:text-[10px]">
             <span className="bg-white/90 dark:bg-black/85 backdrop-blur-md text-[#3f6212] dark:text-[#c5e84a] border border-[#c5e84a]/60 font-black px-2 py-0.5 rounded-md flex items-center gap-1 shadow-sm">
-              <Gift className="w-3 h-3 text-amber-500 dark:text-amber-300" />
+              <Gift className="w-2.5 h-2.5 text-amber-500 dark:text-amber-300" />
               <span>+Free Gift Box</span>
             </span>
-            <span className="bg-white/90 dark:bg-black/85 text-zinc-700 dark:text-zinc-300 px-1.5 py-0.5 rounded text-[9px] font-semibold border border-zinc-200 dark:border-white/10 shadow-sm">
+            <span className="bg-white/90 dark:bg-black/85 text-zinc-700 dark:text-zinc-300 px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-semibold border border-zinc-200 dark:border-white/10 shadow-sm">
               Ready in Kakod
             </span>
           </div>
         </div>
 
         {/* Title, Brand, Variant Selectors */}
-        <div className="pt-3.5 space-y-2">
+        <div className="space-y-1.5">
           <div className="flex items-center justify-between text-[11px]">
             <span className="font-black text-[#ff5a1f] uppercase tracking-wider">
               {product.brand}
             </span>
-            <span className="font-extrabold text-[#3f6212] dark:text-[#c5e84a] bg-[#c5e84a]/20 px-2 py-0.5 rounded-md border border-[#c5e84a]/30">
+            <span className="font-extrabold text-[#3f6212] dark:text-[#c5e84a] bg-[#c5e84a]/20 px-1.5 py-0.5 rounded text-[10px] border border-[#c5e84a]/30">
               0% EMI: ~{formatPrice(emiPerMonth)}/mo*
             </span>
           </div>
 
           <Link href={`/phones/${product.slug}`} className="block">
-            <h3 className="font-display font-black text-base text-zinc-950 dark:text-white hover:text-[#ff5a1f] dark:hover:text-[#c5e84a] transition leading-snug line-clamp-1">
+            <h3 className="font-display font-black text-sm sm:text-base text-zinc-950 dark:text-white hover:text-[#ff5a1f] dark:hover:text-[#c5e84a] transition leading-snug line-clamp-1">
               {product.name}
             </h3>
           </Link>
-
-          {product.subtitle && (
-            <p className="text-xs text-zinc-600 dark:text-zinc-400 line-clamp-1">{product.subtitle}</p>
-          )}
 
           {/* Storage / Variant Pills */}
           <div className="flex flex-wrap gap-1 pt-0.5">
@@ -182,9 +170,9 @@ export function ProductCard({ product }: ProductCardProps) {
               <button
                 key={`${v.color}-${v.storage || idx}`}
                 onClick={() => setSelectedVariantIndex(idx)}
-                className={`text-[10px] font-bold px-2 py-0.5 rounded-md transition border ${
+                className={`text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-md transition border ${
                   selectedVariantIndex === idx
-                    ? "bg-zinc-950 text-white dark:bg-white dark:text-black border-zinc-950 dark:border-white shadow-sm font-black"
+                    ? "bg-zinc-950 text-white dark:bg-white dark:text-black border-zinc-950 dark:border-white shadow-xs font-black"
                     : "bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-white/10 hover:border-zinc-400 dark:hover:border-white/30"
                 }`}
               >
@@ -193,47 +181,35 @@ export function ProductCard({ product }: ProductCardProps) {
             ))}
           </div>
 
-          {/* Official Brand MRP and CTA to unlock price */}
-          <div className="pt-2.5 border-t border-zinc-200 dark:border-white/10 space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] text-zinc-500 dark:text-zinc-400 font-medium">Official Brand MRP:</span>
-              <span className="font-display font-black text-base text-zinc-950 dark:text-zinc-100">
-                {formatPrice(activeVariant.mrp)}
-              </span>
-            </div>
-
-            {/* CTA Button to unlock the lounge offline deal price */}
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full bg-gradient-to-r from-[#ff5a1f] via-rose-600 to-[#cc0074] hover:opacity-95 text-white font-black text-xs py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 shadow-md transition transform active:scale-98"
-            >
-              <Lock className="w-3.5 h-3.5 text-amber-300" />
-              <span>Unlock Today’s Deal Price</span>
-              <span className="text-[10px] bg-black/30 px-1.5 py-0.2 rounded font-mono">WhatsApp ↗</span>
-            </a>
+          {/* Clean Price Strip */}
+          <div className="pt-2 border-t border-zinc-100 dark:border-white/10 flex items-center justify-between text-xs">
+            <span className="text-zinc-500 dark:text-zinc-400 font-medium text-[11px]">MRP:</span>
+            <span className="font-display font-black text-sm sm:text-base text-zinc-950 dark:text-zinc-100">
+              {formatPrice(activeVariant.mrp)}
+            </span>
           </div>
         </div>
       </div>
 
-      {/* Dual CTA Buttons (WhatsApp & Full Specs) */}
-      <div className="grid grid-cols-2 gap-2 pt-3">
+      {/* Clean Unified Action Row (No duplicate WhatsApp buttons!) */}
+      <div className="grid grid-cols-5 gap-1.5 pt-3">
         <a
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-[#c5e84a] hover:bg-lime-400 text-black font-black text-xs py-2 px-2.5 rounded-xl flex items-center justify-center gap-1 shadow-sm transition"
+          className="col-span-3 bg-gradient-to-r from-[#ff5a1f] to-rose-600 hover:opacity-95 text-white font-black text-xs py-2 px-2 rounded-xl flex items-center justify-center gap-1 shadow-sm transition transform active:scale-98"
+          title="Unlock deal price on WhatsApp"
         >
           <MessageSquare className="w-3.5 h-3.5 fill-current" />
-          <span>Ask Deals</span>
+          <span className="truncate">Unlock Deal ↗</span>
         </a>
 
         <Link
           href={`/phones/${product.slug}`}
-          className="bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white border border-zinc-200 dark:border-white/15 font-bold text-xs py-2 px-2.5 rounded-xl flex items-center justify-center gap-1 transition"
+          className="col-span-2 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white border border-zinc-200 dark:border-white/15 font-bold text-xs py-2 px-1.5 rounded-xl flex items-center justify-center gap-0.5 transition"
         >
-          <span>Full Specs →</span>
+          <span>Specs</span>
+          <ArrowRight className="w-3 h-3" />
         </Link>
       </div>
     </div>

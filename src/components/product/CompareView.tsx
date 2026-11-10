@@ -12,9 +12,8 @@ import {
   Trash2,
   Plus,
   MessageSquare,
-  Check,
   X,
-  Sparkles,
+  MoveHorizontal,
 } from "lucide-react";
 
 interface CompareViewProps {
@@ -24,7 +23,6 @@ interface CompareViewProps {
 export function CompareView({ allPhones }: CompareViewProps) {
   const { items, removeItem, clearAll, addItem } = useCompareStore();
   const [highlightDifferences, setHighlightDifferences] = useState(true);
-  const [selectorOpenIndex, setSelectorOpenIndex] = useState<number | null>(null);
 
   const emptySlotsCount = Math.max(0, 3 - items.length);
 
@@ -32,12 +30,11 @@ export function CompareView({ allPhones }: CompareViewProps) {
     label: string;
     getValue: (p: Product) => string | number;
   }[] = [
-    { label: "Deal Price", getValue: (p) => formatPrice(p.variants[0]?.price || 0) },
     { label: "Official MRP", getValue: (p) => formatPrice(p.variants[0]?.mrp || 0) },
     {
       label: "Est. 0% EMI",
       getValue: (p) =>
-        `${formatPrice(p.minEmiPerMonth || Math.round((p.variants[0]?.price || 0) / 12))}/mo`,
+        `${formatPrice(p.minEmiPerMonth || Math.round((p.variants[0]?.mrp || 0) / 12))}/mo`,
     },
     { label: "Brand", getValue: (p) => p.brand },
     {
@@ -76,9 +73,9 @@ export function CompareView({ allPhones }: CompareViewProps) {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
+    <div className="max-w-7xl mx-auto px-3 sm:px-4 py-6 sm:py-8 space-y-6 sm:space-y-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ff5a1f]/15 border border-[#ff5a1f]/30 text-[#ff5a1f] text-xs font-extrabold uppercase mb-1">
             <ArrowLeftRight className="w-3.5 h-3.5" />
@@ -87,13 +84,13 @@ export function CompareView({ allPhones }: CompareViewProps) {
           <h1 className="font-display font-extrabold text-2xl sm:text-4xl text-zinc-950 dark:text-white">
             Compare Smartphones in Kakod
           </h1>
-          <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-1">
+          <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-0.5">
             Compare specs, offline deal prices, and monthly EMI for up to 3 phones side-by-side.
           </p>
         </div>
 
         {items.length > 0 && (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 self-start sm:self-auto">
             <label className="flex items-center gap-2 text-xs font-bold text-zinc-700 dark:text-zinc-300 cursor-pointer">
               <input
                 type="checkbox"
@@ -106,18 +103,26 @@ export function CompareView({ allPhones }: CompareViewProps) {
 
             <button
               onClick={clearAll}
-              className="text-xs text-rose-500 hover:text-rose-600 flex items-center gap-1 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 px-3 py-1.5 rounded-xl transition shadow-sm"
+              className="text-xs text-rose-500 hover:text-rose-600 flex items-center gap-1 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 px-3 py-1.5 rounded-xl transition shadow-xs"
             >
               <Trash2 className="w-3.5 h-3.5" />
-              <span>Clear All</span>
+              <span>Clear</span>
             </button>
           </div>
         )}
       </div>
 
+      {/* Swipe Hint on Mobile */}
+      {items.length > 0 && (
+        <div className="sm:hidden flex items-center gap-1.5 text-[11px] text-zinc-500 bg-zinc-100 dark:bg-white/5 px-3 py-1.5 rounded-xl w-fit">
+          <MoveHorizontal className="w-3.5 h-3.5 text-[#ff5a1f]" />
+          <span>Swipe left / right to compare phones</span>
+        </div>
+      )}
+
       {/* Comparison Grid Matrix */}
       {items.length === 0 ? (
-        <div className="bento-card p-12 text-center space-y-4 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/10 shadow-sm">
+        <div className="bento-card p-8 sm:p-12 text-center space-y-4 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/10 shadow-sm">
           <p className="text-4xl">⚖️</p>
           <h3 className="font-display font-extrabold text-xl text-zinc-950 dark:text-white">
             No phones in your compare list
@@ -129,7 +134,7 @@ export function CompareView({ allPhones }: CompareViewProps) {
           <div className="pt-2">
             <Link
               href="/phones"
-              className="bg-[#ff5a1f] hover:bg-orange-600 text-white font-extrabold text-xs px-6 py-3 rounded-xl inline-flex items-center gap-2 shadow-lg transition"
+              className="bg-[#ff5a1f] hover:bg-orange-600 text-white font-extrabold text-xs px-5 py-2.5 rounded-xl inline-flex items-center gap-2 shadow-md transition"
             >
               <span>Browse Smartphones</span>
             </Link>
@@ -137,20 +142,20 @@ export function CompareView({ allPhones }: CompareViewProps) {
         </div>
       ) : (
         <div className="bento-card rounded-3xl overflow-hidden border border-zinc-200 dark:border-white/10 bg-white dark:bg-zinc-950 shadow-md">
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs text-left min-w-[700px]">
+          <div className="overflow-x-auto no-scrollbar">
+            <table className="w-full text-xs text-left min-w-[580px] sm:min-w-[700px]">
               {/* Table Header: Phone Cards */}
               <thead className="bg-zinc-50 dark:bg-[#101016] border-b border-zinc-200 dark:border-white/10">
                 <tr>
-                  <th className="p-4 w-48 text-zinc-500 dark:text-zinc-400 uppercase text-[11px] font-extrabold">
+                  <th className="sticky left-0 bg-zinc-50 dark:bg-[#101016] z-20 p-3 sm:p-4 w-32 sm:w-44 text-zinc-500 dark:text-zinc-400 uppercase text-[10px] sm:text-[11px] font-extrabold shadow-[2px_0_6px_rgba(0,0,0,0.06)]">
                     Feature
                   </th>
                   {items.map((p) => {
                     const variant = p.variants[0];
                     return (
-                      <th key={p.id} className="p-4 w-64 align-top">
-                        <div className="space-y-3">
-                          <div className="relative h-40 bg-zinc-100 dark:bg-black/60 rounded-2xl p-2 border border-zinc-200 dark:border-white/10 flex items-center justify-center">
+                      <th key={p.id} className="p-3 sm:p-4 w-48 sm:w-60 align-top">
+                        <div className="space-y-2.5">
+                          <div className="relative h-32 sm:h-36 bg-zinc-100 dark:bg-black/60 rounded-2xl p-2 border border-zinc-200 dark:border-white/10 flex items-center justify-center">
                             <button
                               onClick={() => removeItem(p.id)}
                               className="absolute top-2 right-2 w-6 h-6 rounded-full bg-zinc-200 dark:bg-zinc-800 hover:bg-[#ff5a1f] hover:text-white text-zinc-700 dark:text-white flex items-center justify-center text-xs transition"
@@ -163,7 +168,7 @@ export function CompareView({ allPhones }: CompareViewProps) {
                                 src={p.images[0]?.src || "/products/placeholder.svg"}
                                 alt={p.name}
                                 fill
-                                sizes="200px"
+                                sizes="180px"
                                 className="object-contain"
                               />
                             </div>
@@ -174,11 +179,11 @@ export function CompareView({ allPhones }: CompareViewProps) {
                               {p.brand}
                             </span>
                             <Link href={`/phones/${p.slug}`} className="block">
-                              <h4 className="font-display font-extrabold text-sm text-zinc-950 dark:text-white hover:text-[#ff5a1f] dark:hover:text-[#c5e84a] transition leading-snug">
+                              <h4 className="font-display font-extrabold text-xs sm:text-sm text-zinc-950 dark:text-white hover:text-[#ff5a1f] dark:hover:text-[#c5e84a] transition leading-snug line-clamp-1">
                                 {p.name}
                               </h4>
                             </Link>
-                            <p className="font-extrabold text-zinc-900 dark:text-zinc-200 text-sm mt-1">
+                            <p className="font-extrabold text-zinc-900 dark:text-zinc-200 text-xs sm:text-sm mt-0.5">
                               MRP: {formatPrice(variant.mrp)}
                             </p>
                           </div>
@@ -187,7 +192,7 @@ export function CompareView({ allPhones }: CompareViewProps) {
                             href={getProductWhatsAppUrl(p, variant)}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-full bg-[#25D366] hover:bg-[#20ba59] text-white font-extrabold text-xs py-2 rounded-xl flex items-center justify-center gap-1 transition shadow-sm"
+                            className="w-full bg-[#25D366] hover:bg-[#20ba59] text-white font-extrabold text-xs py-2 rounded-xl flex items-center justify-center gap-1 transition shadow-xs"
                           >
                             <MessageSquare className="w-3.5 h-3.5 fill-current" />
                             <span>Unlock Deal ↗</span>
@@ -199,26 +204,26 @@ export function CompareView({ allPhones }: CompareViewProps) {
 
                   {/* Empty Slots */}
                   {Array.from({ length: emptySlotsCount }).map((_, slotIdx) => (
-                    <th key={`empty-${slotIdx}`} className="p-4 w-64 align-top">
-                      <div className="h-64 border-2 border-dashed border-zinc-300 dark:border-white/10 rounded-2xl flex flex-col items-center justify-center p-4 text-center space-y-2 text-zinc-500">
-                        <Plus className="w-8 h-8 text-zinc-400 dark:text-zinc-600" />
-                        <p className="text-xs font-bold text-zinc-600 dark:text-zinc-400">Add Phone to Compare</p>
+                    <th key={`empty-${slotIdx}`} className="p-3 sm:p-4 w-48 sm:w-60 align-top">
+                      <div className="h-56 border-2 border-dashed border-zinc-200 dark:border-white/10 rounded-2xl flex flex-col items-center justify-center p-3 text-center space-y-2 text-zinc-400">
+                        <Plus className="w-6 h-6 text-zinc-400" />
+                        <p className="text-xs font-bold text-zinc-500">Add Phone</p>
                         <select
                           onChange={(e) => {
                             const found = allPhones.find((p) => p.id === e.target.value);
                             if (found) addItem(found);
                           }}
                           defaultValue=""
-                          className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-white/10 rounded-xl px-2 py-1.5 text-[11px] text-zinc-900 dark:text-zinc-200 max-w-full focus:outline-none"
+                          className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-white/10 rounded-xl px-2 py-1 text-[11px] text-zinc-900 dark:text-zinc-200 max-w-full focus:outline-none"
                         >
                           <option value="" disabled>
-                            Select a phone...
+                            Select phone...
                           </option>
                           {allPhones
                             .filter((p) => !items.some((i) => i.id === p.id))
                             .map((p) => (
                               <option key={p.id} value={p.id}>
-                                {p.brand} - {p.name} ({formatPrice(p.variants[0]?.price || 0)})
+                                {p.brand} - {p.name}
                               </option>
                             ))}
                         </select>
@@ -244,21 +249,21 @@ export function CompareView({ allPhones }: CompareViewProps) {
                           : "hover:bg-zinc-50 dark:hover:bg-white/2"
                       }
                     >
-                      <td className="p-3.5 font-bold text-zinc-600 dark:text-zinc-400 bg-zinc-50/50 dark:bg-white/2">
+                      <td className="sticky left-0 bg-white dark:bg-zinc-950 z-10 p-3 sm:p-3.5 font-bold text-zinc-600 dark:text-zinc-400 shadow-[2px_0_6px_rgba(0,0,0,0.06)] text-[11px] sm:text-xs">
                         <div className="flex items-center gap-1.5">
                           {highlightDifferences && isDifferent && (
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#ff5a1f]" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#ff5a1f] shrink-0" />
                           )}
-                          <span>{field.label}</span>
+                          <span className="truncate">{field.label}</span>
                         </div>
                       </td>
                       {items.map((p) => (
-                        <td key={p.id} className="p-3.5 text-zinc-900 dark:text-zinc-200 font-semibold align-top">
+                        <td key={p.id} className="p-3 sm:p-3.5 text-zinc-900 dark:text-zinc-200 font-semibold align-top text-[11px] sm:text-xs">
                           {field.getValue(p)}
                         </td>
                       ))}
                       {Array.from({ length: emptySlotsCount }).map((_, idx) => (
-                        <td key={`empty-cell-${idx}`} className="p-3.5 text-zinc-400 dark:text-zinc-600">
+                        <td key={`empty-cell-${idx}`} className="p-3 sm:p-3.5 text-zinc-400 dark:text-zinc-600">
                           —
                         </td>
                       ))}
