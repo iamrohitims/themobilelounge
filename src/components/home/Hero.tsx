@@ -543,19 +543,51 @@ export function Hero() {
             </a>
           </div>
 
-          {/* 3-Point Store Trust Highlights */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 border-t border-white/15">
-            <div className="flex items-center gap-2 text-white/90 text-xs font-bold">
-              <ShieldCheck className="w-4 h-4 text-[#c5e84a] shrink-0" />
-              <span>100% Sealed Pack GST Bill</span>
+          {/* 3-Point Store Trust Highlights (Responsive Glassmorphism Badges) */}
+          <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5 pt-2.5 border-t border-white/15">
+            {/* 1. Genuine Sealed Pack */}
+            <div className="flex flex-col sm:flex-row items-center sm:items-center gap-1.5 sm:gap-2.5 p-2 sm:p-2.5 rounded-2xl bg-black/35 backdrop-blur-md border border-white/15 hover:border-[#c5e84a]/60 hover:bg-black/45 transition-all text-center sm:text-left shadow-xs">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#c5e84a]/15 border border-[#c5e84a]/30 flex items-center justify-center text-[#c5e84a] shrink-0">
+                <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              </div>
+              <div className="min-w-0">
+                <p className="font-extrabold text-[11px] sm:text-xs text-white leading-tight">
+                  100% Sealed Pack
+                </p>
+                <p className="text-[9px] sm:text-[10px] text-white/75 font-semibold truncate">
+                  GST Bill & Warranty
+                </p>
+              </div>
             </div>
-            <div className="flex items-center gap-2 text-white/90 text-xs font-bold">
-              <CreditCard className="w-4 h-4 text-[#c5e84a] shrink-0" />
-              <span>5-Min Paperless 0% EMI</span>
+
+            {/* 2. Paperless 0% EMI */}
+            <div className="flex flex-col sm:flex-row items-center sm:items-center gap-1.5 sm:gap-2.5 p-2 sm:p-2.5 rounded-2xl bg-black/35 backdrop-blur-md border border-white/15 hover:border-[#c5e84a]/60 hover:bg-black/45 transition-all text-center sm:text-left shadow-xs">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#c5e84a]/15 border border-[#c5e84a]/30 flex items-center justify-center text-[#c5e84a] shrink-0">
+                <CreditCard className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              </div>
+              <div className="min-w-0">
+                <p className="font-extrabold text-[11px] sm:text-xs text-white leading-tight">
+                  5-Min 0% EMI
+                </p>
+                <p className="text-[9px] sm:text-[10px] text-white/75 font-semibold truncate">
+                  Bajaj, IDFC & TVS
+                </p>
+              </div>
             </div>
-            <div className="flex items-center gap-2 text-white/90 text-xs font-bold">
-              <Gift className="w-4 h-4 text-[#c5e84a] shrink-0" />
-              <span>Assured Smartwatch / Buds</span>
+
+            {/* 3. Assured Gift Hamper */}
+            <div className="flex flex-col sm:flex-row items-center sm:items-center gap-1.5 sm:gap-2.5 p-2 sm:p-2.5 rounded-2xl bg-black/35 backdrop-blur-md border border-white/15 hover:border-[#c5e84a]/60 hover:bg-black/45 transition-all text-center sm:text-left shadow-xs">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#c5e84a]/15 border border-[#c5e84a]/30 flex items-center justify-center text-[#c5e84a] shrink-0">
+                <Gift className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              </div>
+              <div className="min-w-0">
+                <p className="font-extrabold text-[11px] sm:text-xs text-white leading-tight">
+                  Assured Free Gift
+                </p>
+                <p className="text-[9px] sm:text-[10px] text-white/75 font-semibold truncate">
+                  Watch or ANC Buds
+                </p>
+              </div>
             </div>
           </div>
         </div>
