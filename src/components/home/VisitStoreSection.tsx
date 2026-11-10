@@ -4,8 +4,8 @@ import { MapPin, Phone, MessageSquare, Clock, Navigation } from "lucide-react";
 
 export function VisitStoreSection() {
   return (
-    <section className="bento-card p-6 sm:p-10 border-2 border-zinc-200 dark:border-white/15 bg-white dark:bg-[#161a26] text-zinc-900 dark:text-white rounded-3xl shadow-xl dark:shadow-2xl">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+    <section className="bento-card p-4 sm:p-10 border-2 border-zinc-200 dark:border-white/15 bg-white dark:bg-[#161a26] text-zinc-900 dark:text-white rounded-3xl shadow-xl dark:shadow-2xl w-full max-w-full overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
         {/* Left Information */}
         <div className="lg:col-span-7 space-y-5">
           <div className="flex flex-wrap items-center gap-2">
@@ -42,7 +42,7 @@ export function VisitStoreSection() {
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-3 pt-2">
+          <div className="flex flex-col sm:flex-row gap-2.5 pt-2">
             <a
               href={siteConfig.location.googleMapsUrl}
               target="_blank"

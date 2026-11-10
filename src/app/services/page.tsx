@@ -71,33 +71,33 @@ export default function ServicesPage() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 space-y-10">
+    <div className="max-w-7xl mx-auto px-3 sm:px-4 py-5 sm:py-8 space-y-6 sm:space-y-10 w-full max-w-full overflow-hidden">
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto space-y-2">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ff1e42]/15 border border-[#ff1e42]/30 text-[#ff1e42] text-xs font-extrabold uppercase">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ff1e42]/15 border border-[#ff1e42]/30 text-[#ff1e42] text-[11px] sm:text-xs font-extrabold uppercase">
           <Sparkles className="w-3.5 h-3.5" />
           <span>VIP IN-STORE SERVICES • KAKOD</span>
         </div>
-        <h1 className="font-display font-extrabold text-3xl sm:text-5xl text-zinc-950 dark:text-white tracking-tight">
+        <h1 className="font-display font-extrabold text-2xl xs:text-3xl sm:text-5xl text-zinc-950 dark:text-white tracking-tight">
           Services We Offer Every Customer
         </h1>
-        <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-300 leading-relaxed">
+        <p className="text-xs sm:text-base text-zinc-600 dark:text-zinc-300 leading-relaxed">
           At The Mobile Lounge (by Vishal Distributors), we don’t just hand over a box—we deliver a
           complete end-to-end smartphone experience.
         </p>
       </div>
 
       {/* Services Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {services.map((svc) => (
           <div
             key={svc.title}
-            className="bento-card p-6 sm:p-7 space-y-4 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/10 shadow-sm dark:shadow-none flex flex-col justify-between"
+            className="bento-card p-4 sm:p-7 space-y-3.5 sm:space-y-4 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/10 shadow-sm dark:shadow-none flex flex-col justify-between"
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <div className="w-12 h-12 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 flex items-center justify-center text-[#ff1e42]">
-                  <svc.icon className="w-6 h-6" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 flex items-center justify-center text-[#ff1e42]">
+                  <svc.icon className="w-5 h-5 sm:w-6 sm:h-6" />
                 </div>
                 <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full ${svc.badgeColor}`}>
                   {svc.badge}

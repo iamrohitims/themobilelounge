@@ -14,7 +14,6 @@ import {
   Heart,
   Check,
   Gift,
-  Star,
   ArrowRight,
 } from "lucide-react";
 
@@ -33,7 +32,6 @@ export function ProductCard({ product }: ProductCardProps) {
   const inCompare = compareItems.some((p) => p.id === product.id);
   const inWish = isInWishlist(product.id);
 
-  // EMI calculated on MRP for transparent customer reference
   const emiPerMonth =
     product.minEmiPerMonth || Math.round(activeVariant.mrp / 12);
 
@@ -64,42 +62,38 @@ export function ProductCard({ product }: ProductCardProps) {
   const whatsappUrl = `https://wa.me/${siteConfig.contact.whatsapp}?text=${encodeURIComponent(waQuery)}`;
 
   return (
-    <div className="bento-card group p-3 sm:p-4 flex flex-col justify-between relative overflow-hidden bg-white dark:bg-[#161a26] border border-zinc-200 dark:border-white/10 hover:border-[#ff5a1f]/60 transition-all duration-300 shadow-md hover:shadow-xl dark:shadow-xl">
-      <div className="space-y-3">
+    <div className="bento-card group p-2.5 xs:p-3 sm:p-4 flex flex-col justify-between relative overflow-hidden bg-white dark:bg-[#161a26] border border-zinc-200 dark:border-white/10 hover:border-[#ff5a1f]/60 transition-all duration-300 shadow-xs hover:shadow-md dark:shadow-md w-full max-w-full">
+      <div className="space-y-2 xs:space-y-2.5">
         {/* Top Image Showcase Frame */}
-        <div className="relative h-48 sm:h-56 rounded-2xl bg-gradient-to-b from-zinc-50 via-zinc-100 to-zinc-50 dark:from-zinc-900/90 dark:to-black/80 border border-zinc-200 dark:border-white/10 p-3 flex items-center justify-center overflow-hidden">
+        <div className="relative h-36 xs:h-44 sm:h-52 rounded-xl xs:rounded-2xl bg-gradient-to-b from-zinc-50 via-zinc-100 to-zinc-50 dark:from-zinc-900/90 dark:to-black/80 border border-zinc-200 dark:border-white/10 p-2 flex items-center justify-center overflow-hidden">
           {/* Top Tag Badges */}
-          <div className="absolute top-2.5 left-2.5 z-10 flex flex-col gap-1 items-start">
+          <div className="absolute top-1.5 left-1.5 xs:top-2 xs:left-2 z-10 flex flex-col gap-0.5 xs:gap-1 items-start max-w-[70%]">
             {product.tags.includes("flagship") ? (
-              <span className="bg-[#ff5a1f] text-white text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded-full shadow-md">
+              <span className="bg-[#ff5a1f] text-white text-[8px] xs:text-[9px] font-black px-1.5 py-0.2 rounded-full shadow-xs truncate">
                 👑 FLAGSHIP
               </span>
             ) : product.tags.includes("new") ? (
-              <span className="bg-[#c5e84a] text-black text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded-full shadow-md">
-                ⚡ NEW LAUNCH
+              <span className="bg-[#c5e84a] text-black text-[8px] xs:text-[9px] font-black px-1.5 py-0.2 rounded-full shadow-xs truncate">
+                ⚡ NEW
               </span>
             ) : product.tags.includes("bestseller") ? (
-              <span className="bg-amber-400 text-black text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded-full shadow-md">
-                🔥 BESTSELLER
+              <span className="bg-amber-400 text-black text-[8px] xs:text-[9px] font-black px-1.5 py-0.2 rounded-full shadow-xs truncate">
+                🔥 POPULAR
               </span>
-            ) : (
-              <span className="bg-zinc-800 text-white text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded-full">
-                5G READY
-              </span>
-            )}
-            <span className="bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-500/30 text-[8px] sm:text-[9px] font-extrabold px-1.5 py-0.2 rounded-full backdrop-blur-md">
-              ₹0 DOWNPAYMENT
+            ) : null}
+            <span className="bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-500/30 text-[7px] xs:text-[8px] font-extrabold px-1 py-0.2 rounded-full backdrop-blur-md">
+              ₹0 DOWN
             </span>
           </div>
 
-          {/* Top Right Quick Actions (Rating & Compare/Wishlist) */}
-          <div className="absolute top-2.5 right-2.5 z-10 flex items-center gap-1">
+          {/* Top Right Quick Actions */}
+          <div className="absolute top-1.5 right-1.5 xs:top-2 xs:right-2 z-10 flex items-center gap-0.5 xs:gap-1">
             <button
               onClick={handleCompareClick}
-              className={`w-7 h-7 rounded-xl flex items-center justify-center text-xs transition border ${
+              className={`w-6 h-6 xs:w-7 xs:h-7 rounded-lg xs:rounded-xl flex items-center justify-center text-xs transition border ${
                 inCompare
                   ? "bg-[#ff5a1f] border-[#ff5a1f] text-white"
-                  : "bg-white/90 dark:bg-black/75 border-zinc-200 dark:border-white/20 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white shadow-sm"
+                  : "bg-white/90 dark:bg-black/75 border-zinc-200 dark:border-white/20 text-zinc-700 dark:text-zinc-300"
               }`}
               title={inCompare ? "Remove from compare" : "Add to compare"}
               aria-label="Compare"
@@ -109,10 +103,10 @@ export function ProductCard({ product }: ProductCardProps) {
 
             <button
               onClick={handleWishlistClick}
-              className={`w-7 h-7 rounded-xl flex items-center justify-center text-xs transition border ${
+              className={`w-6 h-6 xs:w-7 xs:h-7 rounded-lg xs:rounded-xl flex items-center justify-center text-xs transition border ${
                 inWish
                   ? "bg-rose-500 border-rose-500 text-white"
-                  : "bg-white/90 dark:bg-black/75 border-zinc-200 dark:border-white/20 text-zinc-700 dark:text-zinc-300 hover:text-rose-500 shadow-sm"
+                  : "bg-white/90 dark:bg-black/75 border-zinc-200 dark:border-white/20 text-zinc-700 dark:text-zinc-300 hover:text-rose-500"
               }`}
               title={inWish ? "Remove from wishlist" : "Add to wishlist"}
               aria-label="Wishlist"
@@ -129,51 +123,51 @@ export function ProductCard({ product }: ProductCardProps) {
                 alt={primaryImage.alt || product.name}
                 fill
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                className="object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.18)] dark:drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)]"
+                className="object-contain drop-shadow-md"
                 priority={false}
               />
             </div>
           </Link>
 
           {/* Bottom Gift Overlay */}
-          <div className="absolute bottom-2 inset-x-2 flex items-center justify-between pointer-events-none text-[9px] sm:text-[10px]">
-            <span className="bg-white/90 dark:bg-black/85 backdrop-blur-md text-[#3f6212] dark:text-[#c5e84a] border border-[#c5e84a]/60 font-black px-2 py-0.5 rounded-md flex items-center gap-1 shadow-sm">
-              <Gift className="w-2.5 h-2.5 text-amber-500 dark:text-amber-300" />
-              <span>+Free Gift Box</span>
+          <div className="absolute bottom-1.5 inset-x-1.5 xs:bottom-2 xs:inset-x-2 flex items-center justify-between pointer-events-none text-[8px] xs:text-[9px]">
+            <span className="bg-white/90 dark:bg-black/85 backdrop-blur-md text-[#3f6212] dark:text-[#c5e84a] border border-[#c5e84a]/60 font-black px-1.5 py-0.2 rounded flex items-center gap-0.5 shadow-xs truncate">
+              <Gift className="w-2.5 h-2.5 text-amber-500 shrink-0" />
+              <span>Free Gifts</span>
             </span>
-            <span className="bg-white/90 dark:bg-black/85 text-zinc-700 dark:text-zinc-300 px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-semibold border border-zinc-200 dark:border-white/10 shadow-sm">
-              Ready in Kakod
+            <span className="bg-white/90 dark:bg-black/85 text-zinc-600 dark:text-zinc-400 px-1 py-0.2 rounded font-semibold border border-zinc-200 dark:border-white/10 shadow-xs shrink-0 hidden xs:inline">
+              In Kakod
             </span>
           </div>
         </div>
 
         {/* Title, Brand, Variant Selectors */}
-        <div className="space-y-1.5">
-          <div className="flex items-center justify-between text-[11px]">
-            <span className="font-black text-[#ff5a1f] uppercase tracking-wider">
+        <div className="space-y-1">
+          <div className="flex items-center justify-between text-[10px] xs:text-[11px]">
+            <span className="font-black text-[#ff5a1f] uppercase tracking-wider truncate">
               {product.brand}
             </span>
-            <span className="font-extrabold text-[#3f6212] dark:text-[#c5e84a] bg-[#c5e84a]/20 px-1.5 py-0.5 rounded text-[10px] border border-[#c5e84a]/30">
-              0% EMI: ~{formatPrice(emiPerMonth)}/mo*
+            <span className="font-extrabold text-[#3f6212] dark:text-[#c5e84a] bg-[#c5e84a]/20 px-1 py-0.2 rounded text-[8px] xs:text-[9px] border border-[#c5e84a]/30 shrink-0">
+              ~{formatPrice(emiPerMonth)}/mo*
             </span>
           </div>
 
           <Link href={`/phones/${product.slug}`} className="block">
-            <h3 className="font-display font-black text-sm sm:text-base text-zinc-950 dark:text-white hover:text-[#ff5a1f] dark:hover:text-[#c5e84a] transition leading-snug line-clamp-1">
+            <h3 className="font-display font-black text-xs xs:text-sm sm:text-base text-zinc-950 dark:text-white hover:text-[#ff5a1f] dark:hover:text-[#c5e84a] transition leading-snug line-clamp-1">
               {product.name}
             </h3>
           </Link>
 
           {/* Storage / Variant Pills */}
           <div className="flex flex-wrap gap-1 pt-0.5">
-            {product.variants.map((v, idx) => (
+            {product.variants.slice(0, 3).map((v, idx) => (
               <button
                 key={`${v.color}-${v.storage || idx}`}
                 onClick={() => setSelectedVariantIndex(idx)}
-                className={`text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-md transition border ${
+                className={`text-[8px] xs:text-[9px] font-bold px-1.5 py-0.2 rounded transition border ${
                   selectedVariantIndex === idx
-                    ? "bg-zinc-950 text-white dark:bg-white dark:text-black border-zinc-950 dark:border-white shadow-xs font-black"
-                    : "bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-white/10 hover:border-zinc-400 dark:hover:border-white/30"
+                    ? "bg-zinc-950 text-white dark:bg-white dark:text-black border-zinc-950 dark:border-white font-black"
+                    : "bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-white/10"
                 }`}
               >
                 {v.storage ? (v.storage >= 1000 ? `${v.storage / 1000}TB` : `${v.storage}GB`) : v.color}
@@ -182,34 +176,34 @@ export function ProductCard({ product }: ProductCardProps) {
           </div>
 
           {/* Clean Price Strip */}
-          <div className="pt-2 border-t border-zinc-100 dark:border-white/10 flex items-center justify-between text-xs">
-            <span className="text-zinc-500 dark:text-zinc-400 font-medium text-[11px]">MRP:</span>
-            <span className="font-display font-black text-sm sm:text-base text-zinc-950 dark:text-zinc-100">
+          <div className="pt-1.5 border-t border-zinc-100 dark:border-white/10 flex items-baseline justify-between text-xs">
+            <span className="text-zinc-500 font-medium text-[10px] xs:text-[11px]">MRP:</span>
+            <span className="font-display font-black text-xs xs:text-sm sm:text-base text-zinc-950 dark:text-zinc-100">
               {formatPrice(activeVariant.mrp)}
             </span>
           </div>
         </div>
       </div>
 
-      {/* Clean Unified Action Row (No duplicate WhatsApp buttons!) */}
-      <div className="grid grid-cols-5 gap-1.5 pt-3">
+      {/* Action Row */}
+      <div className="grid grid-cols-5 gap-1 pt-2 xs:pt-2.5">
         <a
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="col-span-3 bg-gradient-to-r from-[#ff5a1f] to-rose-600 hover:opacity-95 text-white font-black text-xs py-2 px-2 rounded-xl flex items-center justify-center gap-1 shadow-sm transition transform active:scale-98"
+          className="col-span-3 bg-gradient-to-r from-[#ff5a1f] to-rose-600 hover:opacity-95 text-white font-black text-[10px] xs:text-xs py-1.5 xs:py-2 px-1 rounded-lg xs:rounded-xl flex items-center justify-center gap-1 shadow-xs transition"
           title="Unlock deal price on WhatsApp"
         >
-          <MessageSquare className="w-3.5 h-3.5 fill-current" />
-          <span className="truncate">Unlock Deal ↗</span>
+          <MessageSquare className="w-3 h-3 fill-current shrink-0" />
+          <span className="truncate">Unlock Deal</span>
         </a>
 
         <Link
           href={`/phones/${product.slug}`}
-          className="col-span-2 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white border border-zinc-200 dark:border-white/15 font-bold text-xs py-2 px-1.5 rounded-xl flex items-center justify-center gap-0.5 transition"
+          className="col-span-2 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white border border-zinc-200 dark:border-white/15 font-bold text-[10px] xs:text-xs py-1.5 xs:py-2 px-1 rounded-lg xs:rounded-xl flex items-center justify-center gap-0.5 transition"
         >
           <span>Specs</span>
-          <ArrowRight className="w-3 h-3" />
+          <ArrowRight className="w-2.5 h-2.5" />
         </Link>
       </div>
     </div>

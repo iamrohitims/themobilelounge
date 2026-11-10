@@ -21,17 +21,17 @@ export default async function OffersPage() {
   const offers = await dataRepo.offers.getAll();
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
+    <div className="max-w-7xl mx-auto px-3 sm:px-4 py-5 sm:py-8 space-y-6 sm:space-y-8 w-full max-w-full overflow-hidden">
       {/* Header */}
       <div className="space-y-2">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ff1e42]/15 border border-[#ff1e42]/30 text-[#ff1e42] text-xs font-extrabold uppercase">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ff1e42]/15 border border-[#ff1e42]/30 text-[#ff1e42] text-[11px] sm:text-xs font-extrabold uppercase">
           <Gift className="w-3.5 h-3.5" />
           <span>CURRENT DEALS & PROMOTIONS • KAKOD</span>
         </div>
-        <h1 className="font-display font-extrabold text-3xl sm:text-5xl text-zinc-950 dark:text-white tracking-tight">
+        <h1 className="font-display font-extrabold text-2xl xs:text-3xl sm:text-5xl text-zinc-950 dark:text-white tracking-tight">
           Today’s Special Offers & Free Gifts
         </h1>
-        <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-3xl leading-relaxed">
+        <p className="text-xs sm:text-base text-zinc-600 dark:text-zinc-400 max-w-3xl leading-relaxed">
           Grab guaranteed free gifts, zero-downpayment EMI vouchers, and trade-in bonuses at The
           Mobile Lounge (by Vishal Distributors). Show these offers at our Kakod store counter or
           claim instantly via WhatsApp.
@@ -39,25 +39,25 @@ export default async function OffersPage() {
       </div>
 
       {/* Offers Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         {offers.map((offer) => (
           <div
             key={offer.id}
-            className="bento-card p-6 sm:p-7 space-y-4 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/10 shadow-sm dark:shadow-none flex flex-col justify-between relative overflow-hidden"
+            className="bento-card p-4 sm:p-7 space-y-4 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/10 shadow-sm dark:shadow-none flex flex-col justify-between relative overflow-hidden"
           >
             <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="bg-[#ff1e42] text-white text-[11px] font-extrabold px-3 py-1 rounded-full shadow">
+              <div className="flex items-center justify-between gap-2">
+                <span className="bg-[#ff1e42] text-white text-[10px] sm:text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow">
                   {offer.badge}
                 </span>
                 {offer.discountValue && (
-                  <span className="text-emerald-700 dark:text-[#a3e635] text-xs font-extrabold bg-emerald-500/10 dark:bg-[#a3e635]/10 px-2.5 py-1 rounded-xl">
+                  <span className="text-emerald-700 dark:text-[#a3e635] text-[11px] sm:text-xs font-extrabold bg-emerald-500/10 dark:bg-[#a3e635]/10 px-2.5 py-1 rounded-xl">
                     {offer.discountValue}
                   </span>
                 )}
               </div>
 
-              <h3 className="font-display font-extrabold text-xl sm:text-2xl text-zinc-950 dark:text-white">
+              <h3 className="font-display font-extrabold text-lg sm:text-2xl text-zinc-950 dark:text-white">
                 {offer.title}
               </h3>
               <p className="text-xs text-rose-600 dark:text-rose-300 font-bold">{offer.tagline}</p>
@@ -77,9 +77,9 @@ export default async function OffersPage() {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-zinc-200 dark:border-white/10 flex items-center justify-between gap-3">
+            <div className="pt-3 sm:pt-4 border-t border-zinc-200 dark:border-white/10 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
               {offer.code && (
-                <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-white/15 px-3 py-1.5 rounded-xl text-xs font-mono font-bold text-zinc-900 dark:text-white">
+                <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-white/15 px-3 py-1.5 rounded-xl text-xs font-mono font-bold text-zinc-900 dark:text-white text-center sm:text-left">
                   CODE: <span className="text-emerald-600 dark:text-[#a3e635]">{offer.code}</span>
                 </div>
               )}
@@ -90,9 +90,9 @@ export default async function OffersPage() {
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-[#a3e635] hover:bg-lime-400 text-black font-extrabold text-xs px-4 py-2.5 rounded-xl flex items-center gap-1.5 transition ml-auto shadow-md"
+                className="bg-[#a3e635] hover:bg-lime-400 text-black font-extrabold text-xs px-4 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition sm:ml-auto shadow-md"
               >
-                <MessageSquare className="w-3.5 h-3.5 fill-current" />
+                <MessageSquare className="w-3.5 h-3.5 fill-current shrink-0" />
                 <span>Claim on WhatsApp</span>
               </a>
             </div>

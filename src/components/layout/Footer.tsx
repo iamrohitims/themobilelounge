@@ -33,10 +33,10 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-zinc-100 dark:bg-[#07070a] border-t border-zinc-200 dark:border-white/10 pt-16 pb-24 sm:pb-12 text-zinc-600 dark:text-zinc-400 text-xs transition-colors duration-200">
-      <div className="max-w-7xl mx-auto px-4 space-y-12">
+    <footer className="bg-zinc-100 dark:bg-[#07070a] border-t border-zinc-200 dark:border-white/10 pt-12 sm:pt-16 pb-24 sm:pb-12 text-zinc-600 dark:text-zinc-400 text-xs transition-colors duration-200 w-full max-w-full overflow-hidden">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 space-y-8 sm:space-y-12">
         {/* Top Guarantee Strip */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-6 rounded-3xl bg-white dark:bg-zinc-950/80 border border-zinc-200 dark:border-white/10 shadow-sm dark:shadow-none">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 p-4 sm:p-6 rounded-3xl bg-white dark:bg-zinc-950/80 border border-zinc-200 dark:border-white/10 shadow-sm dark:shadow-none">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-[#ff1e42] shrink-0 font-bold">
               <ShieldCheck className="w-5 h-5" />

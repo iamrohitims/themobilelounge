@@ -8,6 +8,17 @@ import { Phone, MessageSquare, Calculator, MapPin, Smartphone } from "lucide-rea
 export function MobileActionBar() {
   const pathname = usePathname();
 
+  // On individual product detail pages, ProductDetailClient renders a dedicated high-converting product CTA bar
+  const isProductDetailPage =
+    pathname.startsWith("/phones/") &&
+    !pathname.startsWith("/phones/brand/") &&
+    !pathname.startsWith("/phones/under/") &&
+    pathname !== "/phones";
+
+  if (isProductDetailPage) {
+    return null;
+  }
+
   return (
     <div className="fixed bottom-3 inset-x-0 z-50 max-w-md mx-auto px-3 sm:hidden">
       <div className="bg-white/95 dark:bg-[#121624]/95 backdrop-blur-2xl border border-zinc-200 dark:border-white/20 rounded-2xl p-1.5 shadow-[0_10px_35px_rgba(0,0,0,0.15)] dark:shadow-[0_10px_35px_rgba(0,0,0,0.9)] flex items-center justify-between gap-1 transition-colors duration-200">

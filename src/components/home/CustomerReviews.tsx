@@ -58,7 +58,7 @@ export function CustomerReviews({ reviews }: CustomerReviewsProps) {
   ];
 
   return (
-    <section className="space-y-6">
+    <section className="space-y-4 sm:space-y-6 w-full max-w-full overflow-hidden">
       {/* Top Header & Google Trust Badge */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-zinc-200 dark:border-white/10 pb-4">
         <div>

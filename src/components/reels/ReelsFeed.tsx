@@ -193,10 +193,10 @@ export function ReelsFeed({ initialReels }: ReelsFeedProps) {
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full bg-[#a3e635] hover:bg-lime-400 text-black font-extrabold text-xs py-2.5 rounded-xl flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(163,230,53,0.35)] transition"
+                className="w-full bg-[#a3e635] hover:bg-lime-400 text-black font-extrabold text-xs py-2.5 rounded-xl flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(163,230,53,0.35)] transition text-center"
               >
-                <MessageSquare className="w-4 h-4 fill-current" />
-                <span>Enquire About Phone Seen in Reels on WhatsApp</span>
+                <MessageSquare className="w-4 h-4 fill-current shrink-0" />
+                <span>Enquire About Reels Deal on WhatsApp</span>
               </a>
             </div>
           </div>

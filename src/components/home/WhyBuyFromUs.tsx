@@ -22,7 +22,7 @@ export function WhyBuyFromUs() {
   return (
     <section className="space-y-4">
       {/* Section Container */}
-      <div className="rounded-3xl gradient-hero p-5 sm:p-8 lg:p-10 shadow-xl border border-white/20 space-y-6 relative overflow-hidden">
+      <div className="rounded-3xl gradient-hero p-3.5 sm:p-8 lg:p-10 shadow-xl border border-white/20 space-y-5 sm:space-y-6 relative overflow-hidden w-full max-w-full">
         {/* Ambient Glows */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#c5e84a]/15 rounded-full blur-3xl pointer-events-none" />

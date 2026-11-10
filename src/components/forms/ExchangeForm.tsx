@@ -74,9 +74,9 @@ export function ExchangeForm() {
   };
 
   return (
-    <div className="bento-card p-6 sm:p-8 space-y-6 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/10 shadow-sm dark:shadow-none">
+    <div className="bento-card p-4 sm:p-8 space-y-5 sm:space-y-6 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/10 shadow-sm dark:shadow-none w-full">
       <div className="space-y-1">
-        <h3 className="font-display font-extrabold text-xl text-zinc-950 dark:text-white">
+        <h3 className="font-display font-extrabold text-lg sm:text-xl text-zinc-950 dark:text-white">
           Enter Your Old Phone Details
         </h3>
         <p className="text-xs text-zinc-500 dark:text-zinc-400">
@@ -85,7 +85,7 @@ export function ExchangeForm() {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           {/* Brand */}
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-zinc-700 dark:text-zinc-300">Old Phone Brand *</label>
@@ -115,7 +115,7 @@ export function ExchangeForm() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           {/* Age */}
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-zinc-700 dark:text-zinc-300">How old is the phone?</label>
@@ -156,15 +156,15 @@ export function ExchangeForm() {
             ].map((cond) => (
               <label
                 key={cond}
-                className="flex items-center gap-2 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 cursor-pointer hover:border-zinc-300 dark:hover:border-white/20 text-xs text-zinc-800 dark:text-zinc-200"
+                className="flex items-center gap-2 p-2.5 sm:p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 cursor-pointer hover:border-zinc-300 dark:hover:border-white/20 text-xs text-zinc-800 dark:text-zinc-200"
               >
                 <input
                   type="radio"
                   value={cond}
                   {...register("condition")}
-                  className="text-[#a3e635] focus:ring-0"
+                  className="text-[#a3e635] focus:ring-0 shrink-0"
                 />
-                <span>{cond}</span>
+                <span className="leading-tight">{cond}</span>
               </label>
             ))}
           </div>
@@ -173,7 +173,7 @@ export function ExchangeForm() {
         {/* Disclaimer Alert */}
         <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-3 text-xs text-amber-800 dark:text-amber-200 flex items-start gap-2">
           <AlertCircle className="w-4 h-4 shrink-0 text-amber-600 dark:text-amber-400 mt-0.5" />
-          <p>
+          <p className="leading-relaxed">
             <strong>Note:</strong> Online valuation is an indicative estimate. The final exchange
             amount is determined at our Kakod store counter after a fast 3-minute physical inspection
             of display touch, cameras, and battery health.
@@ -183,10 +183,10 @@ export function ExchangeForm() {
         {/* Submit */}
         <button
           type="submit"
-          className="w-full bg-[#a3e635] hover:bg-lime-400 text-black font-extrabold text-sm py-4 rounded-2xl flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(163,230,53,0.35)] transition"
+          className="w-full bg-[#a3e635] hover:bg-lime-400 text-black font-extrabold text-xs sm:text-sm py-3.5 sm:py-4 px-3 rounded-2xl flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(163,230,53,0.35)] transition active:scale-[0.99] text-center"
         >
-          <MessageSquare className="w-4 h-4 fill-current" />
-          <span>Get Instant WhatsApp Estimate & Exchange Voucher</span>
+          <MessageSquare className="w-4 h-4 fill-current shrink-0" />
+          <span>Get WhatsApp Estimate & Exchange Voucher</span>
         </button>
       </form>
 

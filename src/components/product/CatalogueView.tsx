@@ -13,6 +13,7 @@ import {
   List,
   RotateCcw,
   X,
+  Check,
 } from "lucide-react";
 
 interface CatalogueViewProps {
@@ -163,47 +164,50 @@ export function CatalogueView({
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-5 sm:space-y-6">
+    <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3 sm:py-6 space-y-4 sm:space-y-6 w-full max-w-full overflow-hidden">
       {/* Page Header */}
-      <div className="space-y-1">
-        <h1 className="font-display font-black text-2xl sm:text-4xl text-zinc-950 dark:text-white">
+      <div className="space-y-0.5 sm:space-y-1">
+        <h1 className="font-display font-black text-xl xs:text-2xl sm:text-4xl text-zinc-950 dark:text-white">
           {pageTitle}
         </h1>
-        <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="text-[11px] sm:text-xs text-zinc-600 dark:text-zinc-400">
           {pageDescription}
         </p>
       </div>
 
       {/* Filter and Search Controls Bar */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-2.5 bg-white dark:bg-[#161a26] p-3 rounded-2xl border border-zinc-200 dark:border-white/10 shadow-xs">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-2 bg-white dark:bg-[#161a26] p-2.5 sm:p-3 rounded-2xl border border-zinc-200 dark:border-white/10 shadow-xs w-full">
         {/* Search Input */}
         <div className="relative w-full sm:max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-400" />
           <input
             type="text"
-            placeholder="Search phones by model, brand, chipset..."
+            placeholder="Search phones, brands, 5G..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs text-zinc-950 dark:text-white placeholder-zinc-400 focus:outline-none focus:border-[#ff5a1f]"
+            className="w-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 rounded-xl pl-8 pr-3 py-1.5 sm:py-2 text-xs text-zinc-950 dark:text-white placeholder-zinc-400 focus:outline-none focus:border-[#ff5a1f]"
           />
         </div>
 
         {/* View toggles & Sort dropdown */}
-        <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
+        <div className="flex items-center gap-1.5 w-full sm:w-auto justify-between sm:justify-end">
           <button
-            onClick={() => setMobileFilterOpen(!mobileFilterOpen)}
-            className="lg:hidden px-3 py-2 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 text-xs font-bold text-zinc-800 dark:text-white flex items-center gap-1.5"
+            onClick={() => setMobileFilterOpen(true)}
+            className="lg:hidden px-3 py-1.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 text-xs font-bold text-zinc-800 dark:text-white flex items-center gap-1.5"
           >
-            <SlidersHorizontal className="w-3.5 h-3.5" />
+            <SlidersHorizontal className="w-3.5 h-3.5 text-[#ff5a1f]" />
             <span>Filters</span>
+            {(selectedBrand !== "all" || maxPrice < 200000 || fiveGOnly || emiOnly) && (
+              <span className="w-2 h-2 rounded-full bg-[#ff5a1f]" />
+            )}
           </button>
 
-          <div className="flex items-center gap-1.5">
-            <span className="text-xs text-zinc-500 dark:text-zinc-400 hidden sm:inline">Sort:</span>
+          <div className="flex items-center gap-1">
+            <span className="text-[11px] text-zinc-500 hidden sm:inline">Sort:</span>
             <select
               value={sortOption}
               onChange={(e) => setSortOption(e.target.value)}
-              className="bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 rounded-xl px-2.5 py-2 text-xs font-bold text-zinc-900 dark:text-white focus:outline-none"
+              className="bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 rounded-xl px-2 py-1.5 text-xs font-bold text-zinc-900 dark:text-white focus:outline-none"
             >
               <option value="featured">Featured</option>
               <option value="price-asc">Price: Low to High</option>
@@ -212,10 +216,10 @@ export function CatalogueView({
             </select>
           </div>
 
-          <div className="hidden sm:flex items-center gap-1 bg-zinc-100 dark:bg-zinc-900 p-1 rounded-xl border border-zinc-200 dark:border-white/10">
+          <div className="hidden sm:flex items-center gap-0.5 bg-zinc-100 dark:bg-zinc-900 p-0.5 rounded-xl border border-zinc-200 dark:border-white/10">
             <button
               onClick={() => setIsListView(false)}
-              className={`p-1 rounded-lg transition ${
+              className={`p-1.5 rounded-lg transition ${
                 !isListView ? "bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-xs" : "text-zinc-500"
               }`}
               title="Grid View"
@@ -224,7 +228,7 @@ export function CatalogueView({
             </button>
             <button
               onClick={() => setIsListView(true)}
-              className={`p-1 rounded-lg transition ${
+              className={`p-1.5 rounded-lg transition ${
                 isListView ? "bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-xs" : "text-zinc-500"
               }`}
               title="List View"
@@ -236,36 +240,22 @@ export function CatalogueView({
       </div>
 
       {/* Main Content Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Left Filter Sidebar */}
-        <aside
-          className={`lg:col-span-3 space-y-4 ${
-            mobileFilterOpen ? "block" : "hidden lg:block"
-          }`}
-        >
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+        {/* Desktop Filter Sidebar (3 Cols) */}
+        <aside className="hidden lg:block lg:col-span-3 space-y-4">
           <div className="bento-card p-4 space-y-4 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/10 shadow-xs">
             <div className="flex items-center justify-between pb-2.5 border-b border-zinc-200 dark:border-white/10">
               <span className="font-display font-extrabold text-xs sm:text-sm text-zinc-950 dark:text-white flex items-center gap-1.5">
                 <SlidersHorizontal className="w-3.5 h-3.5 text-[#ff5a1f]" />
                 <span>Filters</span>
               </span>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={resetFilters}
-                  className="text-[10px] text-zinc-500 hover:text-zinc-950 dark:hover:text-white flex items-center gap-1"
-                >
-                  <RotateCcw className="w-3 h-3" />
-                  <span>Reset</span>
-                </button>
-                {mobileFilterOpen && (
-                  <button
-                    onClick={() => setMobileFilterOpen(false)}
-                    className="lg:hidden p-1 rounded-md text-zinc-500 hover:text-black dark:hover:text-white"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                )}
-              </div>
+              <button
+                onClick={resetFilters}
+                className="text-[10px] text-zinc-500 hover:text-zinc-950 dark:hover:text-white flex items-center gap-1"
+              >
+                <RotateCcw className="w-3 h-3" />
+                <span>Reset</span>
+              </button>
             </div>
 
             {/* Brand Filter */}
@@ -354,18 +344,138 @@ export function CatalogueView({
           </div>
         </aside>
 
+        {/* Mobile Slide-In Filter Drawer */}
+        {mobileFilterOpen && (
+          <div className="lg:hidden fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-xs p-0 animate-in fade-in duration-200">
+            <div className="bg-white dark:bg-[#121624] w-full max-h-[85vh] rounded-t-3xl p-4 space-y-4 overflow-y-auto shadow-2xl border-t border-zinc-200 dark:border-white/15">
+              <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-white/10">
+                <span className="font-display font-black text-sm text-zinc-950 dark:text-white flex items-center gap-1.5">
+                  <SlidersHorizontal className="w-4 h-4 text-[#ff5a1f]" />
+                  <span>Filter Catalogue</span>
+                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={resetFilters}
+                    className="text-xs text-zinc-500 hover:text-black dark:hover:text-white font-bold"
+                  >
+                    Reset
+                  </button>
+                  <button
+                    onClick={() => setMobileFilterOpen(false)}
+                    className="p-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Brand Filter */}
+              {!lockedBrand && (
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-zinc-500 uppercase tracking-wide block">
+                    Brand:
+                  </label>
+                  <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto">
+                    <button
+                      onClick={() => setSelectedBrand("all")}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition border ${
+                        selectedBrand === "all"
+                          ? "bg-[#ff5a1f] text-white border-[#ff5a1f] font-black"
+                          : "bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-white/10"
+                      }`}
+                    >
+                      All Brands ({initialProducts.length})
+                    </button>
+                    {brands.map((b) => (
+                      <button
+                        key={b.slug}
+                        onClick={() => setSelectedBrand(b.name)}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition border ${
+                          selectedBrand.toLowerCase() === b.name.toLowerCase()
+                            ? "bg-[#ff5a1f] text-white border-[#ff5a1f] font-black"
+                            : "bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-white/10"
+                        }`}
+                      >
+                        {b.name} ({b.phoneCount})
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Price Filter */}
+              {!lockedMaxPrice && (
+                <div className="space-y-2 pt-2 border-t border-zinc-200 dark:border-white/10">
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="font-bold text-zinc-500 uppercase">Max Budget:</span>
+                    <span className="font-black text-emerald-700 dark:text-[#c5e84a] text-sm">
+                      {formatPrice(maxPrice)}
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min={10000}
+                    max={200000}
+                    step={5000}
+                    value={maxPrice}
+                    onChange={(e) => setMaxPrice(parseInt(e.target.value, 10))}
+                  />
+                </div>
+              )}
+
+              {/* Quick Checkboxes */}
+              <div className="grid grid-cols-2 gap-2 pt-2 border-t border-zinc-200 dark:border-white/10">
+                <button
+                  type="button"
+                  onClick={() => setFiveGOnly(!fiveGOnly)}
+                  className={`p-2.5 rounded-xl border text-xs font-bold flex items-center justify-center gap-1.5 transition ${
+                    fiveGOnly
+                      ? "bg-[#ff5a1f] text-white border-[#ff5a1f]"
+                      : "bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-white/10"
+                  }`}
+                >
+                  {fiveGOnly && <Check className="w-3.5 h-3.5" />}
+                  <span>5G Only</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setEmiOnly(!emiOnly)}
+                  className={`p-2.5 rounded-xl border text-xs font-bold flex items-center justify-center gap-1.5 transition ${
+                    emiOnly
+                      ? "bg-[#ff5a1f] text-white border-[#ff5a1f]"
+                      : "bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-white/10"
+                  }`}
+                >
+                  {emiOnly && <Check className="w-3.5 h-3.5" />}
+                  <span>0% EMI</span>
+                </button>
+              </div>
+
+              {/* Apply Button */}
+              <button
+                type="button"
+                onClick={() => setMobileFilterOpen(false)}
+                className="w-full bg-[#ff5a1f] text-white font-black text-xs py-3 rounded-xl shadow-md"
+              >
+                Show {filteredProducts.length} Phones
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Right Product Grid */}
-        <div className="lg:col-span-9 space-y-3.5">
-          <div className="flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
+        <div className="lg:col-span-9 space-y-3">
+          <div className="flex items-center justify-between text-[11px] text-zinc-500 dark:text-zinc-400">
             <span>
               Showing <strong className="text-zinc-950 dark:text-white">{filteredProducts.length}</strong> phones
             </span>
           </div>
 
           {filteredProducts.length === 0 ? (
-            <div className="bento-card p-8 sm:p-12 text-center space-y-3 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/10 shadow-xs">
-              <p className="text-3xl">🔍</p>
-              <h3 className="font-display font-extrabold text-base text-zinc-950 dark:text-white">
+            <div className="bento-card p-6 sm:p-12 text-center space-y-3 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/10 shadow-xs">
+              <p className="text-2xl sm:text-3xl">🔍</p>
+              <h3 className="font-display font-extrabold text-sm sm:text-base text-zinc-950 dark:text-white">
                 No smartphones match your filters
               </h3>
               <p className="text-xs text-zinc-500 max-w-sm mx-auto">
@@ -380,7 +490,7 @@ export function CatalogueView({
             </div>
           ) : (
             <div
-              className={`grid gap-3 sm:gap-4 ${
+              className={`grid gap-2.5 sm:gap-4 ${
                 isListView
                   ? "grid-cols-1"
                   : "grid-cols-2 sm:grid-cols-2 lg:grid-cols-3"

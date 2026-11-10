@@ -21,17 +21,17 @@ export const metadata: Metadata = {
 
 export default function EMIPage() {
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 space-y-12">
+    <div className="max-w-7xl mx-auto px-3 sm:px-4 py-5 sm:py-8 space-y-8 sm:space-y-12 w-full max-w-full overflow-hidden">
       {/* Hero Banner */}
-      <div className="text-center max-w-3xl mx-auto space-y-3">
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#a3e635]/15 border border-[#a3e635]/30 text-emerald-700 dark:text-[#a3e635] text-xs font-extrabold uppercase">
+      <div className="text-center max-w-3xl mx-auto space-y-2.5">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#a3e635]/15 border border-[#a3e635]/30 text-emerald-700 dark:text-[#a3e635] text-[11px] sm:text-xs font-extrabold uppercase">
           <Sparkles className="w-3.5 h-3.5" />
           <span>INSTANT 5-MINUTE PAPERLESS FINANCE • KAKOD</span>
         </div>
-        <h1 className="font-display font-extrabold text-3xl sm:text-5xl text-zinc-950 dark:text-white tracking-tight">
+        <h1 className="font-display font-extrabold text-2xl xs:text-3xl sm:text-5xl text-zinc-950 dark:text-white tracking-tight">
           ₹0 Downpayment & 0% EMI Calculator
         </h1>
-        <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-300 leading-relaxed">
+        <p className="text-xs sm:text-base text-zinc-600 dark:text-zinc-300 leading-relaxed">
           Upgrade to your dream Apple iPhone, Samsung Galaxy, or 5G smartphone without breaking your
           savings. Bring just your <strong className="text-zinc-950 dark:text-white">Aadhaar Card & PAN Card</strong> to
           our Kakod store!
@@ -42,9 +42,9 @@ export default function EMIPage() {
       <EMICalculator />
 
       {/* Finance Partners Grid */}
-      <section className="space-y-6">
-        <div className="text-center max-w-2xl mx-auto space-y-1.5">
-          <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-zinc-950 dark:text-white">
+      <section className="space-y-5">
+        <div className="text-center max-w-2xl mx-auto space-y-1">
+          <h2 className="font-display font-extrabold text-xl sm:text-3xl text-zinc-950 dark:text-white">
             Official Financing & EMI Partners
           </h2>
           <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400">
@@ -52,15 +52,15 @@ export default function EMIPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {emiConfig.partners.map((partner) => (
             <div
               key={partner.name}
-              className="bento-card p-5 space-y-3 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/10 shadow-sm dark:shadow-none flex flex-col justify-between"
+              className="bento-card p-4 sm:p-5 space-y-3 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/10 shadow-sm dark:shadow-none flex flex-col justify-between"
             >
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="font-display font-extrabold text-lg text-zinc-950 dark:text-white">
+                  <span className="font-display font-extrabold text-base sm:text-lg text-zinc-950 dark:text-white">
                     {partner.name}
                   </span>
                   <span className="bg-[#ff1e42]/15 text-rose-600 dark:text-rose-300 border border-[#ff1e42]/30 text-[10px] font-extrabold px-2 py-0.5 rounded-full">
@@ -86,7 +86,7 @@ export default function EMIPage() {
                   </span>
                 </div>
                 <div className="pt-1">
-                  <p className="text-[11px] font-bold text-zinc-500 uppercase">Documents Needed:</p>
+                  <p className="text-[10px] font-bold text-zinc-500 uppercase">Documents Needed:</p>
                   <p className="text-[11px] text-zinc-700 dark:text-zinc-300">{partner.requirements.join(" • ")}</p>
                 </div>
               </div>
@@ -96,7 +96,7 @@ export default function EMIPage() {
       </section>
 
       {/* 4-Step In-Store Walk-in Process */}
-      <section className="bento-card p-6 sm:p-8 space-y-6 bg-zinc-50 dark:bg-gradient-to-br dark:from-zinc-900 dark:via-zinc-950 dark:to-black border border-zinc-200 dark:border-white/10 shadow-sm dark:shadow-none">
+      <section className="bento-card p-4 sm:p-8 space-y-5 sm:space-y-6 bg-zinc-50 dark:bg-gradient-to-br dark:from-zinc-900 dark:via-zinc-950 dark:to-black border border-zinc-200 dark:border-white/10 shadow-sm dark:shadow-none">
         <h2 className="font-display font-extrabold text-2xl text-zinc-950 dark:text-white text-center">
           How to Get Your Smartphone on EMI at Kakod Store
         </h2>

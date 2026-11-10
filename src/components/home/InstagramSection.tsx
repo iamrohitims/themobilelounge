@@ -83,15 +83,15 @@ export function InstagramSection() {
   ];
 
   return (
-    <section className="space-y-6">
+    <section className="space-y-4 sm:space-y-6 w-full max-w-full overflow-hidden">
       {/* Section Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-zinc-200 dark:border-white/10 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 border-b border-zinc-200 dark:border-white/10 pb-4">
         <div>
-          <div className="inline-flex items-center gap-1.5 text-pink-600 dark:text-pink-400 font-extrabold text-xs uppercase tracking-wider mb-1.5">
+          <div className="inline-flex items-center gap-1.5 text-pink-600 dark:text-pink-400 font-extrabold text-[11px] sm:text-xs uppercase tracking-wider mb-1.5">
             <InstagramIcon className="w-3.5 h-3.5" />
             <span>OFFICIAL INSTAGRAM • @{siteConfig.contact.instagramHandle}</span>
           </div>
-          <h2 className="font-display font-extrabold text-2xl sm:text-4xl text-zinc-950 dark:text-white">
+          <h2 className="font-display font-extrabold text-xl xs:text-2xl sm:text-4xl text-zinc-950 dark:text-white">
             Watch Kakod Customer Deliveries & Live Demos
           </h2>
           <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 mt-1 max-w-2xl">
@@ -101,24 +101,24 @@ export function InstagramSection() {
         </div>
 
         {/* View on Instagram Link & Fullscreen Reels Mode */}
-        <div className="flex flex-wrap items-center gap-2 self-start sm:self-end shrink-0">
+        <div className="flex flex-col xs:flex-row items-stretch xs:items-center gap-2 self-start sm:self-end shrink-0 w-full xs:w-auto">
           <Link
             href="/reels"
-            className="bg-[#ff1e42] hover:bg-rose-600 text-white font-extrabold text-xs px-4 py-2.5 rounded-2xl flex items-center gap-2 shadow-[0_0_15px_rgba(255,30,66,0.35)] transition"
+            className="bg-[#ff1e42] hover:bg-rose-600 text-white font-extrabold text-xs px-3.5 py-2.5 rounded-2xl flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(255,30,66,0.35)] transition text-center"
           >
-            <Play className="w-3.5 h-3.5 fill-current" />
-            <span>Watch Fullscreen Reels</span>
+            <Play className="w-3.5 h-3.5 fill-current shrink-0" />
+            <span>Watch Reels</span>
           </Link>
 
           <a
             href={siteConfig.contact.instagramUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 hover:opacity-95 text-white font-extrabold text-xs px-4 py-2.5 rounded-2xl flex items-center gap-2 shadow-lg transition"
+            className="bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 hover:opacity-95 text-white font-extrabold text-xs px-3.5 py-2.5 rounded-2xl flex items-center justify-center gap-2 shadow-lg transition text-center"
           >
-            <InstagramIcon className="w-4 h-4" />
-            <span>Follow 1,156+ Fam on IG</span>
-            <ExternalLink className="w-3 h-3 ml-0.5 opacity-80" />
+            <InstagramIcon className="w-4 h-4 shrink-0" />
+            <span>Follow on Instagram</span>
+            <ExternalLink className="w-3 h-3 ml-0.5 opacity-80 shrink-0" />
           </a>
         </div>
       </div>

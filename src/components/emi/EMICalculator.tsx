@@ -71,15 +71,15 @@ export function EMICalculator({
   });
 
   return (
-    <div className="bento-card p-5 sm:p-8 space-y-6 bg-white dark:bg-[#141724] border-2 border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white shadow-xl dark:shadow-2xl">
+    <div className="bento-card p-4 sm:p-8 space-y-5 sm:space-y-6 bg-white dark:bg-[#141724] border-2 border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white shadow-xl dark:shadow-2xl w-full">
       {/* Top Header & No-Cost Toggle */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-zinc-200 dark:border-white/10">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 pb-4 border-b border-zinc-200 dark:border-white/10">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-800 dark:text-[#c5e84a] text-xs font-extrabold uppercase mb-1">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-800 dark:text-[#c5e84a] text-[11px] sm:text-xs font-extrabold uppercase mb-1">
             <CreditCard className="w-3.5 h-3.5" />
             <span>0% EASY EMI & FINANCE CALCULATOR</span>
           </div>
-          <h3 className="font-display font-extrabold text-2xl sm:text-3xl text-zinc-950 dark:text-white">
+          <h3 className="font-display font-extrabold text-xl sm:text-3xl text-zinc-950 dark:text-white">
             {productName ? `Calculate EMI for ${productName}` : "Smart Mobile EMI Calculator"}
           </h3>
           <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-0.5">
@@ -88,7 +88,7 @@ export function EMICalculator({
         </div>
 
         {/* No-Cost EMI Toggle Switch */}
-        <div className="flex items-center gap-3 bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-white/10 shrink-0">
+        <div className="flex items-center justify-between sm:justify-start gap-3 bg-zinc-50 dark:bg-zinc-950 p-2 sm:p-2.5 rounded-2xl border border-zinc-200 dark:border-white/10 shrink-0">
           <div>
             <p className="text-xs font-bold text-zinc-900 dark:text-white">0% No-Cost EMI</p>
             <p className="text-[10px] text-zinc-500 dark:text-zinc-400">Interest offset by store discount</p>
@@ -96,7 +96,7 @@ export function EMICalculator({
           <button
             type="button"
             onClick={() => setIsNoCost(!isNoCost)}
-            className={`w-12 h-6 flex items-center rounded-full p-1 transition duration-300 ${
+            className={`w-12 h-6 flex items-center rounded-full p-1 transition duration-300 shrink-0 ${
               isNoCost ? "bg-[#c5e84a]" : "bg-zinc-300 dark:bg-zinc-800"
             }`}
           >
