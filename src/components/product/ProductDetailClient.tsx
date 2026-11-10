@@ -153,40 +153,13 @@ export function ProductDetailClient({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-start">
         {/* Left Gallery Column (5 Cols) */}
         <div className="lg:col-span-5 space-y-3 lg:sticky lg:top-20 w-full">
-          <div className="flex flex-col-reverse sm:flex-row gap-2.5 sm:gap-3 w-full">
-            {/* Thumbnail Rail */}
-            {product.images.length > 1 && (
-              <div className="flex sm:flex-col gap-2 overflow-x-auto sm:overflow-y-auto max-h-[440px] no-scrollbar shrink-0 py-1 sm:py-0 w-full sm:w-auto">
-                {product.images.map((img, idx) => (
-                  <button
-                    key={`${img.src}-${idx}`}
-                    type="button"
-                    onClick={() => setActiveImageIndex(idx)}
-                    className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden border-2 transition p-1 bg-white dark:bg-zinc-900 shrink-0 ${
-                      activeImageIndex === idx
-                        ? "border-[#ff5a1f] shadow-md ring-2 ring-[#ff5a1f]/20 scale-102"
-                        : "border-zinc-200 dark:border-white/10 hover:border-zinc-400 opacity-70 hover:opacity-100"
-                    }`}
-                    aria-label={`View photo ${idx + 1} (${img.color || product.name})`}
-                  >
-                    <Image
-                      src={img.src}
-                      alt={img.alt || product.name}
-                      fill
-                      sizes="64px"
-                      className="object-contain p-0.5"
-                    />
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {/* Main Image Stage with Swipe Gestures */}
+          <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 w-full items-start">
+            {/* Main Image Stage with Swipe Gestures (order-1 on mobile = top, order-2 on desktop = right) */}
             <div
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
-              className="relative w-full flex-1 h-72 xs:h-80 sm:h-96 md:h-[420px] rounded-2xl sm:rounded-3xl bg-gradient-to-b from-zinc-50 via-zinc-100 to-zinc-50 dark:from-zinc-900/90 dark:to-black/80 border border-zinc-200 dark:border-white/10 p-3 sm:p-4 flex items-center justify-center overflow-hidden shadow-inner select-none touch-pan-y"
+              className="order-1 sm:order-2 relative w-full h-[320px] xs:h-[380px] sm:h-[420px] md:h-[460px] sm:flex-1 rounded-2xl sm:rounded-3xl bg-gradient-to-b from-zinc-50 via-white to-zinc-50 dark:from-zinc-900/90 dark:via-[#141724] dark:to-black/90 border border-zinc-200 dark:border-white/10 p-3 sm:p-4 flex items-center justify-center overflow-hidden shadow-inner select-none touch-pan-y shrink-0"
             >
               {/* Wishlist & Compare Quick Floating Buttons */}
               <div className="absolute top-2.5 right-2.5 z-10 flex items-center gap-1.5">
@@ -254,7 +227,7 @@ export function ProductDetailClient({
                   alt={activeImage.alt || product.name}
                   fill
                   sizes="(max-width: 1024px) 100vw, 480px"
-                  className="object-contain p-2 drop-shadow-[0_10px_20px_rgba(0,0,0,0.18)] dark:drop-shadow-[0_10px_20px_rgba(0,0,0,0.7)] transition-all duration-300"
+                  className="object-contain p-2 drop-shadow-[0_12px_24px_rgba(0,0,0,0.18)] dark:drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)] transition-all duration-300"
                   priority
                 />
               </div>
@@ -268,7 +241,7 @@ export function ProductDetailClient({
                       e.stopPropagation();
                       handlePrevImage();
                     }}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/80 dark:bg-black/70 backdrop-blur-md border border-zinc-200 dark:border-white/20 text-zinc-800 dark:text-white flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition"
+                    className="absolute left-2.5 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/90 dark:bg-black/80 backdrop-blur-md border border-zinc-200 dark:border-white/20 text-zinc-900 dark:text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition"
                     aria-label="Previous photo"
                   >
                     <ChevronLeft className="w-4 h-4" />
@@ -280,7 +253,7 @@ export function ProductDetailClient({
                       e.stopPropagation();
                       handleNextImage();
                     }}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/80 dark:bg-black/70 backdrop-blur-md border border-zinc-200 dark:border-white/20 text-zinc-800 dark:text-white flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/90 dark:bg-black/80 backdrop-blur-md border border-zinc-200 dark:border-white/20 text-zinc-900 dark:text-white flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition"
                     aria-label="Next photo"
                   >
                     <ChevronRight className="w-4 h-4" />
@@ -288,9 +261,9 @@ export function ProductDetailClient({
                 </>
               )}
 
-              {/* Photo Count Chip & Swipe Hint */}
+              {/* Photo Count Chip */}
               <div className="absolute bottom-2.5 right-2.5 z-10 flex items-center gap-1.5">
-                <span className="bg-black/70 backdrop-blur-md text-white text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border border-white/20 shadow-xs">
+                <span className="bg-black/75 backdrop-blur-md text-white text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border border-white/20 shadow-xs">
                   {activeImageIndex + 1} / {product.images.length}
                 </span>
               </div>
@@ -303,11 +276,38 @@ export function ProductDetailClient({
                 </span>
               </div>
             </div>
+
+            {/* Thumbnail Rail (order-2 on mobile = below image, order-1 on desktop = left rail) */}
+            {product.images.length > 1 && (
+              <div className="order-2 sm:order-1 flex sm:flex-col gap-2 overflow-x-auto sm:overflow-y-auto max-h-[460px] no-scrollbar shrink-0 py-1 sm:py-0 w-full sm:w-auto">
+                {product.images.map((img, idx) => (
+                  <button
+                    key={`${img.src}-${idx}`}
+                    type="button"
+                    onClick={() => setActiveImageIndex(idx)}
+                    className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden border-2 transition p-1 bg-white dark:bg-zinc-900 shrink-0 ${
+                      activeImageIndex === idx
+                        ? "border-[#ff5a1f] shadow-md ring-2 ring-[#ff5a1f]/20 scale-102"
+                        : "border-zinc-200 dark:border-white/10 hover:border-zinc-400 opacity-70 hover:opacity-100"
+                    }`}
+                    aria-label={`View photo ${idx + 1} (${img.color || product.name})`}
+                  >
+                    <Image
+                      src={img.src}
+                      alt={img.alt || product.name}
+                      fill
+                      sizes="64px"
+                      className="object-contain p-0.5"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Mobile Dot Navigation */}
+          {/* Mobile Dot Navigation Indicator */}
           {product.images.length > 1 && (
-            <div className="flex sm:hidden items-center justify-center gap-1.5 pt-1">
+            <div className="flex sm:hidden items-center justify-center gap-1.5 pt-0.5">
               {product.images.map((_, idx) => (
                 <button
                   key={idx}
