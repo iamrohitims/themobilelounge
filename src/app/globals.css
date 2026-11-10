@@ -40,13 +40,31 @@
   }
 }
 
+html {
+  max-width: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  box-sizing: border-box;
+}
+
 body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  max-width: 100%;
+  width: 100%;
   overflow-x: hidden;
+  position: relative;
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+img, video, iframe {
+  max-width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6, .font-display {

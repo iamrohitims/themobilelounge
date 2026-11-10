@@ -59,17 +59,17 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full shadow-md">
+    <header className="sticky top-0 z-40 w-full max-w-full overflow-hidden shadow-md">
       {/* 1. Top Announcement Marquee Ticker */}
-      <div className="bg-gradient-to-r from-[#ff5a1f] via-[#7b2fbe] to-[#cc0074] text-white py-1 px-3 overflow-hidden text-xs font-black tracking-wide border-b border-white/20">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2 overflow-hidden whitespace-nowrap min-w-0">
+      <div className="bg-gradient-to-r from-[#ff5a1f] via-[#7b2fbe] to-[#cc0074] text-white py-1 px-3 overflow-hidden text-xs font-black tracking-wide border-b border-white/20 w-full max-w-full">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 w-full">
+          <div className="flex items-center gap-2 overflow-hidden whitespace-nowrap min-w-0 flex-1">
             <span className="bg-black/40 text-[#c5e84a] px-2 py-0.2 rounded-full text-[9px] sm:text-[10px] uppercase font-black shrink-0 flex items-center gap-1 border border-white/10">
               <Flame className="w-2.5 h-2.5 text-amber-300 fill-current" />
-              <span>Kakod Store</span>
+              <span>Kakod</span>
             </span>
             <span className="truncate text-[10px] sm:text-xs font-semibold">
-              iPhone 16 Ready Stock • ₹0 Downpayment 0% EMI • Free Smartwatch & Gifts!
+              iPhone 16 Ready Stock • ₹0 Downpayment 0% EMI • Free Gifts with Every Smartphone!
             </span>
           </div>
 
@@ -90,11 +90,11 @@ export function Header() {
       </div>
 
       {/* 2. Main Navigation Bar */}
-      <div className="bg-white/95 dark:bg-[#121624]/95 backdrop-blur-xl border-b border-zinc-200 dark:border-white/10 px-2.5 sm:px-6 py-2 sm:py-2.5 transition-colors duration-200">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-1.5 sm:gap-4">
-          {/* Brand Identity & Store Subtitle */}
-          <Link href="/" className="flex items-center gap-2 shrink-0 group min-w-0">
-            <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-xl overflow-hidden shadow-sm group-hover:scale-105 transition shrink-0 border border-zinc-200 dark:border-white/10 bg-zinc-950">
+      <div className="bg-white/95 dark:bg-[#121624]/95 backdrop-blur-xl border-b border-zinc-200 dark:border-white/10 px-3 sm:px-6 py-2 sm:py-2.5 transition-colors duration-200 w-full max-w-full">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 w-full">
+          {/* Brand Identity */}
+          <Link href="/" className="flex items-center gap-2 group min-w-0 shrink">
+            <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-xl overflow-hidden shadow-xs group-hover:scale-105 transition shrink-0 border border-zinc-200 dark:border-white/10 bg-zinc-950">
               <Image
                 src="/brand/logo.png"
                 alt={siteConfig.name}
@@ -109,11 +109,11 @@ export function Header() {
                 <span className="font-display font-black text-xs xs:text-sm sm:text-base text-zinc-950 dark:text-white tracking-tight truncate">
                   {siteConfig.name}
                 </span>
-                <span className="bg-[#c5e84a]/20 text-[#3f6212] dark:text-[#c5e84a] text-[8px] sm:text-[9px] font-black px-1 rounded-full border border-[#c5e84a]/30 hidden sm:inline">
+                <span className="bg-[#c5e84a]/20 text-[#3f6212] dark:text-[#c5e84a] text-[8px] sm:text-[9px] font-black px-1 rounded-full border border-[#c5e84a]/30 hidden md:inline">
                   Verified
                 </span>
               </div>
-              <p className="text-[9px] sm:text-[10px] text-zinc-500 dark:text-zinc-400 font-medium truncate">
+              <p className="text-[9px] sm:text-[10px] text-zinc-500 dark:text-zinc-400 font-medium truncate hidden xs:block">
                 📍 Kakod • by Vishal Distributors
               </p>
             </div>
@@ -146,7 +146,7 @@ export function Header() {
           </nav>
 
           {/* Right Action Icons & Buttons */}
-          <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
             {/* Search Button */}
             <Link
               href="/phones"
@@ -186,17 +186,17 @@ export function Header() {
               <span className="xl:hidden">Call</span>
             </a>
 
-            {/* WhatsApp Deal Button */}
+            {/* WhatsApp Deal Button (Visible on sm & desktop, hidden on tiny mobile to prevent overflow) */}
             <a
               href={`https://wa.me/${siteConfig.contact.whatsapp}?text=${encodeURIComponent(
                 "Namaste The Mobile Lounge Kakod! I want to check today's best smartphone offers and unlock counter deals."
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-[#25D366] hover:bg-[#20ba59] text-white font-black text-xs px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl flex items-center gap-1 shadow-sm transition shrink-0 transform active:scale-95"
+              className="hidden sm:inline-flex bg-[#25D366] hover:bg-[#20ba59] text-white font-black text-xs px-3 py-2 rounded-xl items-center gap-1 shadow-sm transition shrink-0 transform active:scale-95"
             >
               <MessageSquare className="w-3.5 h-3.5 fill-current" />
-              <span className="hidden xs:inline">WhatsApp</span>
+              <span>WhatsApp</span>
             </a>
 
             {/* Mobile & Tablet Hamburger Toggle */}
@@ -214,11 +214,25 @@ export function Header() {
 
       {/* 3. Mobile & Tablet Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white/98 dark:bg-[#0f141e]/98 backdrop-blur-2xl border-b border-zinc-200 dark:border-white/15 px-4 py-4 space-y-3.5 animate-in slide-in-from-top-2 duration-200 shadow-2xl max-h-[calc(100vh-100px)] overflow-y-auto">
-          {/* Top Live Status */}
-          <div className="pb-2.5 border-b border-zinc-200 dark:border-white/10 flex items-center justify-between">
-            <LiveStatusBadge />
-            <span className="text-xs text-zinc-600 dark:text-zinc-300 font-medium">Main Market, Kakod</span>
+        <div className="lg:hidden bg-white/98 dark:bg-[#0f141e]/98 backdrop-blur-2xl border-b border-zinc-200 dark:border-white/15 px-4 py-4 space-y-3 animate-in slide-in-from-top-2 duration-200 shadow-2xl max-h-[calc(100vh-80px)] overflow-y-auto">
+          {/* Top Live Status & Quick WhatsApp */}
+          <div className="pb-3 border-b border-zinc-200 dark:border-white/10 space-y-2.5">
+            <div className="flex items-center justify-between">
+              <LiveStatusBadge />
+              <span className="text-xs text-zinc-500 font-medium">Main Market, Kakod</span>
+            </div>
+
+            <a
+              href={`https://wa.me/${siteConfig.contact.whatsapp}?text=${encodeURIComponent(
+                "Namaste The Mobile Lounge Kakod! I want to check today's best smartphone offers and counter deals."
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full bg-[#25D366] hover:bg-[#20ba59] text-white font-black text-xs py-2.5 px-3 rounded-xl flex items-center justify-center gap-2 shadow-sm transition"
+            >
+              <MessageSquare className="w-4 h-4 fill-current" />
+              <span>Unlock Secret Deal on WhatsApp</span>
+            </a>
           </div>
 
           {/* Categorized Navigation Tiles */}
@@ -256,27 +270,25 @@ export function Header() {
             })}
           </div>
 
-          {/* Action Row & Theme Switcher inside drawer */}
-          <div className="pt-2 border-t border-zinc-200 dark:border-white/10 space-y-2">
-            <div className="grid grid-cols-2 gap-2">
-              <a
-                href={`tel:${siteConfig.contact.phoneRaw}`}
-                className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-white/15 text-xs font-bold text-zinc-800 dark:text-white flex items-center justify-center gap-1.5"
-              >
-                <Phone className="w-3.5 h-3.5 text-emerald-600 dark:text-lime-400" />
-                <span>Call Store</span>
-              </a>
+          {/* Direct Call & Directions Buttons */}
+          <div className="pt-2 border-t border-zinc-200 dark:border-white/10 grid grid-cols-2 gap-2">
+            <a
+              href={`tel:${siteConfig.contact.phoneRaw}`}
+              className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-white/15 text-xs font-bold text-zinc-800 dark:text-white flex items-center justify-center gap-1.5"
+            >
+              <Phone className="w-3.5 h-3.5 text-emerald-600 dark:text-lime-400" />
+              <span>Call Store</span>
+            </a>
 
-              <a
-                href={siteConfig.location.googleMapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-white/15 text-xs font-bold text-zinc-800 dark:text-white flex items-center justify-center gap-1.5"
-              >
-                <MapPin className="w-3.5 h-3.5 text-rose-500" />
-                <span>Directions</span>
-              </a>
-            </div>
+            <a
+              href={siteConfig.location.googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-white/15 text-xs font-bold text-zinc-800 dark:text-white flex items-center justify-center gap-1.5"
+            >
+              <MapPin className="w-3.5 h-3.5 text-rose-500" />
+              <span>Directions</span>
+            </a>
           </div>
         </div>
       )}
