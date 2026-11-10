@@ -26,7 +26,7 @@ export function DealsBanner({ offer }: DealsBannerProps) {
   }, []);
 
   return (
-    <section className="rounded-3xl gradient-purple-orange p-6 sm:p-8 lg:p-10 text-white shadow-2xl relative overflow-hidden border border-white/20">
+    <section className="rounded-3xl gradient-purple-orange p-5 sm:p-8 lg:p-10 text-white shadow-2xl relative overflow-hidden border border-white/20 w-full max-w-full">
       {/* Background radial glow */}
       <div className="absolute top-0 right-0 w-80 h-80 bg-white/15 rounded-full blur-3xl pointer-events-none" />
 

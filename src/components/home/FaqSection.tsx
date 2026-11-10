@@ -8,30 +8,30 @@ interface FaqSectionProps {
 
 export function FaqSection({ faqs }: FaqSectionProps) {
   return (
-    <section className="space-y-6">
+    <section className="space-y-4 sm:space-y-6 w-full max-w-full overflow-hidden">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-zinc-200 dark:border-white/10 pb-3">
         <div>
-          <span className="text-xs font-extrabold uppercase tracking-wider text-[#ff5a1f]">
+          <span className="text-[11px] sm:text-xs font-black uppercase tracking-wider text-[#ff5a1f]">
             QUICK ANSWERS
           </span>
-          <h2 className="font-display font-extrabold text-2xl sm:text-3xl text-zinc-950 dark:text-white">
+          <h2 className="font-display font-black text-xl sm:text-3xl text-zinc-950 dark:text-white">
             Frequently Asked Questions
           </h2>
         </div>
         <Link
           href="/faq"
-          className="text-xs font-bold text-[#ff5a1f] dark:text-[#c5e84a] hover:underline flex items-center gap-1"
+          className="text-xs sm:text-sm font-bold text-[#ff5a1f] dark:text-[#c5e84a] hover:underline flex items-center gap-1"
         >
           <span>View All FAQs</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
         {faqs.slice(0, 6).map((faq) => (
           <details
             key={faq.id}
-            className="bento-card p-4 sm:p-5 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/10 rounded-2xl group cursor-pointer shadow-sm hover:shadow-md transition"
+            className="bento-card p-4 sm:p-5 bg-white dark:bg-[#161a26] border border-zinc-200 dark:border-white/10 rounded-2xl group cursor-pointer shadow-xs hover:shadow-md transition"
           >
             <summary className="font-extrabold text-xs sm:text-sm text-zinc-900 dark:text-white flex items-center justify-between list-none">
               <span>{faq.question}</span>

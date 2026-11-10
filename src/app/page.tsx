@@ -31,7 +31,7 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <div className="max-w-7xl mx-auto px-4 pt-4 pb-12 space-y-12 sm:space-y-16">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 pt-3 sm:pt-4 pb-12 space-y-10 sm:space-y-16 w-full max-w-full overflow-hidden">
         {/* 1. Hero Section */}
         <Hero />
 
