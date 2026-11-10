@@ -22,11 +22,15 @@ import {
   Tag,
   CreditCard,
   ChevronRight,
+  ChevronLeft,
   MapPin,
   Cpu,
   Camera,
   Battery,
   Layers,
+  Maximize2,
+  X,
+  ZoomIn,
 } from "lucide-react";
 
 interface ProductDetailClientProps {
@@ -45,6 +49,40 @@ export function ProductDetailClient({
     product.variants[selectedVariantIndex] || product.variants[0];
 
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchEndX, setTouchEndX] = useState<number | null>(null);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX === null || touchEndX === null) return;
+    const distance = touchStartX - touchEndX;
+    const minSwipeDistance = 40;
+    if (distance > minSwipeDistance) {
+      // Swiped Left -> Next Image
+      setActiveImageIndex((prev) => (prev + 1) % product.images.length);
+    } else if (distance < -minSwipeDistance) {
+      // Swiped Right -> Prev Image
+      setActiveImageIndex((prev) => (prev - 1 + product.images.length) % product.images.length);
+    }
+    setTouchStartX(null);
+    setTouchEndX(null);
+  };
+
+  const handleNextImage = () => {
+    setActiveImageIndex((prev) => (prev + 1) % product.images.length);
+  };
+
+  const handlePrevImage = () => {
+    setActiveImageIndex((prev) => (prev - 1 + product.images.length) % product.images.length);
+  };
 
   const { items: compareItems, addItem: addCompare, removeItem: removeCompare } =
     useCompareStore();
@@ -114,20 +152,22 @@ export function ProductDetailClient({
       {/* 2. Main Top Grid: Gallery + Details */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-start">
         {/* Left Gallery Column (5 Cols) */}
-        <div className="lg:col-span-5 space-y-3 lg:sticky lg:top-20">
-          <div className="flex flex-col-reverse sm:flex-row gap-2.5 sm:gap-3">
+        <div className="lg:col-span-5 space-y-3 lg:sticky lg:top-20 w-full">
+          <div className="flex flex-col-reverse sm:flex-row gap-2.5 sm:gap-3 w-full">
             {/* Thumbnail Rail */}
             {product.images.length > 1 && (
-              <div className="flex sm:flex-col gap-2 overflow-x-auto sm:overflow-y-auto max-h-[420px] no-scrollbar shrink-0 py-1 sm:py-0">
+              <div className="flex sm:flex-col gap-2 overflow-x-auto sm:overflow-y-auto max-h-[440px] no-scrollbar shrink-0 py-1 sm:py-0 w-full sm:w-auto">
                 {product.images.map((img, idx) => (
                   <button
                     key={`${img.src}-${idx}`}
+                    type="button"
                     onClick={() => setActiveImageIndex(idx)}
-                    className={`relative w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden border-2 transition p-1 bg-white dark:bg-zinc-900 shrink-0 ${
+                    className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden border-2 transition p-1 bg-white dark:bg-zinc-900 shrink-0 ${
                       activeImageIndex === idx
-                        ? "border-[#ff5a1f] shadow-xs scale-102"
+                        ? "border-[#ff5a1f] shadow-md ring-2 ring-[#ff5a1f]/20 scale-102"
                         : "border-zinc-200 dark:border-white/10 hover:border-zinc-400 opacity-70 hover:opacity-100"
                     }`}
+                    aria-label={`View photo ${idx + 1} (${img.color || product.name})`}
                   >
                     <Image
                       src={img.src}
@@ -141,11 +181,27 @@ export function ProductDetailClient({
               </div>
             )}
 
-            {/* Main Image Stage */}
-            <div className="relative flex-1 h-64 xs:h-72 sm:h-96 md:h-[400px] rounded-2xl sm:rounded-3xl bg-gradient-to-b from-zinc-50 via-zinc-100 to-zinc-50 dark:from-zinc-900/90 dark:to-black/80 border border-zinc-200 dark:border-white/10 p-3 sm:p-4 flex items-center justify-center overflow-hidden shadow-inner">
+            {/* Main Image Stage with Swipe Gestures */}
+            <div
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              className="relative w-full flex-1 h-72 xs:h-80 sm:h-96 md:h-[420px] rounded-2xl sm:rounded-3xl bg-gradient-to-b from-zinc-50 via-zinc-100 to-zinc-50 dark:from-zinc-900/90 dark:to-black/80 border border-zinc-200 dark:border-white/10 p-3 sm:p-4 flex items-center justify-center overflow-hidden shadow-inner select-none touch-pan-y"
+            >
               {/* Wishlist & Compare Quick Floating Buttons */}
-              <div className="absolute top-2.5 right-2.5 z-10 flex items-center gap-1">
+              <div className="absolute top-2.5 right-2.5 z-10 flex items-center gap-1.5">
                 <button
+                  type="button"
+                  onClick={() => setLightboxOpen(true)}
+                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center text-xs transition border bg-white/90 dark:bg-black/75 border-zinc-200 dark:border-white/20 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white shadow-xs"
+                  title="Zoom In"
+                  aria-label="Zoom Photo"
+                >
+                  <ZoomIn className="w-3.5 h-3.5" />
+                </button>
+
+                <button
+                  type="button"
                   onClick={() => {
                     if (inCompare) removeCompare(product.id);
                     else addCompare(product);
@@ -162,6 +218,7 @@ export function ProductDetailClient({
                 </button>
 
                 <button
+                  type="button"
                   onClick={() => toggleWishlist(product)}
                   className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center text-xs transition border ${
                     inWish
@@ -176,36 +233,96 @@ export function ProductDetailClient({
               </div>
 
               {/* Status Badge */}
-              <div className="absolute top-2.5 left-2.5 z-10">
+              <div className="absolute top-2.5 left-2.5 z-10 flex items-center gap-1.5">
                 <span className="bg-[#ff5a1f] text-white text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded-full shadow-xs">
                   100% SEALED PACK
                 </span>
+                {activeImage.color && (
+                  <span className="bg-black/60 backdrop-blur-md text-white text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full border border-white/15">
+                    {activeImage.color}
+                  </span>
+                )}
               </div>
 
-              {/* The Phone Image */}
-              <div className="relative w-full h-full flex items-center justify-center">
+              {/* The Phone Image (Clickable for zoom) */}
+              <div
+                onClick={() => setLightboxOpen(true)}
+                className="relative w-full h-full flex items-center justify-center cursor-zoom-in"
+              >
                 <Image
                   src={activeImage.src}
                   alt={activeImage.alt || product.name}
                   fill
                   sizes="(max-width: 1024px) 100vw, 480px"
-                  className="object-contain p-2 drop-shadow-[0_10px_20px_rgba(0,0,0,0.18)] dark:drop-shadow-[0_10px_20px_rgba(0,0,0,0.7)]"
+                  className="object-contain p-2 drop-shadow-[0_10px_20px_rgba(0,0,0,0.18)] dark:drop-shadow-[0_10px_20px_rgba(0,0,0,0.7)] transition-all duration-300"
                   priority
                 />
               </div>
 
+              {/* Previous / Next Arrow Controls */}
+              {product.images.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handlePrevImage();
+                    }}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/80 dark:bg-black/70 backdrop-blur-md border border-zinc-200 dark:border-white/20 text-zinc-800 dark:text-white flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition"
+                    aria-label="Previous photo"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleNextImage();
+                    }}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/80 dark:bg-black/70 backdrop-blur-md border border-zinc-200 dark:border-white/20 text-zinc-800 dark:text-white flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition"
+                    aria-label="Next photo"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </>
+              )}
+
+              {/* Photo Count Chip & Swipe Hint */}
+              <div className="absolute bottom-2.5 right-2.5 z-10 flex items-center gap-1.5">
+                <span className="bg-black/70 backdrop-blur-md text-white text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border border-white/20 shadow-xs">
+                  {activeImageIndex + 1} / {product.images.length}
+                </span>
+              </div>
+
               {/* Free Gift Strip */}
-              <div className="absolute bottom-2.5 inset-x-2.5 flex items-center justify-between gap-1 text-[9px] sm:text-[10px] pointer-events-none">
+              <div className="absolute bottom-2.5 left-2.5 z-10 flex items-center gap-1 text-[9px] sm:text-[10px] pointer-events-none">
                 <span className="bg-white/95 dark:bg-black/90 backdrop-blur-md text-[#3f6212] dark:text-[#c5e84a] border border-[#c5e84a]/50 font-black px-2 py-0.5 rounded-md flex items-center gap-1 shadow-xs truncate">
                   <Gift className="w-3 h-3 text-amber-500 shrink-0" />
                   <span className="truncate">Free Gift Box</span>
                 </span>
-                <span className="bg-white/95 dark:bg-black/90 text-zinc-700 dark:text-zinc-300 px-2 py-0.5 rounded-md font-bold border border-zinc-200 dark:border-white/10 shadow-xs shrink-0">
-                  Kakod Stock
-                </span>
               </div>
             </div>
           </div>
+
+          {/* Mobile Dot Navigation */}
+          {product.images.length > 1 && (
+            <div className="flex sm:hidden items-center justify-center gap-1.5 pt-1">
+              {product.images.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setActiveImageIndex(idx)}
+                  className={`h-1.5 rounded-full transition-all duration-200 ${
+                    activeImageIndex === idx
+                      ? "w-6 bg-[#ff5a1f]"
+                      : "w-1.5 bg-zinc-300 dark:bg-zinc-700"
+                  }`}
+                  aria-label={`View photo ${idx + 1}`}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Right Details Column (7 Cols) */}
@@ -589,6 +706,108 @@ export function ProductDetailClient({
           </a>
         </div>
       </div>
+
+      {/* 8. Fullscreen High-Resolution Lightbox Modal */}
+      {lightboxOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col justify-between p-3 sm:p-5 select-none animate-in fade-in duration-200"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          {/* Top Bar */}
+          <div className="flex items-center justify-between text-white pb-3 border-b border-white/10 shrink-0">
+            <div>
+              <p className="font-black text-sm sm:text-base">{product.name}</p>
+              <p className="text-[11px] text-zinc-400">
+                Photo {activeImageIndex + 1} of {product.images.length} • {activeImage.color || "Official Gallery"}
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setLightboxOpen(false)}
+              className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition"
+              aria-label="Close fullscreen photos"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Main Stage in Lightbox */}
+          <div className="relative flex-1 w-full flex items-center justify-center overflow-hidden my-3">
+            <div className="relative w-full h-full max-w-2xl max-h-[75vh]">
+              <Image
+                src={activeImage.src}
+                alt={activeImage.alt || product.name}
+                fill
+                sizes="100vw"
+                className="object-contain p-2"
+                priority
+              />
+            </div>
+
+            {/* Lightbox Chevron Navigation */}
+            {product.images.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={handlePrevImage}
+                  className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 hover:bg-black/90 border border-white/20 text-white flex items-center justify-center transition"
+                  aria-label="Previous photo"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleNextImage}
+                  className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 hover:bg-black/90 border border-white/20 text-white flex items-center justify-center transition"
+                  aria-label="Next photo"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </>
+            )}
+          </div>
+
+          {/* Bottom Bar in Lightbox: Thumbnails & WhatsApp Button */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-white/10 shrink-0 max-w-2xl mx-auto w-full">
+            {/* Horizontal Thumbnails */}
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+              {product.images.map((img, idx) => (
+                <button
+                  key={`${img.src}-lb-${idx}`}
+                  type="button"
+                  onClick={() => setActiveImageIndex(idx)}
+                  className={`relative w-12 h-12 rounded-xl overflow-hidden border-2 transition p-0.5 bg-zinc-900 shrink-0 ${
+                    activeImageIndex === idx ? "border-[#ff5a1f] scale-105" : "border-white/20 opacity-60"
+                  }`}
+                >
+                  <Image
+                    src={img.src}
+                    alt={img.alt || product.name}
+                    fill
+                    sizes="48px"
+                    className="object-contain"
+                  />
+                </button>
+              ))}
+            </div>
+
+            {/* Direct WhatsApp Action */}
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto bg-[#25D366] hover:bg-[#20ba59] text-white font-extrabold text-xs py-2.5 px-4 rounded-xl flex items-center justify-center gap-1.5 transition shadow"
+            >
+              <MessageSquare className="w-4 h-4 fill-current shrink-0" />
+              <span>Unlock Deal on WhatsApp</span>
+            </a>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
