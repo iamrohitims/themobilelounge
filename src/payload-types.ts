@@ -861,10 +861,6 @@ export interface SiteSetting {
   storeAddress: string;
   openingHours?: string | null;
   /**
-   * Single-line announcement text fallback
-   */
-  announcementBarText?: string | null;
-  /**
    * Toggle on/off to show or completely hide the top announcement bar
    */
   showAnnouncementBar?: boolean | null;
@@ -888,6 +884,10 @@ export interface SiteSetting {
       }[]
     | null;
   /**
+   * Single-line announcement text fallback
+   */
+  announcementBarText?: string | null;
+  /**
    * Toggle on/off to show or hide the status pill in the Hero banner
    */
   showHeroEyebrow?: boolean | null;
@@ -900,7 +900,7 @@ export interface SiteSetting {
    */
   heroEyebrowText?: string | null;
   /**
-   * Manage quick pills (reorder, add single phone links, multi-brand filters, or budget ranges)
+   * Manage quick pills shown below hero search bar (reorder, add single phone links, multi-brand filters, or budget ranges)
    */
   heroQuickFilters?:
     | {
@@ -963,14 +963,17 @@ export interface SiteSetting {
    * Store Search Query / Business Name (e.g. VISHAL DISTRIBUTORS KAKOD)
    */
   mapQuery?: string | null;
+  /**
+   * Trust highlight cards shown across the store
+   */
   trustHighlights?:
     | {
         title: string;
-        subtitle: string;
         /**
          * Lucide icon name e.g. Gift, CreditCard, ShieldCheck
          */
         icon?: string | null;
+        subtitle: string;
         id?: string | null;
       }[]
     | null;
@@ -989,7 +992,6 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   whatsappNumber?: T;
   storeAddress?: T;
   openingHours?: T;
-  announcementBarText?: T;
   showAnnouncementBar?: T;
   announcementBadge?: T;
   announcementLocationText?: T;
@@ -1001,6 +1003,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         text?: T;
         id?: T;
       };
+  announcementBarText?: T;
   showHeroEyebrow?: T;
   heroEyebrowBadge?: T;
   heroEyebrowText?: T;
@@ -1026,8 +1029,8 @@ export interface SiteSettingsSelect<T extends boolean = true> {
     | T
     | {
         title?: T;
-        subtitle?: T;
         icon?: T;
+        subtitle?: T;
         id?: T;
       };
   updatedAt?: T;
