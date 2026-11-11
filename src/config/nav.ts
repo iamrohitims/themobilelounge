@@ -7,6 +7,7 @@ export interface NavItem {
 
 export const mainNav: NavItem[] = [
   { title: "Phones", href: "/phones" },
+  { title: "Brands", href: "/brands" },
   { title: "Accessories", href: "/accessories" },
   { title: "0% EMI", href: "/emi", badge: "0% Fin" },
   { title: "Offers", href: "/offers", badge: "Live" },
@@ -18,11 +19,12 @@ export const mainNav: NavItem[] = [
 export const footerNav = {
   shop: [
     { title: "All Smartphones", href: "/phones" },
+    { title: "All Brands Directory", href: "/brands" },
     { title: "Apple iPhones", href: "/phones/brand/Apple" },
     { title: "Samsung Galaxy", href: "/phones/brand/Samsung" },
     { title: "OnePlus 5G", href: "/phones/brand/OnePlus" },
     { title: "Vivo & Oppo", href: "/phones/brand/Vivo" },
-    { title: "Phones Under ₹15,000", href: "/phones/under/15000-to-20000" },
+    { title: "Phones Under ₹15,000", href: "/phones/under/10000-to-15000" },
     { title: "Compare Phones", href: "/compare" },
     { title: "Mobile Accessories", href: "/accessories" },
   ],

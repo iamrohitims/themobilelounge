@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import { SafeImage } from "@/components/ui/SafeImage";
 import Link from "next/link";
 import { useCompareStore } from "@/store/compare";
 import { Product } from "@/types/product";
@@ -68,7 +68,11 @@ export function CompareView({ allPhones }: CompareViewProps) {
     { label: "Warranty", getValue: (p) => p.warranty },
     {
       label: "Free Gifts at Kakod",
-      getValue: (p) => p.freeGiftBundle?.join(", ") || "Smartwatch / Earbuds + 9H Glass + Case",
+      getValue: (p) =>
+        (p.freeGiftBundle || [])
+          .map((g: any) => (typeof g === "string" ? g : g?.gift || ""))
+          .filter(Boolean)
+          .join(", ") || "Smartwatch / Earbuds + 9H Glass + Case",
     },
   ];
 
@@ -164,7 +168,7 @@ export function CompareView({ allPhones }: CompareViewProps) {
                               <X className="w-3 h-3" />
                             </button>
                             <div className="relative w-full h-full">
-                              <Image
+                              <SafeImage
                                 src={p.images[0]?.src || "/products/placeholder.svg"}
                                 alt={p.name}
                                 fill

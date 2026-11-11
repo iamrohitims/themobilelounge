@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -24,32 +24,55 @@ import {
   Wrench,
   Store,
   ChevronRight,
+  ChevronDown,
+  Sparkles,
+  ShieldCheck,
 } from "lucide-react";
 import { LiveStatusBadge } from "./LiveStatusBadge";
 import { ThemeToggle } from "./ThemeToggle";
 
-export function Header() {
+interface HeaderProps {
+  siteLogo?: string;
+}
+
+export function Header({ siteLogo = "/brand/logo.png" }: HeaderProps = {}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [moreDropdownOpen, setMoreDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const compareItems = useCompareStore((state) => state.items);
 
-  // Close mobile drawer automatically when route changes
+  // Close drawers and dropdowns on route change
   useEffect(() => {
     setMobileMenuOpen(false);
+    setMoreDropdownOpen(false);
   }, [pathname]);
 
-  // Close drawer on Escape key press
+  // Close dropdown on outside click or escape
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMobileMenuOpen(false);
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setMoreDropdownOpen(false);
+      }
     };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMobileMenuOpen(false);
+        setMoreDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
 
-  // Map icons for mobile drawer tiles
+  // Map icons for navigation tiles
   const navIconMap: Record<string, any> = {
     "/phones": Smartphone,
+    "/brands": Sparkles,
     "/accessories": Headphones,
     "/emi": CreditCard,
     "/offers": Tag,
@@ -58,18 +81,24 @@ export function Header() {
     "/contact": Store,
   };
 
+  // Split navigation: Top 5 prominent links on desktop, remaining 3 in "More" menu
+  const primaryNav = mainNav.slice(0, 5); // Phones, Brands, Accessories, 0% EMI, Offers
+  const secondaryNav = mainNav.slice(5); // Exchange, Services, Store Info
+
+  const isSecondaryActive = secondaryNav.some((item) => pathname === item.href);
+
   return (
-    <header className="sticky top-0 z-40 w-full max-w-full overflow-hidden shadow-md">
+    <header className="sticky top-0 z-50 w-full shadow-xs">
       {/* 1. Top Announcement Marquee Ticker */}
-      <div className="bg-gradient-to-r from-[#ff5a1f] via-[#7b2fbe] to-[#cc0074] text-white py-1 px-3 overflow-hidden text-xs font-black tracking-wide border-b border-white/20 w-full max-w-full">
+      <div className="bg-gradient-to-r from-[#ff5a1f] via-[#7b2fbe] to-[#cc0074] text-white py-1 px-3 sm:px-4 text-xs font-black tracking-wide border-b border-white/20 w-full max-w-full overflow-hidden">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 w-full">
           <div className="flex items-center gap-2 overflow-hidden whitespace-nowrap min-w-0 flex-1">
-            <span className="bg-black/40 text-[#c5e84a] px-2 py-0.2 rounded-full text-[9px] sm:text-[10px] uppercase font-black shrink-0 flex items-center gap-1 border border-white/10">
+            <span className="bg-black/40 text-[#c5e84a] px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] uppercase font-black shrink-0 flex items-center gap-1 border border-white/10">
               <Flame className="w-2.5 h-2.5 text-amber-300 fill-current" />
-              <span>Kakod</span>
+              <span>Kakod Hub</span>
             </span>
             <span className="truncate text-[10px] sm:text-xs font-semibold">
-              iPhone 16 Ready Stock • ₹0 Downpayment 0% EMI • Free Gifts with Every Smartphone!
+              iPhone 16 Series In-Stock • 0% Downpayment EMI • Free Smartwatch on Flagships
             </span>
           </div>
 
@@ -78,25 +107,30 @@ export function Header() {
               href={siteConfig.location.googleMapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:underline flex items-center gap-1 text-white font-medium"
+              className="hover:underline flex items-center gap-1 text-white font-medium transition"
             >
               <MapPin className="w-3 h-3 text-[#c5e84a]" />
               <span>Main Market, Kakod</span>
             </a>
-            <span>•</span>
+            <span className="text-white/40">•</span>
             <span className="text-[#c5e84a] font-black">Open 9:30 AM – 9:00 PM</span>
           </div>
         </div>
       </div>
 
       {/* 2. Main Navigation Bar */}
-      <div className="bg-white/95 dark:bg-[#121624]/95 backdrop-blur-xl border-b border-zinc-200 dark:border-white/10 px-3 sm:px-6 py-2 sm:py-2.5 transition-colors duration-200 w-full max-w-full">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 w-full">
-          {/* Brand Identity */}
-          <Link href="/" className="flex items-center gap-2 group min-w-0 shrink">
-            <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-xl overflow-hidden shadow-xs group-hover:scale-105 transition shrink-0 border border-zinc-200 dark:border-white/10 bg-zinc-950">
+      <div className="bg-white/95 dark:bg-[#0c101b]/95 backdrop-blur-xl border-b border-zinc-200/80 dark:border-white/10 px-3 sm:px-6 py-2 transition-colors duration-200 w-full">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-4 w-full">
+          
+          {/* Brand Identity - Cleanly calibrated for phone screens like OnePlus 11R */}
+          <Link
+            href="/"
+            className="shrink-0 flex items-center gap-2 sm:gap-2.5 group select-none py-0.5"
+            title={`${siteConfig.name} - Kakod`}
+          >
+            <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-xl overflow-hidden shadow-xs group-hover:scale-105 transition-transform duration-200 shrink-0 border border-zinc-200 dark:border-white/15 bg-zinc-950">
               <Image
-                src="/brand/logo.png"
+                src={siteLogo}
                 alt={siteConfig.name}
                 fill
                 sizes="36px"
@@ -104,31 +138,32 @@ export function Header() {
                 priority
               />
             </div>
-            <div className="min-w-0">
-              <div className="flex items-center gap-1">
-                <span className="font-display font-black text-xs xs:text-sm sm:text-base text-zinc-950 dark:text-white tracking-tight truncate">
+            <div className="flex flex-col justify-center min-w-0">
+              <div className="flex items-center gap-1.5">
+                <span className="font-display font-black text-sm sm:text-base text-zinc-950 dark:text-white tracking-tight leading-none whitespace-nowrap group-hover:text-[#ff5a1f] transition-colors">
                   {siteConfig.name}
                 </span>
-                <span className="bg-[#c5e84a]/20 text-[#3f6212] dark:text-[#c5e84a] text-[8px] sm:text-[9px] font-black px-1 rounded-full border border-[#c5e84a]/30 hidden md:inline">
+                <span className="bg-[#c5e84a]/20 text-[#3f6212] dark:text-[#c5e84a] text-[8px] font-black px-1 py-0.5 rounded-full border border-[#c5e84a]/30 hidden sm:inline-flex items-center gap-0.5">
+                  <ShieldCheck className="w-2.5 h-2.5" />
                   Verified
                 </span>
               </div>
-              <p className="text-[9px] sm:text-[10px] text-zinc-500 dark:text-zinc-400 font-medium truncate hidden xs:block">
-                📍 Kakod • by Vishal Distributors
-              </p>
+              <span className="text-[9px] sm:text-[10px] text-zinc-500 dark:text-zinc-400 font-medium whitespace-nowrap leading-tight mt-0.5">
+                Kakod Showroom <span className="hidden sm:inline">• by Vishal Distributors</span>
+              </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1">
-            {mainNav.map((item) => {
+          {/* Desktop Navigation Links (Visible on lg: 1024px and up) */}
+          <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1">
+            {primaryNav.map((item) => {
               const isActive = pathname === item.href;
 
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap ${
+                  className={`px-2.5 xl:px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap active:scale-[0.97] ${
                     isActive
                       ? "bg-zinc-100 text-zinc-950 dark:bg-white/15 dark:text-white shadow-xs font-black"
                       : "text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:text-white dark:hover:bg-white/10"
@@ -136,40 +171,90 @@ export function Header() {
                 >
                   <span>{item.title}</span>
                   {item.badge && (
-                    <span className="bg-[#ff1e42] text-white text-[9px] font-extrabold px-1.5 py-0.2 rounded-full">
+                    <span className="bg-[#ff1e42] text-white text-[8px] font-black px-1.5 py-0.2 rounded-full uppercase tracking-wider">
                       {item.badge}
                     </span>
                   )}
                 </Link>
               );
             })}
+
+            {/* "More" Dropdown Menu for secondary items (Exchange, Services, Contact) */}
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setMoreDropdownOpen(!moreDropdownOpen)}
+                aria-expanded={moreDropdownOpen}
+                aria-haspopup="true"
+                className={`px-2.5 xl:px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1 whitespace-nowrap active:scale-[0.97] ${
+                  isSecondaryActive || moreDropdownOpen
+                    ? "bg-zinc-100 text-zinc-950 dark:bg-white/15 dark:text-white font-black"
+                    : "text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:text-white dark:hover:bg-white/10"
+                }`}
+              >
+                <span>More</span>
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                    moreDropdownOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {moreDropdownOpen && (
+                <div className="absolute top-full right-0 mt-2 w-52 bg-white/98 dark:bg-[#121624]/98 backdrop-blur-2xl border border-zinc-200/90 dark:border-white/15 rounded-2xl p-1.5 shadow-2xl animate-in fade-in-50 zoom-in-95 duration-150 z-50">
+                  {secondaryNav.map((item) => {
+                    const Icon = navIconMap[item.href] || Sparkles;
+                    const isActive = pathname === item.href;
+
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setMoreDropdownOpen(false)}
+                        className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold transition-colors ${
+                          isActive
+                            ? "bg-zinc-100 text-zinc-950 dark:bg-white/15 dark:text-white font-black"
+                            : "text-zinc-700 hover:text-zinc-950 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:text-white dark:hover:bg-white/5"
+                        }`}
+                      >
+                        <div className="w-5 h-5 rounded-lg bg-zinc-100 dark:bg-white/10 flex items-center justify-center text-zinc-600 dark:text-zinc-300">
+                          <Icon className="w-3 h-3" />
+                        </div>
+                        <span>{item.title}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </nav>
 
-          {/* Right Action Icons & Buttons */}
-          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-            {/* Search Button */}
+          {/* Right Actions Bar - Strict dimensions to guarantee 100% responsiveness on mobile */}
+          <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+            {/* Search Phones */}
             <Link
               href="/phones"
-              className="p-1.5 sm:p-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-white/10 text-zinc-700 hover:text-zinc-950 dark:text-zinc-200 dark:hover:text-white transition"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-white/10 text-zinc-700 hover:text-zinc-950 dark:text-zinc-200 dark:hover:text-white transition active:scale-95 flex items-center justify-center shrink-0"
               title="Search Phones"
               aria-label="Search Phones"
             >
-              <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <Search className="w-4 h-4" />
             </Link>
 
             {/* Light / Dark Mode Toggle */}
-            <ThemeToggle />
+            <ThemeToggle className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center p-0 shrink-0" />
 
-            {/* Compare Badge Link */}
+            {/* Compare Phones Pill - Visible on mobile when active to prevent header clipping */}
             <Link
               href="/compare"
-              className="relative p-1.5 sm:p-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-white/10 text-zinc-700 hover:text-zinc-950 dark:text-zinc-200 dark:hover:text-white transition"
+              className={`relative w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-white/10 text-zinc-700 hover:text-zinc-950 dark:text-zinc-200 dark:hover:text-white transition active:scale-95 items-center justify-center shrink-0 ${
+                compareItems.length > 0 ? "flex" : "hidden sm:flex"
+              }`}
               title="Compare Phones"
               aria-label="Compare Phones"
             >
-              <ArrowLeftRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <ArrowLeftRight className="w-4 h-4" />
               {compareItems.length > 0 && (
-                <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-[#ff1e42] text-white text-[8px] font-extrabold rounded-full flex items-center justify-center animate-in zoom-in">
+                <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-[#ff1e42] text-white text-[8px] font-black rounded-full flex items-center justify-center shadow-xs animate-in zoom-in">
                   {compareItems.length}
                 </span>
               )}
@@ -178,31 +263,30 @@ export function Header() {
             {/* Direct Phone Call Button (Medium screens & up) */}
             <a
               href={`tel:${siteConfig.contact.phoneRaw}`}
-              className="hidden md:flex items-center gap-1.5 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-white/10 px-2.5 py-1.5 rounded-xl text-xs font-bold text-zinc-800 dark:text-white transition"
-              title="Call Showroom"
+              className="hidden xl:inline-flex items-center gap-1.5 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-white/10 px-2.5 py-1.5 rounded-xl text-xs font-bold text-zinc-800 dark:text-white transition active:scale-95 shrink-0"
+              title="Call Showroom Hotline"
             >
               <Phone className="w-3.5 h-3.5 text-emerald-600 dark:text-lime-400" />
-              <span className="hidden xl:inline">{siteConfig.contact.phone}</span>
-              <span className="xl:hidden">Call</span>
+              <span>{siteConfig.contact.phone}</span>
             </a>
 
-            {/* WhatsApp Deal Button (Visible on sm & desktop, hidden on tiny mobile to prevent overflow) */}
+            {/* WhatsApp Deal Button (Visible on md and up) */}
             <a
               href={`https://wa.me/${siteConfig.contact.whatsapp}?text=${encodeURIComponent(
                 "Namaste The Mobile Lounge Kakod! I want to check today's best smartphone offers and unlock counter deals."
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:inline-flex bg-[#25D366] hover:bg-[#20ba59] text-white font-black text-xs px-3 py-2 rounded-xl items-center gap-1 shadow-sm transition shrink-0 transform active:scale-95"
+              className="hidden md:inline-flex bg-[#25D366] hover:bg-[#20ba59] text-white font-black text-xs px-3 py-1.5 rounded-xl items-center gap-1.5 shadow-xs transition active:scale-95 shrink-0"
             >
               <MessageSquare className="w-3.5 h-3.5 fill-current" />
               <span>WhatsApp</span>
             </a>
 
-            {/* Mobile & Tablet Hamburger Toggle */}
+            {/* Mobile & Tablet Hamburger Toggle (lg:hidden) */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-1.5 sm:p-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 border border-zinc-200 dark:border-white/10 text-zinc-800 dark:text-white transition"
+              className="lg:hidden w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 border border-zinc-200 dark:border-white/10 text-zinc-800 dark:text-white transition active:scale-95 flex items-center justify-center shrink-0"
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileMenuOpen}
             >
@@ -214,8 +298,8 @@ export function Header() {
 
       {/* 3. Mobile & Tablet Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white/98 dark:bg-[#0f141e]/98 backdrop-blur-2xl border-b border-zinc-200 dark:border-white/15 px-4 py-4 space-y-3 animate-in slide-in-from-top-2 duration-200 shadow-2xl max-h-[calc(100vh-80px)] overflow-y-auto">
-          {/* Top Live Status & Quick WhatsApp */}
+        <div className="lg:hidden bg-white/98 dark:bg-[#0c101b]/98 backdrop-blur-2xl border-b border-zinc-200 dark:border-white/15 px-4 py-4 space-y-3 animate-in slide-in-from-top-2 duration-200 shadow-2xl max-h-[calc(100vh-80px)] overflow-y-auto w-full max-w-full">
+          {/* Top Live Status & WhatsApp Banner */}
           <div className="pb-3 border-b border-zinc-200 dark:border-white/10 space-y-2.5">
             <div className="flex items-center justify-between">
               <LiveStatusBadge />
@@ -228,7 +312,7 @@ export function Header() {
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full bg-[#25D366] hover:bg-[#20ba59] text-white font-black text-xs py-2.5 px-3 rounded-xl flex items-center justify-center gap-2 shadow-sm transition"
+              className="w-full bg-[#25D366] hover:bg-[#20ba59] text-white font-black text-xs py-2.5 px-3 rounded-xl flex items-center justify-center gap-2 shadow-sm transition active:scale-98"
             >
               <MessageSquare className="w-4 h-4 fill-current" />
               <span>Unlock Secret Deal on WhatsApp</span>
@@ -246,9 +330,9 @@ export function Header() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`p-2.5 rounded-xl border transition flex flex-col justify-between space-y-1.5 ${
+                  className={`p-2.5 rounded-xl border transition flex flex-col justify-between space-y-1.5 active:scale-[0.98] ${
                     isActive
-                      ? "bg-zinc-100 dark:bg-white/15 border-zinc-400 dark:border-white/30 text-zinc-950 dark:text-white shadow-xs"
+                      ? "bg-zinc-100 dark:bg-white/15 border-zinc-400 dark:border-white/30 text-zinc-950 dark:text-white shadow-xs font-black"
                       : "bg-zinc-50 dark:bg-[#161d2a] border-zinc-200 dark:border-white/10 text-zinc-800 dark:text-zinc-200"
                   }`}
                 >
@@ -257,7 +341,7 @@ export function Header() {
                       <Icon className="w-3.5 h-3.5" />
                     </div>
                     {item.badge ? (
-                      <span className="bg-[#ff1e42] text-white text-[8px] font-extrabold px-1.5 py-0.2 rounded-full">
+                      <span className="bg-[#ff1e42] text-white text-[8px] font-black px-1.5 py-0.2 rounded-full uppercase tracking-wider">
                         {item.badge}
                       </span>
                     ) : (
@@ -268,13 +352,34 @@ export function Header() {
                 </Link>
               );
             })}
+
+            {/* Compare Phones Tile in Mobile Drawer */}
+            <Link
+              href="/compare"
+              onClick={() => setMobileMenuOpen(false)}
+              className="p-2.5 rounded-xl border transition flex items-center justify-between active:scale-[0.98] bg-zinc-50 dark:bg-[#161d2a] border-zinc-200 dark:border-white/10 text-zinc-800 dark:text-zinc-200 col-span-2"
+            >
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 rounded-lg bg-zinc-200 dark:bg-white/10 flex items-center justify-center text-zinc-800 dark:text-white">
+                  <ArrowLeftRight className="w-3.5 h-3.5" />
+                </div>
+                <span className="text-xs font-extrabold">Compare Specifications</span>
+              </div>
+              {compareItems.length > 0 ? (
+                <span className="bg-[#ff1e42] text-white text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">
+                  {compareItems.length} Selected
+                </span>
+              ) : (
+                <span className="text-[10px] text-zinc-400 font-medium">Add phones to compare</span>
+              )}
+            </Link>
           </div>
 
           {/* Direct Call & Directions Buttons */}
           <div className="pt-2 border-t border-zinc-200 dark:border-white/10 grid grid-cols-2 gap-2">
             <a
               href={`tel:${siteConfig.contact.phoneRaw}`}
-              className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-white/15 text-xs font-bold text-zinc-800 dark:text-white flex items-center justify-center gap-1.5"
+              className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-white/15 text-xs font-bold text-zinc-800 dark:text-white flex items-center justify-center gap-1.5 active:scale-95"
             >
               <Phone className="w-3.5 h-3.5 text-emerald-600 dark:text-lime-400" />
               <span>Call Store</span>
@@ -284,7 +389,7 @@ export function Header() {
               href={siteConfig.location.googleMapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-white/15 text-xs font-bold text-zinc-800 dark:text-white flex items-center justify-center gap-1.5"
+              className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-white/15 text-xs font-bold text-zinc-800 dark:text-white flex items-center justify-center gap-1.5 active:scale-95"
             >
               <MapPin className="w-3.5 h-3.5 text-rose-500" />
               <span>Directions</span>

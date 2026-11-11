@@ -7,17 +7,28 @@
     "tagline": "iPhone 16 Series, 15 & Pro Flagships in Kakod",
     "featured": true,
     "phoneCount": 7,
-    "popularModels": ["iPhone 16 Pro Max", "iPhone 16", "iPhone 15", "iPhone 13"]
+    "popularModels": [
+      "iPhone 16 Pro Max",
+      "iPhone 16 Pro",
+      "iPhone 16",
+      "iPhone 15",
+      "iPhone 13"
+    ]
   },
   {
     "id": "samsung",
     "name": "Samsung",
     "slug": "samsung",
     "logo": "/brand/logos/samsung.svg",
-    "tagline": "Galaxy S24 Ultra, A-Series & M-Series 5G",
+    "tagline": "Galaxy S25, S24 Ultra, A-Series & M-Series 5G",
     "featured": true,
-    "phoneCount": 8,
-    "popularModels": ["Galaxy S24 Ultra", "Galaxy S24", "Galaxy A55 5G", "Galaxy M35 5G"]
+    "phoneCount": 2,
+    "popularModels": [
+      "Galaxy S25 5G",
+      "Galaxy S24 Ultra",
+      "Galaxy A55 5G",
+      "Galaxy M35 5G"
+    ]
   },
   {
     "id": "oneplus",
@@ -26,8 +37,13 @@
     "logo": "/brand/logos/oneplus.svg",
     "tagline": "Fast & Smooth Nord & Number Series Flagships",
     "featured": true,
-    "phoneCount": 6,
-    "popularModels": ["OnePlus 12", "OnePlus 12R", "OnePlus Nord 4 5G", "OnePlus Nord CE4"]
+    "phoneCount": 0,
+    "popularModels": [
+      "OnePlus 12",
+      "OnePlus 12R",
+      "OnePlus Nord 4 5G",
+      "OnePlus Nord CE4"
+    ]
   },
   {
     "id": "vivo",
@@ -36,8 +52,13 @@
     "logo": "/brand/logos/vivo.svg",
     "tagline": "ZEISS Studio Portrait & Slim 5G Phones",
     "featured": true,
-    "phoneCount": 6,
-    "popularModels": ["Vivo V40 Pro", "Vivo V40", "Vivo T3 5G", "Vivo Y200e 5G"]
+    "phoneCount": 0,
+    "popularModels": [
+      "Vivo V40 Pro",
+      "Vivo V40",
+      "Vivo T3 5G",
+      "Vivo Y200e 5G"
+    ]
   },
   {
     "id": "oppo",
@@ -46,8 +67,12 @@
     "logo": "/brand/logos/oppo.svg",
     "tagline": "Reno 12 Series & Durable Armor 5G",
     "featured": true,
-    "phoneCount": 4,
-    "popularModels": ["Oppo Reno 12 Pro 5G", "Oppo Reno 12 5G", "Oppo F27 Pro+ 5G"]
+    "phoneCount": 0,
+    "popularModels": [
+      "Oppo Reno 12 Pro 5G",
+      "Oppo Reno 12 5G",
+      "Oppo F27 Pro+ 5G"
+    ]
   },
   {
     "id": "realme",
@@ -56,8 +81,12 @@
     "logo": "/brand/logos/realme.svg",
     "tagline": "High Performance & Luxury Watch Design 5G",
     "featured": true,
-    "phoneCount": 4,
-    "popularModels": ["Realme 13 Pro+ 5G", "Realme 13+ 5G", "Realme P1 5G"]
+    "phoneCount": 0,
+    "popularModels": [
+      "Realme 13 Pro+ 5G",
+      "Realme 13+ 5G",
+      "Realme P1 5G"
+    ]
   },
   {
     "id": "xiaomi",
@@ -66,8 +95,13 @@
     "logo": "/brand/logos/xiaomi.svg",
     "tagline": "Redmi Note & Flagship Series Superstars",
     "featured": true,
-    "phoneCount": 4,
-    "popularModels": ["Redmi Note 13 Pro+ 5G", "Redmi Note 13 5G", "Redmi 13C 5G"]
+    "phoneCount": 0,
+    "popularModels": [
+      "Xiaomi 14",
+      "Redmi Note 13 Pro+ 5G",
+      "Redmi Note 13 5G",
+      "Redmi 13C 5G"
+    ]
   },
   {
     "id": "motorola",
@@ -76,8 +110,12 @@
     "logo": "/brand/logos/motorola.svg",
     "tagline": "Clean Stock Android, Pantone Leather & Military Grade",
     "featured": true,
-    "phoneCount": 3,
-    "popularModels": ["Motorola Edge 50 Pro", "Motorola Edge 50 Fusion", "Moto G85 5G"]
+    "phoneCount": 0,
+    "popularModels": [
+      "Motorola Edge 50 Pro",
+      "Motorola Edge 50 Fusion",
+      "Moto G85 5G"
+    ]
   },
   {
     "id": "iqoo",
@@ -86,8 +124,12 @@
     "logo": "/brand/logos/iqoo.svg",
     "tagline": "Monster Performance & Esport Gaming Phones",
     "featured": true,
-    "phoneCount": 3,
-    "popularModels": ["iQOO 12 5G", "iQOO Neo 9 Pro", "iQOO Z9s Pro 5G"]
+    "phoneCount": 0,
+    "popularModels": [
+      "iQOO 12 5G",
+      "iQOO Neo 9 Pro",
+      "iQOO Z9s Pro 5G"
+    ]
   },
   {
     "id": "poco",
@@ -95,8 +137,141 @@
     "slug": "poco",
     "logo": "/brand/logos/poco.svg",
     "tagline": "Budget Speed Champions & Turbo Processors",
+    "featured": true,
+    "phoneCount": 0,
+    "popularModels": [
+      "Poco X6 Pro 5G",
+      "Poco M6 5G",
+      "Poco F6 5G"
+    ]
+  },
+  {
+    "id": "google",
+    "name": "Google",
+    "slug": "google",
+    "logo": "/brand/logos/google.svg",
+    "tagline": "Pure Google AI, Pro Cameras & Gemini Intelligence",
+    "featured": true,
+    "phoneCount": 1,
+    "popularModels": [
+      "Pixel 9 Pro",
+      "Pixel 9",
+      "Pixel 8a",
+      "Pixel 7a"
+    ]
+  },
+  {
+    "id": "nothing",
+    "name": "Nothing",
+    "slug": "nothing",
+    "logo": "/brand/logos/nothing.svg",
+    "tagline": "Glyph Interface, Transparent Design & Nothing OS",
+    "featured": true,
+    "phoneCount": 0,
+    "popularModels": [
+      "Nothing Phone (2)",
+      "Nothing Phone (2a) Plus",
+      "CMF Phone 1"
+    ]
+  },
+  {
+    "id": "tecno",
+    "name": "Tecno",
+    "slug": "tecno",
+    "logo": "/brand/logos/tecno.svg",
+    "tagline": "Affordable Foldables & Segment-First Innovations",
     "featured": false,
-    "phoneCount": 2,
-    "popularModels": ["Poco X6 Pro 5G", "Poco M6 5G"]
+    "phoneCount": 0,
+    "popularModels": [
+      "Phantom V Fold 2",
+      "Camon 30 Pro 5G",
+      "Pova 6 Pro 5G",
+      "Spark 20"
+    ]
+  },
+  {
+    "id": "infinix",
+    "name": "Infinix",
+    "slug": "infinix",
+    "logo": "/brand/logos/infinix.svg",
+    "tagline": "Cyber Mecha Gaming Design & Ultra Fast Charging",
+    "featured": false,
+    "phoneCount": 0,
+    "popularModels": [
+      "Infinix GT 20 Pro",
+      "Zero 30 5G",
+      "Note 40 Pro 5G",
+      "Smart 8 Plus"
+    ]
+  },
+  {
+    "id": "honor",
+    "name": "Honor",
+    "slug": "honor",
+    "logo": "/brand/logos/honor.svg",
+    "tagline": "Ultra-Tough Curved Displays & Studio Portraits",
+    "featured": false,
+    "phoneCount": 0,
+    "popularModels": [
+      "Honor 200 Pro",
+      "Honor 200 5G",
+      "Honor X9b 5G"
+    ]
+  },
+  {
+    "id": "nokia",
+    "name": "Nokia",
+    "slug": "nokia",
+    "logo": "/brand/logos/nokia.svg",
+    "tagline": "Legendary Durability, Pure Android & 5G Reliability",
+    "featured": false,
+    "phoneCount": 0,
+    "popularModels": [
+      "Nokia G42 5G",
+      "HMD Crest 5G",
+      "Nokia C32"
+    ]
+  },
+  {
+    "id": "lava",
+    "name": "Lava",
+    "slug": "lava",
+    "logo": "/brand/logos/lava.svg",
+    "tagline": "Proudly Indian, Clean Bloatware-Free Android & Curved 5G",
+    "featured": false,
+    "phoneCount": 0,
+    "popularModels": [
+      "Lava Agni 3 5G",
+      "Blaze Curve 5G",
+      "Yuva 3 Pro"
+    ]
+  },
+  {
+    "id": "asus",
+    "name": "Asus",
+    "slug": "asus",
+    "logo": "/brand/logos/asus.svg",
+    "tagline": "Ultimate ROG Gaming Flagships & Compact Zenfone",
+    "featured": false,
+    "phoneCount": 0,
+    "popularModels": [
+      "ROG Phone 8 Pro",
+      "ROG Phone 7",
+      "Zenfone 11 Ultra"
+    ]
+  },
+  {
+    "id": "sony",
+    "name": "Sony",
+    "slug": "sony",
+    "logo": "/brand/logos/sony.svg",
+    "tagline": "Alpha Camera Optics & 4K CinemaWide HDR Displays",
+    "featured": false,
+    "phoneCount": 0,
+    "popularModels": [
+      "Xperia 1 VI",
+      "Xperia 5 V",
+      "Xperia 10 VI"
+    ]
   }
 ]

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
+import { SafeImage } from "@/components/ui/SafeImage";
 import Link from "next/link";
 import { Product, ProductVariant } from "@/types/product";
 import { formatPrice } from "@/lib/format";
@@ -44,9 +45,200 @@ export function ProductDetailClient({
   similarProducts,
   accessories,
 }: ProductDetailClientProps) {
-  const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
-  const activeVariant: ProductVariant =
-    product.variants[selectedVariantIndex] || product.variants[0];
+  const [selectedColor, setSelectedColor] = useState<string>(
+    product.variants[0]?.color?.trim() || ""
+  );
+  const [selectedStorage, setSelectedStorage] = useState<number | undefined>(
+    product.variants[0]?.storage
+  );
+  const [selectedRam, setSelectedRam] = useState<number | undefined>(
+    product.variants[0]?.ram
+  );
+
+  // Extract unique colors with their hex colors
+  const uniqueColors = useMemo(() => {
+    const list: { color: string; hex?: string }[] = [];
+    const seen = new Set<string>();
+    for (const v of product.variants) {
+      if (v.color && !seen.has(v.color.trim())) {
+        seen.add(v.color.trim());
+        list.push({ color: v.color.trim(), hex: v.colorHex });
+      }
+    }
+    return list;
+  }, [product.variants]);
+
+  // Extract unique RAM options
+  const uniqueRams = useMemo(() => {
+    const set = new Set<number>();
+    for (const v of product.variants) {
+      if (typeof v.ram === "number" && v.ram > 0) {
+        set.add(v.ram);
+      }
+    }
+    return Array.from(set).sort((a, b) => a - b);
+  }, [product.variants]);
+
+  // Extract unique Storage options
+  const uniqueStorages = useMemo(() => {
+    const set = new Set<number>();
+    for (const v of product.variants) {
+      if (typeof v.storage === "number" && v.storage > 0) {
+        set.add(v.storage);
+      }
+    }
+    return Array.from(set).sort((a, b) => a - b);
+  }, [product.variants]);
+
+  // Find the exact or best matching variant for user's selection
+  const activeVariant: ProductVariant = useMemo(() => {
+    // 1. Exact match: color + storage + ram
+    let match = product.variants.find(
+      (v) =>
+        v.color?.trim().toLowerCase() === selectedColor.toLowerCase() &&
+        (selectedStorage === undefined || v.storage === selectedStorage) &&
+        (selectedRam === undefined || v.ram === selectedRam)
+    );
+    if (match) return match;
+
+    // 2. Match: color + storage
+    match = product.variants.find(
+      (v) =>
+        v.color?.trim().toLowerCase() === selectedColor.toLowerCase() &&
+        (selectedStorage === undefined || v.storage === selectedStorage)
+    );
+    if (match) return match;
+
+    // 3. Match: color + ram
+    match = product.variants.find(
+      (v) =>
+        v.color?.trim().toLowerCase() === selectedColor.toLowerCase() &&
+        (selectedRam === undefined || v.ram === selectedRam)
+    );
+    if (match) return match;
+
+    // 4. Any variant with selectedColor
+    match = product.variants.find(
+      (v) => v.color?.trim().toLowerCase() === selectedColor.toLowerCase()
+    );
+    if (match) return match;
+
+    // 5. Fallback to first variant
+    return (
+      product.variants[0] || {
+        color: "Standard",
+        mrp: 0,
+        price: 0,
+        inStock: true,
+      }
+    );
+  }, [product.variants, selectedColor, selectedStorage, selectedRam]);
+
+  // Flipkart-style handlers for Color, RAM, and Storage
+  const handleColorSelect = (colorName: string) => {
+    setSelectedColor(colorName);
+
+    // If current storage or ram is not in this new color, choose available ones
+    const match = product.variants.find(
+      (v) =>
+        v.color?.trim().toLowerCase() === colorName.toLowerCase() &&
+        (selectedStorage === undefined || v.storage === selectedStorage) &&
+        (selectedRam === undefined || v.ram === selectedRam)
+    );
+    if (!match) {
+      const fallback = product.variants.find(
+        (v) => v.color?.trim().toLowerCase() === colorName.toLowerCase()
+      );
+      if (fallback) {
+        if (fallback.storage) setSelectedStorage(fallback.storage);
+        if (fallback.ram) setSelectedRam(fallback.ram);
+      }
+    }
+
+    // Auto-switch image to match color
+    const matchingImgIdx = product.images.findIndex(
+      (img) => img.color?.trim().toLowerCase() === colorName.toLowerCase()
+    );
+    if (matchingImgIdx !== -1) {
+      setActiveImageIndex(matchingImgIdx);
+    }
+  };
+
+  const handleRamSelect = (ramVal: number) => {
+    setSelectedRam(ramVal);
+
+    // Check if current color has this RAM
+    const matchInColor = product.variants.find(
+      (v) =>
+        v.color?.trim().toLowerCase() === selectedColor.toLowerCase() &&
+        v.ram === ramVal &&
+        (selectedStorage === undefined || v.storage === selectedStorage)
+    );
+
+    if (!matchInColor) {
+      // Find another storage in this color with this RAM
+      const altStorage = product.variants.find(
+        (v) =>
+          v.color?.trim().toLowerCase() === selectedColor.toLowerCase() &&
+          v.ram === ramVal
+      );
+      if (altStorage && altStorage.storage) {
+        setSelectedStorage(altStorage.storage);
+      } else {
+        // Switch to a color that has this RAM
+        const variantWithRam = product.variants.find((v) => v.ram === ramVal);
+        if (variantWithRam) {
+          if (variantWithRam.color) setSelectedColor(variantWithRam.color);
+          if (variantWithRam.storage) setSelectedStorage(variantWithRam.storage);
+          const imgIdx = product.images.findIndex(
+            (img) =>
+              img.color?.trim().toLowerCase() ===
+              variantWithRam.color?.trim().toLowerCase()
+          );
+          if (imgIdx !== -1) setActiveImageIndex(imgIdx);
+        }
+      }
+    }
+  };
+
+  const handleStorageSelect = (storageVal: number) => {
+    setSelectedStorage(storageVal);
+
+    // Check if current color has this storage
+    const matchInColor = product.variants.find(
+      (v) =>
+        v.color?.trim().toLowerCase() === selectedColor.toLowerCase() &&
+        v.storage === storageVal &&
+        (selectedRam === undefined || v.ram === selectedRam)
+    );
+
+    if (!matchInColor) {
+      // Find another RAM in this color with this storage
+      const altRam = product.variants.find(
+        (v) =>
+          v.color?.trim().toLowerCase() === selectedColor.toLowerCase() &&
+          v.storage === storageVal
+      );
+      if (altRam && altRam.ram) {
+        setSelectedRam(altRam.ram);
+      } else {
+        // Switch to a color that has this storage
+        const variantWithStorage = product.variants.find(
+          (v) => v.storage === storageVal
+        );
+        if (variantWithStorage) {
+          if (variantWithStorage.color) setSelectedColor(variantWithStorage.color);
+          if (variantWithStorage.ram) setSelectedRam(variantWithStorage.ram);
+          const imgIdx = product.images.findIndex(
+            (img) =>
+              img.color?.trim().toLowerCase() ===
+              variantWithStorage.color?.trim().toLowerCase()
+          );
+          if (imgIdx !== -1) setActiveImageIndex(imgIdx);
+        }
+      }
+    }
+  };
 
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
@@ -222,12 +414,12 @@ export function ProductDetailClient({
                 onClick={() => setLightboxOpen(true)}
                 className="relative w-full h-full flex items-center justify-center cursor-zoom-in"
               >
-                <Image
+                <SafeImage
                   src={activeImage.src}
                   alt={activeImage.alt || product.name}
                   fill
                   sizes="(max-width: 1024px) 100vw, 480px"
-                  className="object-contain p-2 drop-shadow-[0_12px_24px_rgba(0,0,0,0.18)] dark:drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)] transition-all duration-300"
+                  className="object-contain p-2 drop-shadow-[0_12px_24px_rgba(0,0,0,0.18)] dark:drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)]"
                   priority
                 />
               </div>
@@ -292,7 +484,7 @@ export function ProductDetailClient({
                     }`}
                     aria-label={`View photo ${idx + 1} (${img.color || product.name})`}
                   >
-                    <Image
+                    <SafeImage
                       src={img.src}
                       alt={img.alt || product.name}
                       fill
@@ -338,7 +530,7 @@ export function ProductDetailClient({
             </div>
 
             <h1 className="font-display font-black text-xl xs:text-2xl sm:text-3xl lg:text-4xl text-zinc-950 dark:text-white leading-tight">
-              {product.name} ({activeVariant.color}, {activeVariant.storage ? `${activeVariant.storage} GB` : "Standard"})
+              {product.name} ({activeVariant.color}, {activeVariant.ram ? `${activeVariant.ram} GB RAM / ` : ""}{activeVariant.storage ? (activeVariant.storage >= 1000 ? `${activeVariant.storage / 1000} TB` : `${activeVariant.storage} GB`) : "Standard"})
             </h1>
 
             {product.subtitle && (
@@ -410,74 +602,153 @@ export function ProductDetailClient({
             </div>
           </div>
 
-          {/* Color & Storage Selectors */}
+          {/* Flipkart-Style Common Color, RAM, and Storage Variant Selector */}
           <div className="space-y-3 pt-0.5">
-            {/* Colors */}
-            <div className="space-y-1">
-              <div className="flex items-center justify-between text-xs">
-                <span className="font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide text-[11px]">Color:</span>
-                <span className="font-black text-zinc-900 dark:text-white text-xs">{activeVariant.color}</span>
+            {/* 1. Color Selector (Shows unique colors with active highlight) */}
+            {uniqueColors.length > 0 && (
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide text-[11px]">
+                    Color:
+                  </span>
+                  <span className="font-black text-zinc-900 dark:text-white text-xs">
+                    {activeVariant.color}
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                  {uniqueColors.map((c) => {
+                    const isSelected =
+                      activeVariant.color?.trim().toLowerCase() === c.color.toLowerCase();
+                    return (
+                      <button
+                        key={c.color}
+                        type="button"
+                        onClick={() => handleColorSelect(c.color)}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all border active:scale-95 cursor-pointer ${
+                          isSelected
+                            ? "border-[#ff5a1f] bg-[#ff5a1f]/10 dark:bg-[#ff5a1f]/20 text-[#ff5a1f] dark:text-white font-black shadow-xs ring-2 ring-[#ff5a1f]/30"
+                            : "border-zinc-200 dark:border-white/15 bg-white dark:bg-[#161a26] text-zinc-700 dark:text-zinc-300 hover:border-zinc-400 hover:bg-zinc-50 dark:hover:bg-white/5"
+                        }`}
+                      >
+                        {c.hex ? (
+                          <span
+                            className="w-3.5 h-3.5 rounded-full border border-black/20 dark:border-white/20 shadow-inner shrink-0"
+                            style={{ backgroundColor: c.hex }}
+                          />
+                        ) : (
+                          <span className="w-3 h-3 rounded-full bg-zinc-400 shrink-0" />
+                        )}
+                        <span>{c.color}</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-              <div className="flex flex-wrap gap-1.5">
-                {product.variants.map((v, idx) => (
-                  <button
-                    key={`${v.color}-${idx}`}
-                    onClick={() => {
-                      setSelectedVariantIndex(idx);
-                      const matchingImgIdx = product.images.findIndex(
-                        (img) => img.color === v.color
-                      );
-                      if (matchingImgIdx !== -1) setActiveImageIndex(matchingImgIdx);
-                    }}
-                    className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold transition border ${
-                      selectedVariantIndex === idx
-                        ? "border-[#ff5a1f] bg-[#ff5a1f]/10 dark:bg-[#ff5a1f]/20 text-[#ff5a1f] dark:text-white font-black shadow-xs"
-                        : "border-zinc-200 dark:border-white/15 bg-zinc-100 dark:bg-[#161a26] text-zinc-700 dark:text-zinc-300 hover:border-zinc-300"
-                    }`}
-                  >
-                    {v.colorHex && (
-                      <span
-                        className="w-3 h-3 rounded-full border border-black/20 dark:border-white/20 shadow-inner"
-                        style={{ backgroundColor: v.colorHex }}
-                      />
-                    )}
-                    <span>{v.color}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
+            )}
 
-            {/* Storage */}
-            <div className="space-y-1">
-              <label className="text-[11px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide">
-                Storage:
-              </label>
-              <div className="flex flex-wrap gap-1.5">
-                {product.variants.map((v, idx) => (
-                  <button
-                    key={`${v.storage}-${idx}`}
-                    onClick={() => {
-                      setSelectedVariantIndex(idx);
-                      const matchingImgIdx = product.images.findIndex(
-                        (img) => img.color === v.color
-                      );
-                      if (matchingImgIdx !== -1) setActiveImageIndex(matchingImgIdx);
-                    }}
-                    className={`px-3 py-1 rounded-xl text-xs font-bold transition border ${
-                      selectedVariantIndex === idx
-                        ? "bg-zinc-950 text-white dark:bg-white dark:text-black border-zinc-950 dark:border-white shadow-xs font-black"
-                        : "bg-zinc-100 dark:bg-[#161a26] text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-white/15 hover:border-zinc-300"
-                    }`}
-                  >
-                    {v.storage
-                      ? v.storage >= 1000
-                        ? `${v.storage / 1000} TB`
-                        : `${v.storage} GB`
-                      : "Standard"}
-                  </button>
-                ))}
+            {/* 2. Common RAM Selector (Shown if multiple RAM options exist) */}
+            {uniqueRams.length > 1 && (
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide text-[11px]">
+                    RAM:
+                  </span>
+                  <span className="font-black text-zinc-900 dark:text-white text-xs">
+                    {activeVariant.ram ? `${activeVariant.ram} GB` : "Standard"}
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                  {uniqueRams.map((r) => {
+                    const isSelected = activeVariant.ram === r;
+                    const isAvailableInColor = product.variants.some(
+                      (v) =>
+                        v.color?.trim().toLowerCase() ===
+                          activeVariant.color?.trim().toLowerCase() && v.ram === r
+                    );
+
+                    return (
+                      <button
+                        key={r}
+                        type="button"
+                        onClick={() => handleRamSelect(r)}
+                        className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border active:scale-95 cursor-pointer ${
+                          isSelected
+                            ? "bg-zinc-950 text-white dark:bg-white dark:text-black border-zinc-950 dark:border-white shadow-xs font-black ring-2 ring-zinc-900/20 dark:ring-white/30"
+                            : isAvailableInColor
+                            ? "bg-white dark:bg-[#161a26] text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-white/15 hover:border-zinc-400 hover:bg-zinc-50 dark:hover:bg-white/5"
+                            : "bg-zinc-50 dark:bg-zinc-900/40 text-zinc-400 dark:text-zinc-500 border-dashed border-zinc-300 dark:border-zinc-700 hover:border-zinc-400"
+                        }`}
+                      >
+                        <span>{r} GB</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+            )}
+
+            {/* 3. Common Storage Selector (Shown if multiple storage options exist) */}
+            {uniqueStorages.length > 1 && (
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide text-[11px]">
+                    Storage:
+                  </span>
+                  <span className="font-black text-zinc-900 dark:text-white text-xs">
+                    {activeVariant.storage
+                      ? activeVariant.storage >= 1000
+                        ? `${activeVariant.storage / 1000} TB`
+                        : `${activeVariant.storage} GB`
+                      : "Standard"}
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                  {uniqueStorages.map((s) => {
+                    const isSelected = activeVariant.storage === s;
+                    const isAvailableInColor = product.variants.some(
+                      (v) =>
+                        v.color?.trim().toLowerCase() ===
+                          activeVariant.color?.trim().toLowerCase() && v.storage === s
+                    );
+                    const label = s >= 1000 ? `${s / 1000} TB` : `${s} GB`;
+
+                    return (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => handleStorageSelect(s)}
+                        className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all border active:scale-95 cursor-pointer ${
+                          isSelected
+                            ? "bg-zinc-950 text-white dark:bg-white dark:text-black border-zinc-950 dark:border-white shadow-xs font-black ring-2 ring-zinc-900/20 dark:ring-white/30"
+                            : isAvailableInColor
+                            ? "bg-white dark:bg-[#161a26] text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-white/15 hover:border-zinc-400 hover:bg-zinc-50 dark:hover:bg-white/5"
+                            : "bg-zinc-50 dark:bg-zinc-900/40 text-zinc-400 dark:text-zinc-500 border-dashed border-zinc-300 dark:border-zinc-700 hover:border-zinc-400"
+                        }`}
+                      >
+                        <span>{label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Single fixed configuration indicator if only 1 RAM & Storage exists */}
+            {uniqueRams.length <= 1 && uniqueStorages.length <= 1 && (
+              <div className="flex items-center gap-2 pt-0.5">
+                <span className="text-[11px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide">
+                  Configuration:
+                </span>
+                <span className="text-xs font-black bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 px-2 py-0.5 rounded-lg border border-zinc-200 dark:border-white/10">
+                  {activeVariant.ram ? `${activeVariant.ram}GB RAM + ` : ""}
+                  {activeVariant.storage
+                    ? activeVariant.storage >= 1000
+                      ? `${activeVariant.storage / 1000}TB Storage`
+                      : `${activeVariant.storage}GB Storage`
+                    : "Standard"}
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Key Highlights */}
@@ -486,12 +757,16 @@ export function ProductDetailClient({
               ⚡ Key Highlights:
             </h4>
             <div className="bg-zinc-50 dark:bg-[#161a26] rounded-2xl p-3 border border-zinc-200 dark:border-white/15 space-y-1.5">
-              {product.highlights.map((h, i) => (
-                <div key={i} className="flex items-start gap-2 text-xs text-zinc-700 dark:text-zinc-200">
-                  <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-[#c5e84a] shrink-0 mt-0.5" />
-                  <span>{h}</span>
-                </div>
-              ))}
+              {(product.highlights || []).map((h: any, i) => {
+                const text = typeof h === "string" ? h : h?.highlight || "";
+                if (!text) return null;
+                return (
+                  <div key={i} className="flex items-start gap-2 text-xs text-zinc-700 dark:text-zinc-200">
+                    <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-[#c5e84a] shrink-0 mt-0.5" />
+                    <span>{text}</span>
+                  </div>
+                );
+              })}
               <div className="flex items-start gap-2 text-xs text-zinc-700 dark:text-zinc-200">
                 <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-[#c5e84a] shrink-0 mt-0.5" />
                 <span>{product.warranty} with In-Store Claim Support at Kakod Showroom</span>
@@ -624,7 +899,10 @@ export function ProductDetailClient({
                 In The Box
               </span>
               <span className="font-semibold text-xs text-zinc-900 dark:text-zinc-100 sm:w-3/5 sm:text-right">
-                {product.boxContents.join(", ")}
+                {(product.boxContents || [])
+                  .map((b: any) => (typeof b === "string" ? b : b?.item || ""))
+                  .filter(Boolean)
+                  .join(", ")}
               </span>
             </div>
             <div className="p-2.5 sm:p-3 flex flex-col sm:flex-row sm:items-baseline justify-between gap-0.5 sm:gap-4">
@@ -710,7 +988,7 @@ export function ProductDetailClient({
       {/* 8. Fullscreen High-Resolution Lightbox Modal */}
       {lightboxOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col justify-between p-3 sm:p-5 select-none animate-in fade-in duration-200"
+          className="fixed inset-0 z-[70] bg-black/95 backdrop-blur-md flex flex-col justify-between p-3 sm:p-5 select-none animate-in fade-in duration-200"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
@@ -737,7 +1015,7 @@ export function ProductDetailClient({
           {/* Main Stage in Lightbox */}
           <div className="relative flex-1 w-full flex items-center justify-center overflow-hidden my-3">
             <div className="relative w-full h-full max-w-2xl max-h-[75vh]">
-              <Image
+              <SafeImage
                 src={activeImage.src}
                 alt={activeImage.alt || product.name}
                 fill
@@ -784,7 +1062,7 @@ export function ProductDetailClient({
                     activeImageIndex === idx ? "border-[#ff5a1f] scale-105" : "border-white/20 opacity-60"
                   }`}
                 >
-                  <Image
+                  <SafeImage
                     src={img.src}
                     alt={img.alt || product.name}
                     fill

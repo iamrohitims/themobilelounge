@@ -40,7 +40,7 @@ export function ExitIntentModal() {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-[70] bg-black/70 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200">
       <div className="bg-white dark:bg-[#121217] border-2 border-[#ff1e42]/40 rounded-3xl max-w-md w-full p-6 shadow-2xl relative space-y-4">
         {/* Close Button */}
         <button

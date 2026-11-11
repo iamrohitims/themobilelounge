@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { SafeImage } from "@/components/ui/SafeImage";
 import { siteConfig } from "@/config/site";
 import { formatPrice } from "@/lib/format";
 import { Product } from "@/types/product";
@@ -13,27 +13,39 @@ interface BudgetChipsProps {
 }
 
 export function BudgetChips({ phones }: BudgetChipsProps) {
-  const [selectedBudget, setSelectedBudget] = useState<number>(30000);
+  const [selectedBudget, setSelectedBudget] = useState<number>(25000);
+
+  // Helper to get the lowest/base MRP variant that is displayed on the card
+  const getProductDisplayVariant = (p: Product) => {
+    if (!p.variants || p.variants.length === 0) return null;
+    return [...p.variants].sort((a, b) => (Number(a.mrp) || 0) - (Number(b.mrp) || 0))[0];
+  };
+
+  const getProductMrp = (p: Product) => {
+    const v = getProductDisplayVariant(p);
+    return v ? Number(v.mrp) || Number(v.price) || 999999 : 999999;
+  };
 
   const budgetOptions = [
-    { label: "Under ₹10,000", max: 10000 },
-    { label: "Under ₹15,000", max: 15000 },
-    { label: "Under ₹25,000", max: 25000 },
-    { label: "Under ₹40,000", max: 40000 },
-    { label: "Under ₹80,000", max: 80000 },
-    { label: "₹80,000+ Flagships", max: 200000 },
+    { label: "Under ₹10,000", min: 0, max: 10000 },
+    { label: "Under ₹15,000", min: 0, max: 15000 },
+    { label: "Under ₹25,000", min: 0, max: 25000 },
+    { label: "Under ₹40,000", min: 0, max: 40000 },
+    { label: "Under ₹80,000", min: 0, max: 80000 },
+    { label: "₹80,000+ Flagships", min: 70000, max: 300000 },
   ];
 
+  const currentOption = budgetOptions.find((b) => b.max === selectedBudget) || budgetOptions[2];
+
+  // Strictly filter phones whose displayed MRP matches the budget
   const recommendedPhones = phones
     .filter((p) => {
-      const minPrice = Math.min(...p.variants.map((v) => v.mrp));
-      if (selectedBudget === 200000) return minPrice >= 70000;
-      return minPrice <= selectedBudget && minPrice > selectedBudget * 0.45;
+      const mrp = getProductMrp(p);
+      if (currentOption.min !== undefined && mrp < currentOption.min) return false;
+      if (currentOption.max !== undefined && mrp > currentOption.max) return false;
+      return true;
     })
-    .slice(0, 4);
-
-  // Fallback if filter is empty
-  const displayPhones = recommendedPhones.length > 0 ? recommendedPhones : phones.slice(0, 4);
+    .sort((a, b) => getProductMrp(a) - getProductMrp(b));
 
   return (
     <section className="space-y-4">
@@ -80,71 +92,97 @@ export function BudgetChips({ phones }: BudgetChipsProps) {
         })}
       </div>
 
-      {/* Compact Recommended Phones Grid (2 cols mobile, 4 cols desktop) */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-        {displayPhones.map((phone) => {
-          const variant = phone.variants[0];
-          const phoneImage = phone.images[0]?.src || "/products/placeholder.svg";
-          const waQuery = `Namaste The Mobile Lounge Kakod! I saw ${phone.name} under ${formatPrice(selectedBudget)} on your website. What is today's best offline deal price and free gift offer?`;
-          const whatsappUrl = `https://wa.me/${siteConfig.contact.whatsapp}?text=${encodeURIComponent(waQuery)}`;
-
-          return (
-            <div
-              key={phone.id}
-              className="bento-card p-3 rounded-2xl bg-white dark:bg-[#161a26] border border-zinc-200 dark:border-white/10 hover:border-[#ff5a1f] flex flex-col justify-between space-y-2 group transition-all duration-200 shadow-sm hover:shadow-md"
+      {/* Recommended Phones Grid or Strict Empty State */}
+      {recommendedPhones.length === 0 ? (
+        <div className="bento-card p-6 sm:p-8 text-center bg-white dark:bg-[#161a26] border border-zinc-200 dark:border-white/10 rounded-2xl space-y-2">
+          <p className="font-display font-extrabold text-sm sm:text-base text-zinc-900 dark:text-white">
+            No smartphones currently in stock {currentOption.label}
+          </p>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 max-w-md mx-auto">
+            Our current showroom inventory starts from ₹15,999. Contact our Kakod showroom on WhatsApp to check upcoming arrivals in this price range.
+          </p>
+          <div className="pt-2">
+            <a
+              href={`https://wa.me/${siteConfig.contact.whatsapp}?text=${encodeURIComponent(
+                `Namaste The Mobile Lounge Kakod! Do you have any smartphones in stock ${currentOption.label}? Please inform me.`
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-black px-4 py-2 rounded-xl transition shadow-xs"
             >
-              {/* Thumbnail */}
-              <Link href={`/phones/${phone.slug}`} className="block">
-                <div className="relative h-28 sm:h-36 rounded-xl bg-zinc-50 dark:bg-black/40 p-2 flex items-center justify-center border border-zinc-100 dark:border-white/5">
-                  <Image
-                    src={phoneImage}
-                    alt={phone.name}
-                    fill
-                    sizes="(max-width: 640px) 50vw, 25vw"
-                    className="object-contain p-1 group-hover:scale-105 transition"
-                  />
-                  <div className="absolute top-1.5 left-1.5">
-                    <span className="text-[9px] font-black uppercase text-[#ff5a1f] bg-orange-50 dark:bg-orange-950/50 border border-orange-200 dark:border-orange-800/40 px-1.5 py-0.2 rounded">
-                      {phone.brand}
-                    </span>
-                  </div>
-                </div>
-              </Link>
+              <MessageSquare className="w-3.5 h-3.5 fill-current" />
+              <span>Enquire for {currentOption.label} on WhatsApp</span>
+            </a>
+          </div>
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+          {recommendedPhones.slice(0, 4).map((phone) => {
+            const variant = getProductDisplayVariant(phone) || phone.variants[0];
+            const phoneImage = phone.images[0]?.src || "/products/placeholder.svg";
+            const waQuery = `Namaste The Mobile Lounge Kakod! I saw ${phone.name} under ${formatPrice(selectedBudget)} on your website. What is today's best offline deal price and free gift offer?`;
+            const whatsappUrl = `https://wa.me/${siteConfig.contact.whatsapp}?text=${encodeURIComponent(waQuery)}`;
 
-              {/* Title & Price */}
-              <div className="space-y-1">
-                <Link href={`/phones/${phone.slug}`}>
-                  <h4 className="font-display font-black text-xs sm:text-sm text-zinc-950 dark:text-white line-clamp-1 group-hover:text-[#ff5a1f] transition">
-                    {phone.name}
-                  </h4>
+            return (
+              <div
+                key={phone.id}
+                className="bento-card p-3 rounded-2xl bg-white dark:bg-[#161a26] border border-zinc-200 dark:border-white/10 hover:border-[#ff5a1f] flex flex-col justify-between space-y-2 group transition-all duration-200 shadow-sm hover:shadow-md"
+              >
+                {/* Thumbnail */}
+                <Link href={`/phones/${phone.slug}`} className="block">
+                  <div className="relative h-28 sm:h-36 rounded-xl bg-zinc-50 dark:bg-black/40 p-2 flex items-center justify-center border border-zinc-100 dark:border-white/5">
+                    <SafeImage
+                      src={phoneImage}
+                      alt={phone.name}
+                      fill
+                      sizes="(max-width: 640px) 50vw, 25vw"
+                      className="object-contain p-1 group-hover:scale-105 transition"
+                    />
+                    <div className="absolute top-1.5 left-1.5">
+                      <span className="text-[9px] font-black uppercase text-[#ff5a1f] bg-orange-50 dark:bg-orange-950/50 border border-orange-200 dark:border-orange-800/40 px-1.5 py-0.2 rounded">
+                        {phone.brand}
+                      </span>
+                    </div>
+                  </div>
                 </Link>
 
-                <div className="flex items-baseline justify-between text-[11px]">
-                  <span className="text-zinc-500 font-medium">MRP:</span>
-                  <span className="font-extrabold text-zinc-900 dark:text-zinc-200">
-                    {formatPrice(variant.mrp)}
-                  </span>
+                {/* Title & Price */}
+                <div className="space-y-1">
+                  <Link href={`/phones/${phone.slug}`}>
+                    <h4 className="font-display font-black text-xs sm:text-sm text-zinc-950 dark:text-white line-clamp-1 group-hover:text-[#ff5a1f] transition">
+                      {phone.name}
+                    </h4>
+                  </Link>
+
+                  <div className="flex items-baseline justify-between text-[11px]">
+                    <span className="text-zinc-500 font-medium">
+                      {phone.variants.length > 1 ? "Starts at MRP:" : "MRP:"}
+                    </span>
+                    <span className="font-extrabold text-zinc-900 dark:text-zinc-200">
+                      {formatPrice(variant.mrp)}
+                    </span>
+                  </div>
+
+                  <div className="text-[10px] text-emerald-700 dark:text-[#c5e84a] font-bold">
+                    EMI: ~{formatPrice(Math.round(variant.mrp / 12))}/mo*
+                  </div>
                 </div>
 
-                <div className="text-[10px] text-emerald-700 dark:text-[#c5e84a] font-bold">
-                  EMI: ~{formatPrice(Math.round(variant.mrp / 12))}/mo*
-                </div>
+                {/* WhatsApp CTA */}
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full bg-[#25D366] hover:bg-[#20ba59] text-white font-black text-[11px] py-1.5 rounded-lg flex items-center justify-center gap-1 transition shadow-xs"
+                >
+                  <MessageSquare className="w-3 h-3 fill-current" />
+                  <span>Ask Deal Price</span>
+                </a>
               </div>
-
-              {/* WhatsApp CTA */}
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full bg-[#25D366] hover:bg-[#20ba59] text-white font-black text-[11px] py-1.5 rounded-lg flex items-center justify-center gap-1 transition shadow-xs"
-              >
-                <MessageSquare className="w-3 h-3 fill-current" />
-                <span>Ask Deal Price</span>
-              </a>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 }

@@ -74,10 +74,13 @@ export function CatalogueView({
       list = list.filter((p) => p.brand.toLowerCase() === selectedBrand.toLowerCase());
     }
 
-    // Filter by Max Price
+    // Filter by Max Price (Strictly evaluated on the starting MRP shown on the site)
     list = list.filter((p) => {
-      const minPrice = Math.min(...p.variants.map((v) => v.mrp));
-      return minPrice <= maxPrice;
+      if (!p.variants || p.variants.length === 0) return false;
+      const minMrp = Math.min(
+        ...p.variants.map((v) => Number(v.mrp) || 999999)
+      );
+      return minMrp <= maxPrice;
     });
 
     // Filter by RAM
@@ -108,20 +111,20 @@ export function CatalogueView({
       );
     }
 
-    // Sort
+    // Sort by MRP
     switch (sortOption) {
       case "price-asc":
         list.sort((a, b) => {
-          const priceA = Math.min(...a.variants.map((v) => v.mrp));
-          const priceB = Math.min(...b.variants.map((v) => v.mrp));
-          return priceA - priceB;
+          const mrpA = Math.min(...(a.variants || []).map((v) => Number(v.mrp) || Number(v.price) || 999999));
+          const mrpB = Math.min(...(b.variants || []).map((v) => Number(v.mrp) || Number(v.price) || 999999));
+          return mrpA - mrpB;
         });
         break;
       case "price-desc":
         list.sort((a, b) => {
-          const priceA = Math.max(...a.variants.map((v) => v.mrp));
-          const priceB = Math.max(...b.variants.map((v) => v.mrp));
-          return priceB - priceA;
+          const mrpA = Math.max(...(a.variants || []).map((v) => Number(v.mrp) || Number(v.price) || 0));
+          const mrpB = Math.max(...(b.variants || []).map((v) => Number(v.mrp) || Number(v.price) || 0));
+          return mrpB - mrpA;
         });
         break;
       case "newest":
@@ -163,16 +166,35 @@ export function CatalogueView({
     setEmiOnly(false);
   };
 
+  const currentBrandObj = lockedBrand
+    ? brands.find((b) => b.name.toLowerCase() === lockedBrand.toLowerCase())
+    : selectedBrand !== "all"
+    ? brands.find((b) => b.name.toLowerCase() === selectedBrand.toLowerCase())
+    : null;
+
   return (
     <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3 sm:py-6 space-y-4 sm:space-y-6 w-full max-w-full overflow-hidden">
       {/* Page Header */}
-      <div className="space-y-0.5 sm:space-y-1">
-        <h1 className="font-display font-black text-xl xs:text-2xl sm:text-4xl text-zinc-950 dark:text-white">
-          {pageTitle}
-        </h1>
-        <p className="text-[11px] sm:text-xs text-zinc-600 dark:text-zinc-400">
-          {pageDescription}
-        </p>
+      <div className="flex items-center gap-3.5">
+        {currentBrandObj?.logo && (
+          <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-white dark:bg-[#161a26] border border-zinc-200 dark:border-white/10 p-2 sm:p-2.5 shrink-0 flex items-center justify-center shadow-xs">
+            <img
+              src={currentBrandObj.logo}
+              alt={`${currentBrandObj.name} logo`}
+              className={`max-h-full max-w-full object-contain ${
+                ["apple", "nothing", "honor"].includes(currentBrandObj.slug?.toLowerCase()) ? "dark:invert" : ""
+              }`}
+            />
+          </div>
+        )}
+        <div className="space-y-0.5 sm:space-y-1">
+          <h1 className="font-display font-black text-xl xs:text-2xl sm:text-4xl text-zinc-950 dark:text-white">
+            {pageTitle}
+          </h1>
+          <p className="text-[11px] sm:text-xs text-zinc-600 dark:text-zinc-400">
+            {pageDescription}
+          </p>
+        </div>
       </div>
 
       {/* Filter and Search Controls Bar */}
@@ -346,7 +368,7 @@ export function CatalogueView({
 
         {/* Mobile Slide-In Filter Drawer */}
         {mobileFilterOpen && (
-          <div className="lg:hidden fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-xs p-0 animate-in fade-in duration-200">
+          <div className="lg:hidden fixed inset-0 z-[60] flex items-end justify-center bg-black/60 backdrop-blur-xs p-0 animate-in fade-in duration-200">
             <div className="bg-white dark:bg-[#121624] w-full max-h-[85vh] rounded-t-3xl p-4 space-y-4 overflow-y-auto shadow-2xl border-t border-zinc-200 dark:border-white/15">
               <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-white/10">
                 <span className="font-display font-black text-sm text-zinc-950 dark:text-white flex items-center gap-1.5">

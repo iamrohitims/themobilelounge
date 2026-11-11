@@ -17,9 +17,35 @@ import {
   IFAQRepository,
 } from "./interface";
 
+function normalizeJsonProduct(item: any): Product {
+  return {
+    ...item,
+    id: String(item.id || item._id || item.slug),
+    highlights: (item.highlights || [])
+      .map((h: any) => (typeof h === "string" ? h : h?.highlight || ""))
+      .filter(Boolean),
+    boxContents: (item.boxContents || [])
+      .map((b: any) => (typeof b === "string" ? b : b?.item || ""))
+      .filter(Boolean),
+    freeGiftBundle: (item.freeGiftBundle || [])
+      .map((g: any) => (typeof g === "string" ? g : g?.gift || ""))
+      .filter(Boolean),
+  };
+}
+
+function normalizeJsonBrand(brand: any): Brand {
+  return {
+    ...brand,
+    id: String(brand.id || brand.slug),
+    popularModels: (brand.popularModels || [])
+      .map((m: any) => (typeof m === "string" ? m : m?.model || ""))
+      .filter(Boolean),
+  };
+}
+
 const allCatalogItems: Product[] = [
-  ...(productsData as unknown as Product[]),
-  ...(accessoriesData as unknown as Product[]),
+  ...(productsData as any[]).map(normalizeJsonProduct),
+  ...(accessoriesData as any[]).map(normalizeJsonProduct),
 ];
 
 class JsonProductRepository implements IProductRepository {
@@ -69,8 +95,8 @@ class JsonProductRepository implements IProductRepository {
     if (filters.priceRange) {
       const [min, max] = filters.priceRange;
       list = list.filter((p) => {
-        const lowestPrice = Math.min(...p.variants.map((v) => v.price));
-        return lowestPrice >= min && lowestPrice <= max;
+        const lowestMrp = Math.min(...p.variants.map((v) => v.mrp || v.price));
+        return lowestMrp >= min && lowestMrp <= max;
       });
     }
 
@@ -112,15 +138,15 @@ class JsonProductRepository implements IProductRepository {
     switch (filters.sort) {
       case "price-asc":
         list.sort((a, b) => {
-          const minA = Math.min(...a.variants.map((v) => v.price));
-          const minB = Math.min(...b.variants.map((v) => v.price));
+          const minA = Math.min(...a.variants.map((v) => v.mrp || v.price));
+          const minB = Math.min(...b.variants.map((v) => v.mrp || v.price));
           return minA - minB;
         });
         break;
       case "price-desc":
         list.sort((a, b) => {
-          const maxA = Math.max(...a.variants.map((v) => v.price));
-          const maxB = Math.max(...b.variants.map((v) => v.price));
+          const maxA = Math.max(...a.variants.map((v) => v.mrp || v.price));
+          const maxB = Math.max(...b.variants.map((v) => v.mrp || v.price));
           return maxB - maxA;
         });
         break;
@@ -179,11 +205,12 @@ class JsonProductRepository implements IProductRepository {
 
 class JsonBrandRepository implements IBrandRepository {
   async getAll(): Promise<Brand[]> {
-    return brandsData as Brand[];
+    return (brandsData as any[]).map(normalizeJsonBrand);
   }
 
   async getBySlug(slug: string): Promise<Brand | null> {
-    const brand = (brandsData as Brand[]).find(
+    const list = (brandsData as any[]).map(normalizeJsonBrand);
+    const brand = list.find(
       (b) => b.slug.toLowerCase() === slug.toLowerCase() || b.name.toLowerCase() === slug.toLowerCase()
     );
     return brand || null;

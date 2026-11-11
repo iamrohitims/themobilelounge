@@ -176,6 +176,15 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 /* Continuous Smooth Scrolling Marquee */
+@keyframes progressFill {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
 @keyframes marquee {
   0% {
     transform: translateX(0%);

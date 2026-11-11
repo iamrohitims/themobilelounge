@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%" fill="none">
+  <rect width="400" height="400" rx="32" fill="#f4f4f5"/>
+  <rect x="130" y="70" width="140" height="260" rx="28" fill="#ffffff" stroke="#e4e4e7" stroke-width="4"/>
+  <rect x="175" y="86" width="50" height="6" rx="3" fill="#d4d4d8"/>
+  <circle cx="200" cy="190" r="32" fill="#ff5a1f" fill-opacity="0.1"/>
+  <path d="M190 190h20M200 180v20" stroke="#ff5a1f" stroke-width="3" stroke-linecap="round"/>
+  <text x="200" y="250" text-anchor="middle" fill="#71717a" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700">The Mobile Lounge</text>
+  <text x="200" y="268" text-anchor="middle" fill="#a1a1aa" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="500">Image Loading...</text>
+</svg>

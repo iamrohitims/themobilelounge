@@ -1,10 +1,19 @@
+const rawUrl = process.env.NEXT_PUBLIC_SITE_URL || "";
+const canonicalBaseUrl =
+  rawUrl && !rawUrl.includes("localhost") && !rawUrl.includes("127.0.0.1")
+    ? rawUrl.replace(/\/$/, "")
+    : process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : "https://themobilelounge.in";
+
 export const siteConfig = {
   name: "The Mobile Lounge",
   tagline: "Kakod's #1 iPhone, 5G Smartphone & Gadget Hub",
   subtitle: "by Vishal Distributors",
   description:
     "Explore the latest Apple iPhones, Samsung Galaxy, OnePlus, Vivo and 5G smartphones in Kakod. ₹0 downpayment EMI, instant finance, assured free gifts & 100% genuine brand warranty with GST bill.",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://themobilelounge.in",
+  url: canonicalBaseUrl,
+  canonicalUrl: canonicalBaseUrl,
   ogImage: "/og/og-image.png",
   logo: "/brand/logo.png",
 
@@ -29,9 +38,9 @@ export const siteConfig = {
     fullAddress:
       "Main Market, Near Vishal Distributors, Kakod, District Bulandshahr, Uttar Pradesh - 203201",
     googleMapsUrl:
-      "https://www.google.com/maps/search/?api=1&query=The+Mobile+Lounge+Kakod+Uttar+Pradesh",
+      "https://share.google/8qhHVs7TmFxegJl1N",
     googleMapsEmbedUrl:
-      "https://www.google.com/maps?q=28.2560,77.8340&hl=es;z=14&output=embed",
+      "https://www.openstreetmap.org/export/embed.html?bbox=77.826%2C28.251%2C77.842%2C28.261&layer=mapnik&marker=28.256%2C77.834",
     coordinates: {
       lat: 28.256,
       lng: 77.834,
@@ -56,6 +65,15 @@ export const siteConfig = {
     "Motorola",
     "iQOO",
     "Poco",
+    "Google",
+    "Nothing",
+    "Tecno",
+    "Infinix",
+    "Honor",
+    "Nokia",
+    "Lava",
+    "Asus",
+    "Sony",
   ],
 
   // In-Store Guarantees & Perks

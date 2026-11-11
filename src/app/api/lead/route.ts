@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { getPayload } from "payload";
+import config from "@/payload.config";
 
 const leadSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -7,6 +9,7 @@ const leadSchema = z.object({
   productName: z.string().optional(),
   type: z.enum(["reserve", "emi_quote", "exchange", "general"]),
   honeypot: z.string().max(0, "Bot detected").optional(),
+  details: z.string().optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -21,15 +24,31 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { name, phone, productName, type, honeypot } = result.data;
+    const { name, phone, productName, type, honeypot, details } = result.data;
 
     // Honeypot spam check
     if (honeypot && honeypot.length > 0) {
       return NextResponse.json({ success: true, message: "Lead captured" });
     }
 
-    // In Phase 1, log to server console / local record
-    console.log(`[LEAD CAPTURED] Type: ${type} | Name: ${name} | Phone: ${phone} | Product: ${productName || "General"}`);
+    // Save lead to Payload / MongoDB Atlas
+    try {
+      const payload = await getPayload({ config });
+      await payload.create({
+        collection: "leads",
+        data: {
+          customerName: name,
+          phone,
+          phoneOfInterest: productName || "",
+          leadType: type === "exchange" ? "exchange" : type === "emi_quote" ? "emi" : "whatsapp_query",
+          details: details || `Inquiry for ${productName || "General Store Visit"}`,
+          status: "new",
+        },
+      });
+      console.log(`[LEAD SAVED TO MONGO] ${name} (${phone}) - ${productName || type}`);
+    } catch (dbErr) {
+      console.warn("Could not save lead to database, logged to console:", dbErr);
+    }
 
     return NextResponse.json({
       success: true,

@@ -3,6 +3,7 @@ export type ProductCategory = "phone" | "accessory";
 export type ProductTag =
   | "new"
   | "bestseller"
+  | "most-demanded"
   | "5g"
   | "gaming"
   | "camera"
@@ -50,6 +51,8 @@ export interface Product {
   highlights: string[];
   specs: ProductSpecs;
   tags: ProductTag[];
+  isHotDeal?: boolean;
+  isMostDemanded?: boolean;
   emiAvailable: boolean;
   noCostEmi?: boolean;
   minEmiPerMonth?: number;

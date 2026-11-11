@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { SafeImage } from "@/components/ui/SafeImage";
 import { Product } from "@/types/product";
 import { formatPrice } from "@/lib/format";
 import { siteConfig } from "@/config/site";
@@ -22,8 +22,23 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  // Sort variants by MRP ascending so the base/lowest variant is always the default starting price
+  const sortedVariants = useMemo(() => {
+    return [...product.variants].sort((a, b) => (Number(a.mrp) || 0) - (Number(b.mrp) || 0));
+  }, [product.variants]);
+
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
-  const activeVariant = product.variants[selectedVariantIndex] || product.variants[0];
+  const activeVariant = sortedVariants[selectedVariantIndex] || sortedVariants[0] || product.variants[0];
+
+  // Extract unique storage and color options to prevent duplicate pill buttons
+  const uniqueStorages = Array.from(
+    new Set(sortedVariants.map((v) => v.storage).filter(Boolean))
+  ) as number[];
+  uniqueStorages.sort((a, b) => a - b);
+
+  const uniqueColors = Array.from(
+    new Set(sortedVariants.map((v) => v.color).filter(Boolean))
+  );
 
   const { items: compareItems, addItem: addCompare, removeItem: removeCompare } =
     useCompareStore();
@@ -118,7 +133,7 @@ export function ProductCard({ product }: ProductCardProps) {
           {/* Real Phone Photography Image with Link */}
           <Link href={`/phones/${product.slug}`} className="w-full h-full flex items-center justify-center">
             <div className="relative w-full h-full transform group-hover:scale-105 transition duration-300">
-              <Image
+              <SafeImage
                 src={primaryImage.src}
                 alt={primaryImage.alt || product.name}
                 fill
@@ -158,26 +173,63 @@ export function ProductCard({ product }: ProductCardProps) {
             </h3>
           </Link>
 
-          {/* Storage / Variant Pills */}
+          {/* Clean Deduplicated Variant Pills */}
           <div className="flex flex-wrap gap-1 pt-0.5">
-            {product.variants.slice(0, 3).map((v, idx) => (
-              <button
-                key={`${v.color}-${v.storage || idx}`}
-                onClick={() => setSelectedVariantIndex(idx)}
-                className={`text-[8px] xs:text-[9px] font-bold px-1.5 py-0.2 rounded transition border ${
-                  selectedVariantIndex === idx
-                    ? "bg-zinc-950 text-white dark:bg-white dark:text-black border-zinc-950 dark:border-white font-black"
-                    : "bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-white/10"
-                }`}
-              >
-                {v.storage ? (v.storage >= 1000 ? `${v.storage / 1000}TB` : `${v.storage}GB`) : v.color}
-              </button>
-            ))}
+            {uniqueStorages.length > 1 ? (
+              uniqueStorages.slice(0, 3).map((s) => {
+                const isSelected = activeVariant.storage === s;
+                const label = s >= 1000 ? `${s / 1000}TB` : `${s}GB`;
+                return (
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => {
+                      const matchIdx = sortedVariants.findIndex((v) => v.storage === s);
+                      if (matchIdx !== -1) setSelectedVariantIndex(matchIdx);
+                    }}
+                    className={`text-[8px] xs:text-[9px] font-bold px-1.5 py-0.2 rounded transition border ${
+                      isSelected
+                        ? "bg-zinc-950 text-white dark:bg-white dark:text-black border-zinc-950 dark:border-white font-black"
+                        : "bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-white/10"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                );
+              })
+            ) : uniqueColors.length > 1 ? (
+              uniqueColors.slice(0, 3).map((c) => {
+                const isSelected = activeVariant.color === c;
+                return (
+                  <button
+                    key={c}
+                    type="button"
+                    onClick={() => {
+                      const matchIdx = sortedVariants.findIndex((v) => v.color === c);
+                      if (matchIdx !== -1) setSelectedVariantIndex(matchIdx);
+                    }}
+                    className={`text-[8px] xs:text-[9px] font-bold px-1.5 py-0.2 rounded transition border ${
+                      isSelected
+                        ? "bg-zinc-950 text-white dark:bg-white dark:text-black border-zinc-950 dark:border-white font-black"
+                        : "bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-white/10"
+                    }`}
+                  >
+                    {c}
+                  </button>
+                );
+              })
+            ) : (
+              <span className="text-[8px] xs:text-[9px] font-bold px-1.5 py-0.2 rounded bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/10">
+                {activeVariant.storage ? (activeVariant.storage >= 1000 ? `${activeVariant.storage / 1000}TB` : `${activeVariant.storage}GB`) : activeVariant.color}
+              </span>
+            )}
           </div>
 
           {/* Clean Price Strip */}
           <div className="pt-1.5 border-t border-zinc-100 dark:border-white/10 flex items-baseline justify-between text-xs">
-            <span className="text-zinc-500 font-medium text-[10px] xs:text-[11px]">MRP:</span>
+            <span className="text-zinc-500 font-medium text-[10px] xs:text-[11px]">
+              {product.variants.length > 1 ? "Starts at MRP:" : "MRP:"}
+            </span>
             <span className="font-display font-black text-xs xs:text-sm sm:text-base text-zinc-950 dark:text-zinc-100">
               {formatPrice(activeVariant.mrp)}
             </span>

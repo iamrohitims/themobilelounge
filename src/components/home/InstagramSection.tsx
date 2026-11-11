@@ -2,8 +2,8 @@
 
 import { InstagramReels } from "@/components/InstagramReels";
 
-export function InstagramSection() {
-  return <InstagramReels />;
+export function InstagramSection({ reels }: { reels?: string[] }) {
+  return <InstagramReels reels={reels} />;
 }
 
 export default InstagramSection;

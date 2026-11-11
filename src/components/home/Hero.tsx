@@ -3,9 +3,9 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { SafeImage } from "@/components/ui/SafeImage";
 import { useRouter } from "next/navigation";
 import { siteConfig } from "@/config/site";
-import rawProducts from "@/data/products.json";
 import { Product } from "@/types/product";
 import { formatPrice, calculateDiscountPercent } from "@/lib/format";
 import {
@@ -106,8 +106,15 @@ const HOT_DEALS = [
   },
 ];
 
-export function Hero() {
+export function Hero({
+  hotDeals,
+  phones,
+}: {
+  hotDeals?: any[] | null;
+  phones?: Product[];
+} = {}) {
   const router = useRouter();
+  const activeDeals = hotDeals && hotDeals.length > 0 ? hotDeals : HOT_DEALS;
 
   // Search State
   const [searchQuery, setSearchQuery] = useState("");
@@ -119,10 +126,10 @@ export function Hero() {
   const [currentDealIndex, setCurrentDealIndex] = useState(0);
   const [isCarouselPaused, setIsCarouselPaused] = useState(false);
 
-  // Filter phone products for instant autocomplete
+  // Live phone products for instant autocomplete from database
   const allPhones: Product[] = useMemo(() => {
-    return (rawProducts as unknown as Product[]).filter((p) => p.category === "phone");
-  }, []);
+    return (phones || []).filter((p) => p.category === "phone");
+  }, [phones]);
 
   // Filtered search results matching query
   const searchResults = useMemo(() => {
@@ -202,24 +209,24 @@ export function Hero() {
     if (isCarouselPaused) return;
 
     const timer = setInterval(() => {
-      setCurrentDealIndex((prev) => (prev + 1) % HOT_DEALS.length);
+      setCurrentDealIndex((prev) => (prev + 1) % activeDeals.length);
     }, 4000);
 
     return () => clearInterval(timer);
-  }, [isCarouselPaused]);
+  }, [isCarouselPaused, activeDeals.length]);
 
   // Manual Carousel controls
   const handlePrevDeal = () => {
     setCurrentDealIndex((prev) =>
-      prev === 0 ? HOT_DEALS.length - 1 : prev - 1
+      prev === 0 ? activeDeals.length - 1 : prev - 1
     );
   };
 
   const handleNextDeal = () => {
-    setCurrentDealIndex((prev) => (prev + 1) % HOT_DEALS.length);
+    setCurrentDealIndex((prev) => (prev + 1) % activeDeals.length);
   };
 
-  const activeDeal = HOT_DEALS[currentDealIndex];
+  const activeDeal = activeDeals[currentDealIndex];
   const activeDiscount = calculateDiscountPercent(activeDeal.mrp, activeDeal.price);
 
   const quickPills = [
@@ -359,7 +366,7 @@ export function Hero() {
                               {/* Thumbnail */}
                               <div className="relative w-11 h-11 rounded-lg bg-zinc-50 border border-zinc-200 p-1 shrink-0 flex items-center justify-center overflow-hidden">
                                 {thumb ? (
-                                  <Image
+                                  <SafeImage
                                     src={thumb}
                                     alt={phone.name}
                                     fill
@@ -443,7 +450,7 @@ export function Hero() {
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      {HOT_DEALS.slice(0, 4).map((hot) => (
+                      {activeDeals.slice(0, 4).map((hot) => (
                         <Link
                           key={hot.slug}
                           href={`/phones/${hot.slug}`}
@@ -451,7 +458,7 @@ export function Hero() {
                           className="flex items-center gap-2 p-2 rounded-xl bg-zinc-50 hover:bg-zinc-100 border border-zinc-200 transition text-left"
                         >
                           <div className="relative w-8 h-8 rounded-lg bg-white border border-zinc-200 shrink-0 p-0.5">
-                            <Image
+                            <SafeImage
                               src={hot.image}
                               alt={hot.name}
                               fill
@@ -686,7 +693,7 @@ export function Hero() {
                 </div>
 
                 <div className="relative w-full h-full p-2 flex items-center justify-center">
-                  <Image
+                  <SafeImage
                     key={activeDeal.slug}
                     src={activeDeal.image}
                     alt={activeDeal.name}
@@ -736,7 +743,7 @@ export function Hero() {
               {/* Scroller Dots & Auto-Scroll Progress Pill */}
               <div className="pt-1 flex items-center justify-between">
                 <div className="flex items-center gap-1">
-                  {HOT_DEALS.map((deal, idx) => (
+                  {activeDeals.map((deal, idx) => (
                     <button
                       key={deal.slug}
                       type="button"
@@ -752,7 +759,7 @@ export function Hero() {
                 </div>
 
                 <span className="text-[10px] font-bold text-zinc-400">
-                  Deal {currentDealIndex + 1} of {HOT_DEALS.length} • Auto-rotating
+                  Deal {currentDealIndex + 1} of {activeDeals.length} • Auto-rotating
                 </span>
               </div>
             </div>

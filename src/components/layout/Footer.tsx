@@ -16,7 +16,11 @@ import {
 } from "lucide-react";
 import { InstagramIcon } from "@/components/ui/InstagramIcon";
 
-export function Footer() {
+interface FooterProps {
+  siteLogo?: string;
+}
+
+export function Footer({ siteLogo = "/brand/logo.png" }: FooterProps = {}) {
   const [broadcastPhone, setBroadcastPhone] = useState("");
   const [subscribed, setSubscribed] = useState(false);
 
@@ -85,7 +89,7 @@ export function Footer() {
             <div className="flex items-center gap-3">
               <div className="relative w-11 h-11 rounded-xl overflow-hidden shadow-md shrink-0 border border-zinc-200 dark:border-white/10 bg-zinc-950">
                 <Image
-                  src="/brand/logo.png"
+                  src={siteLogo}
                   alt={siteConfig.name}
                   fill
                   sizes="44px"
