@@ -860,7 +860,89 @@ export interface SiteSetting {
   whatsappNumber: string;
   storeAddress: string;
   openingHours?: string | null;
+  /**
+   * Single-line announcement text fallback
+   */
   announcementBarText?: string | null;
+  /**
+   * Toggle on/off to show or completely hide the top announcement bar
+   */
+  showAnnouncementBar?: boolean | null;
+  /**
+   * Pill badge prefix (e.g. Kakod Hub, Special Offer, Festive Deal)
+   */
+  announcementBadge?: string | null;
+  announcementLocationText?: string | null;
+  announcementTimings?: string | null;
+  /**
+   * Google Maps destination link when location is clicked
+   */
+  announcementLocationUrl?: string | null;
+  /**
+   * Ticker items that smoothly scroll in the marquee scroller
+   */
+  announcementTickerItems?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Toggle on/off to show or hide the status pill in the Hero banner
+   */
+  showHeroEyebrow?: boolean | null;
+  /**
+   * Badge highlighted with pulsing live emerald radar dot
+   */
+  heroEyebrowBadge?: string | null;
+  /**
+   * Secondary status text or location descriptor
+   */
+  heroEyebrowText?: string | null;
+  /**
+   * Manage quick pills (reorder, add single phone links, multi-brand filters, or budget ranges)
+   */
+  heroQuickFilters?:
+    | {
+        /**
+         * Pill text (e.g. iPhone 16, Apple + Samsung, Under ₹15K)
+         */
+        label: string;
+        /**
+         * Emoji prefix (e.g. 🍎, 🌌, ⚡, 📸, 💳, 🔥)
+         */
+        icon?: string | null;
+        filterType?: ('phone' | 'brand' | 'budget' | 'custom') | null;
+        isActive?: boolean | null;
+        /**
+         * Phone slug (e.g. apple-iphone-16, samsung-galaxy-s25-5g)
+         */
+        targetPhoneSlug?: string | null;
+        /**
+         * Select one or multiple brands to pre-filter simultaneously
+         */
+        selectedBrands?:
+          | (
+              | 'Apple'
+              | 'Samsung'
+              | 'OnePlus'
+              | 'Vivo'
+              | 'Realme'
+              | 'Xiaomi'
+              | 'Google'
+              | 'Motorola'
+              | 'OPPO'
+              | 'Nothing'
+            )[]
+          | null;
+        budgetRange?: ('under-10000' | '10000-to-15000' | '15000-to-25000' | '25000-to-40000' | 'above-40000') | null;
+        /**
+         * Target route (e.g. /emi, /offers, /phones?sort=discount)
+         */
+        customHref?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   /**
    * Google Business Profile / Maps share link (e.g. https://share.google/8qhHVs7TmFxegJl1N or https://maps.app.goo.gl/...). Used by all "Open in Google Maps" & "Get Directions" buttons.
    */
@@ -908,6 +990,33 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   storeAddress?: T;
   openingHours?: T;
   announcementBarText?: T;
+  showAnnouncementBar?: T;
+  announcementBadge?: T;
+  announcementLocationText?: T;
+  announcementTimings?: T;
+  announcementLocationUrl?: T;
+  announcementTickerItems?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  showHeroEyebrow?: T;
+  heroEyebrowBadge?: T;
+  heroEyebrowText?: T;
+  heroQuickFilters?:
+    | T
+    | {
+        label?: T;
+        icon?: T;
+        filterType?: T;
+        isActive?: T;
+        targetPhoneSlug?: T;
+        selectedBrands?: T;
+        budgetRange?: T;
+        customHref?: T;
+        id?: T;
+      };
   googleBusinessUrl?: T;
   googleMapsEmbedUrl?: T;
   latitude?: T;

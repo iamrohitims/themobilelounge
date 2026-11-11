@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { Product } from "@/types/product";
 import { formatPrice, calculateDiscountPercent } from "@/lib/format";
+import type { DynamicStoreSettings } from "@/lib/services/site-settings";
 import {
   Search,
   MessageSquare,
@@ -109,9 +110,11 @@ const HOT_DEALS = [
 export function Hero({
   hotDeals,
   phones,
+  storeSettings,
 }: {
   hotDeals?: any[] | null;
   phones?: Product[];
+  storeSettings?: DynamicStoreSettings;
 } = {}) {
   const router = useRouter();
   const activeDeals = hotDeals && hotDeals.length > 0 ? hotDeals : HOT_DEALS;
@@ -278,14 +281,26 @@ export function Hero({
   const activeDeal = activeDeals[currentDealIndex];
   const activeDiscount = calculateDiscountPercent(activeDeal.mrp, activeDeal.price);
 
-  const quickPills = [
-    { label: "🍎 iPhone 16", query: "iPhone 16" },
-    { label: "🌌 Galaxy S25", query: "Galaxy S25" },
-    { label: "⚡ OnePlus", query: "OnePlus" },
-    { label: "📸 Vivo", query: "Vivo" },
-    { label: "₹ Under ₹15K", href: "/phones/under/10000-to-15000" },
-    { label: "💳 0% EMI", href: "/emi" },
-  ];
+  // Dynamic Hero Quick Filters from Admin Settings (with fallback)
+  const activeQuickPills = useMemo(() => {
+    if (storeSettings?.heroQuickFilters && storeSettings.heroQuickFilters.length > 0) {
+      return storeSettings.heroQuickFilters
+        .filter((p) => p.isActive !== false)
+        .map((p) => ({
+          label: p.label,
+          icon: p.icon || "",
+          href: p.resolvedHref || "/phones",
+        }));
+    }
+    return [
+      { label: "iPhone 16", icon: "🍎", href: "/phones/apple-iphone-16" },
+      { label: "Galaxy S25", icon: "🌌", href: "/phones/samsung-galaxy-s25-5g" },
+      { label: "OnePlus", icon: "⚡", href: "/phones?brand=OnePlus" },
+      { label: "Vivo", icon: "📸", href: "/phones?brand=Vivo" },
+      { label: "Under ₹15K", icon: "₹", href: "/phones/under/10000-to-15000" },
+      { label: "0% EMI", icon: "💳", href: "/emi" },
+    ];
+  }, [storeSettings?.heroQuickFilters]);
 
   const marqueePerks = [
     { icon: "📱", text: "Official Brands: Apple • Samsung • OnePlus • Vivo • Realme" },
@@ -306,13 +321,22 @@ export function Hero({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center relative z-10">
         {/* Left Column: Headline, Live Autocomplete Search, Quick Chips, Actions (7 Cols) */}
         <div className="lg:col-span-7 space-y-4">
-          {/* Eyebrow Pill */}
-          <div className="inline-flex items-center gap-2 bg-black/40 backdrop-blur-md border border-white/20 rounded-full px-3 py-1 shadow-xs max-w-full">
-            <span className="w-2 h-2 rounded-full bg-[#c5e84a] animate-pulse shrink-0" />
-            <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-white truncate">
-              📍 KAKOD’S #1 VERIFIED STORE • BY VISHAL DISTRIBUTORS
-            </span>
-          </div>
+          {/* Live Showroom Presence Pill (Configurable from Admin) */}
+          {storeSettings?.showHeroEyebrow !== false && (
+            <div className="inline-flex items-center gap-2 bg-black/40 backdrop-blur-md border border-white/20 rounded-full px-3 py-1 shadow-xs max-w-full select-none">
+              <span className="relative flex h-2 w-2 shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+              <span className="text-[10px] sm:text-xs font-extrabold text-[#c5e84a] tracking-wide shrink-0">
+                {storeSettings?.heroEyebrowBadge || "Showroom Open Now"}
+              </span>
+              <span className="text-white/40 text-[10px]">•</span>
+              <span className="text-[10px] sm:text-xs font-medium text-white/90 truncate">
+                {storeSettings?.heroEyebrowText || "Main Market, Kakod • ★ 4.9 Verified Reviews"}
+              </span>
+            </div>
+          )}
 
           {/* Headline with Typewriter */}
           <div className="space-y-1.5">
@@ -556,31 +580,21 @@ export function Hero({
             )}
           </div>
 
-          {/* Quick Filter Capsule Pills (Horizontal Scroll) */}
+          {/* Quick Filter Pills (Dynamic from Admin + Multi-Brand Pre-Filters) */}
           <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-0.5 max-w-full">
             <span className="text-[10px] font-black text-white/70 uppercase tracking-wide shrink-0">
               Quick:
             </span>
-            {quickPills.map((pill) =>
-              pill.href ? (
-                <Link
-                  key={pill.label}
-                  href={pill.href}
-                  className="bg-black/40 hover:bg-white hover:text-black text-white text-[11px] font-bold px-2.5 py-1 rounded-full border border-white/20 whitespace-nowrap transition shrink-0"
-                >
-                  {pill.label}
-                </Link>
-              ) : (
-                <button
-                  key={pill.label}
-                  type="button"
-                  onClick={() => router.push(`/phones?q=${encodeURIComponent(pill.query!)}`)}
-                  className="bg-black/40 hover:bg-white hover:text-black text-white text-[11px] font-bold px-2.5 py-1 rounded-full border border-white/20 whitespace-nowrap transition shrink-0"
-                >
-                  {pill.label}
-                </button>
-              )
-            )}
+            {activeQuickPills.map((pill, idx) => (
+              <Link
+                key={`${pill.label}-${idx}`}
+                href={pill.href}
+                className="bg-black/40 hover:bg-white hover:text-black text-white text-[11px] font-bold px-2.5 py-1 rounded-full border border-white/20 whitespace-nowrap transition shrink-0 flex items-center gap-1 active:scale-95 shadow-xs"
+              >
+                {pill.icon && <span>{pill.icon}</span>}
+                <span>{pill.label}</span>
+              </Link>
+            ))}
           </div>
 
           {/* Action Buttons Row */}

@@ -69,9 +69,17 @@ export function CatalogueView({
   const filteredProducts = useMemo(() => {
     let list = [...initialProducts];
 
-    // Filter by Brand
+    // Filter by Brand (supports single brand or comma-separated multi-brand pre-filters like Apple,Samsung)
     if (selectedBrand !== "all") {
-      list = list.filter((p) => p.brand.toLowerCase() === selectedBrand.toLowerCase());
+      const targetBrands = selectedBrand
+        .split(",")
+        .map((b) => b.trim().toLowerCase())
+        .filter(Boolean);
+      if (targetBrands.length > 0) {
+        list = list.filter((p) =>
+          targetBrands.includes(p.brand.trim().toLowerCase())
+        );
+      }
     }
 
     // Filter by Max Price (Strictly evaluated on the starting MRP shown on the site)

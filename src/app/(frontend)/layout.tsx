@@ -178,7 +178,17 @@ export default async function RootLayout({
           }}
         />
         <ThemeProvider>
-          <Header siteLogo={storeSettings.siteLogo} />
+          <Header
+            siteLogo={storeSettings.siteLogo}
+            announcement={{
+              show: storeSettings.showAnnouncementBar,
+              badge: storeSettings.announcementBadge,
+              items: storeSettings.announcementTickerItems,
+              locationText: storeSettings.announcementLocationText,
+              locationUrl: storeSettings.announcementLocationUrl,
+              timings: storeSettings.announcementTimings,
+            }}
+          />
           <main className="flex-1 pb-16 sm:pb-0">{children}</main>
           <Footer siteLogo={storeSettings.siteLogo} />
           <MobileActionBar />

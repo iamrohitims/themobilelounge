@@ -33,9 +33,32 @@ import { ThemeToggle } from "./ThemeToggle";
 
 interface HeaderProps {
   siteLogo?: string;
+  announcement?: {
+    show?: boolean;
+    badge?: string;
+    items?: string[];
+    locationText?: string;
+    locationUrl?: string;
+    timings?: string;
+  };
 }
 
-export function Header({ siteLogo = "/brand/logo.png" }: HeaderProps = {}) {
+export function Header({
+  siteLogo = "/brand/logo.png",
+  announcement = {
+    show: true,
+    badge: "Kakod Hub",
+    items: [
+      "iPhone 16 Series In-Stock • 0% Downpayment EMI • Free Smartwatch on Flagships",
+      "100% Genuine Sealed Pack with GST Bill & Brand Warranty",
+      "Instant 5-Minute Paperless EMI via Bajaj Finserv, TVS & IDFC",
+      "Spot Old Phone Exchange with Instant Cash Discount",
+    ],
+    locationText: "Main Market, Kakod",
+    locationUrl: siteConfig.location.googleMapsUrl,
+    timings: "Open 9:30 AM – 9:00 PM",
+  },
+}: HeaderProps = {}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [moreDropdownOpen, setMoreDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -89,34 +112,70 @@ export function Header({ siteLogo = "/brand/logo.png" }: HeaderProps = {}) {
 
   return (
     <header className="sticky top-0 z-50 w-full shadow-xs">
-      {/* 1. Top Announcement Marquee Ticker */}
-      <div className="bg-gradient-to-r from-[#ff5a1f] via-[#7b2fbe] to-[#cc0074] text-white py-1 px-3 sm:px-4 text-xs font-black tracking-wide border-b border-white/20 w-full max-w-full overflow-hidden">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 w-full">
-          <div className="flex items-center gap-2 overflow-hidden whitespace-nowrap min-w-0 flex-1">
-            <span className="bg-black/40 text-[#c5e84a] px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] uppercase font-black shrink-0 flex items-center gap-1 border border-white/10">
-              <Flame className="w-2.5 h-2.5 text-amber-300 fill-current" />
-              <span>Kakod Hub</span>
-            </span>
-            <span className="truncate text-[10px] sm:text-xs font-semibold">
-              iPhone 16 Series In-Stock • 0% Downpayment EMI • Free Smartwatch on Flagships
-            </span>
-          </div>
+      {/* 1. Top Announcement Marquee Ticker (Dynamic from Admin, with toggle to hide) */}
+      {announcement?.show !== false && (
+        <div className="bg-gradient-to-r from-[#ff5a1f] via-[#7b2fbe] to-[#cc0074] text-white py-1 px-2.5 sm:px-4 text-xs font-black tracking-wide border-b border-white/20 w-full max-w-full overflow-hidden select-none">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 w-full">
+            {/* Left: Badge + Infinite Continuous Marquee Ticker */}
+            <div className="flex items-center gap-2 overflow-hidden min-w-0 flex-1 relative group">
+              <span className="bg-black/40 text-[#c5e84a] px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] uppercase font-black shrink-0 flex items-center gap-1 border border-white/10 z-10">
+                <Flame className="w-2.5 h-2.5 text-amber-300 fill-current" />
+                <span>{announcement.badge || "Kakod Hub"}</span>
+              </span>
 
-          <div className="hidden md:flex items-center gap-3 shrink-0 text-[11px]">
-            <a
-              href={siteConfig.location.googleMapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:underline flex items-center gap-1 text-white font-medium transition"
-            >
-              <MapPin className="w-3 h-3 text-[#c5e84a]" />
-              <span>Main Market, Kakod</span>
-            </a>
-            <span className="text-white/40">•</span>
-            <span className="text-[#c5e84a] font-black">Open 9:30 AM – 9:00 PM</span>
+              {/* Infinite Horizontal Smooth Marquee Track */}
+              <div className="overflow-hidden relative flex-1 min-w-0 mask-linear">
+                <div className="animate-marquee hover:pause flex items-center gap-6 whitespace-nowrap text-[10px] sm:text-xs font-semibold py-0.5">
+                  {/* First Track Copy */}
+                  {(announcement.items && announcement.items.length > 0
+                    ? announcement.items
+                    : [
+                        "iPhone 16 Series In-Stock • 0% Downpayment EMI • Free Smartwatch on Flagships",
+                        "100% Genuine Sealed Pack with GST Bill & Brand Warranty",
+                        "Instant 5-Minute Paperless EMI via Bajaj Finserv, TVS & IDFC",
+                      ]
+                  ).map((item, idx) => (
+                    <span key={`ticker-1-${idx}`} className="inline-flex items-center gap-2">
+                      <span>{item}</span>
+                      <span className="text-white/40">•</span>
+                    </span>
+                  ))}
+
+                  {/* Duplicate Track Copy for Seamless Gapless Loop */}
+                  {(announcement.items && announcement.items.length > 0
+                    ? announcement.items
+                    : [
+                        "iPhone 16 Series In-Stock • 0% Downpayment EMI • Free Smartwatch on Flagships",
+                        "100% Genuine Sealed Pack with GST Bill & Brand Warranty",
+                        "Instant 5-Minute Paperless EMI via Bajaj Finserv, TVS & IDFC",
+                      ]
+                  ).map((item, idx) => (
+                    <span key={`ticker-2-${idx}`} className="inline-flex items-center gap-2">
+                      <span>{item}</span>
+                      <span className="text-white/40">•</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Store Map Location & Timings (Hidden on very narrow mobile to prioritize scroller) */}
+            <div className="hidden md:flex items-center gap-3 shrink-0 text-[11px] z-10 pl-2">
+              <a
+                href={announcement.locationUrl || siteConfig.location.googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline flex items-center gap-1 text-white font-medium transition"
+              >
+                <MapPin className="w-3 h-3 text-[#c5e84a]" />
+                <span>{announcement.locationText || "Main Market, Kakod"}</span>
+              </a>
+              <span className="text-white/40">•</span>
+              <span className="text-[#c5e84a] font-black">{announcement.timings || "Open 9:30 AM – 9:00 PM"}</span>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* 2. Main Navigation Bar */}
       <div className="bg-white/95 dark:bg-[#0c101b]/95 backdrop-blur-xl border-b border-zinc-200/80 dark:border-white/10 px-3 sm:px-6 py-2 transition-colors duration-200 w-full">

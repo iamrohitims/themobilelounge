@@ -14,9 +14,10 @@ import { VisitStoreSection } from "@/components/home/VisitStoreSection";
 import { LocalSeoSection } from "@/components/home/LocalSeoSection";
 import { FaqSection } from "@/components/home/FaqSection";
 import { getFaqSchema } from "@/lib/seo";
+import { getStoreSettings } from "@/lib/services/site-settings";
 
 export default async function HomePage() {
-  const [phones, brands, featured, offers, reviews, faqs, dynamicReels, hotDeals] = await Promise.all([
+  const [phones, brands, featured, offers, reviews, faqs, dynamicReels, hotDeals, storeSettings] = await Promise.all([
     dataRepo.products.getAll("phone"),
     dataRepo.brands.getAll(),
     dataRepo.products.getFeatured(),
@@ -25,6 +26,7 @@ export default async function HomePage() {
     dataRepo.faqs.getAll(),
     getDynamicReels(),
     getHotDeals(),
+    getStoreSettings(),
   ]);
 
   const primaryOffer = offers[0];
@@ -54,7 +56,7 @@ export default async function HomePage() {
       />
       <div className="max-w-7xl mx-auto px-3 sm:px-4 pt-3 sm:pt-4 pb-12 space-y-10 sm:space-y-16 w-full max-w-full overflow-hidden">
         {/* 1. Hero Section */}
-        <Hero hotDeals={hotDeals} phones={phones} />
+        <Hero hotDeals={hotDeals} phones={phones} storeSettings={storeSettings} />
 
         {/* 2. Shop By Budget Recommender & Interactive Slider */}
         <BudgetChips phones={phones} />

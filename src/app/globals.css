@@ -201,10 +201,13 @@ input[type=range]::-webkit-slider-thumb {
 .animate-marquee {
   display: flex;
   width: max-content;
-  animation: marquee 28s linear infinite;
+  animation: marquee 30s linear infinite;
+  will-change: transform;
 }
 
-.animate-marquee:hover {
+.animate-marquee:hover,
+.animate-marquee:focus-within,
+.animate-marquee.paused {
   animation-play-state: paused;
 }
 
