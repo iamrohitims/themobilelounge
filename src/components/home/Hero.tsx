@@ -126,6 +126,55 @@ export function Hero({
   const [currentDealIndex, setCurrentDealIndex] = useState(0);
   const [isCarouselPaused, setIsCarouselPaused] = useState(false);
 
+  // Typewriter phrases cycling key flagship value propositions
+  const typewriterPhrases = useMemo(
+    () => [
+      "₹0 Downpayment.",
+      "Free Gift Box 🎁",
+      "Instant 5-Min EMI.",
+      "Official Warranty.",
+      "Lower Than Online.",
+    ],
+    []
+  );
+
+  const [typedText, setTypedText] = useState(typewriterPhrases[0]);
+  const [phraseIdx, setPhraseIdx] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setTypedText(typewriterPhrases[0]);
+      return;
+    }
+
+    const currentPhrase = typewriterPhrases[phraseIdx];
+    let timeout: NodeJS.Timeout;
+
+    if (!isDeleting) {
+      if (typedText.length < currentPhrase.length) {
+        timeout = setTimeout(() => {
+          setTypedText(currentPhrase.slice(0, typedText.length + 1));
+        }, 75);
+      } else {
+        timeout = setTimeout(() => {
+          setIsDeleting(true);
+        }, 2200);
+      }
+    } else {
+      if (typedText.length > 0) {
+        timeout = setTimeout(() => {
+          setTypedText(currentPhrase.slice(0, typedText.length - 1));
+        }, 35);
+      } else {
+        setIsDeleting(false);
+        setPhraseIdx((prev) => (prev + 1) % typewriterPhrases.length);
+      }
+    }
+
+    return () => clearTimeout(timeout);
+  }, [typedText, isDeleting, phraseIdx, typewriterPhrases]);
+
   // Live phone products for instant autocomplete from database
   const allPhones: Product[] = useMemo(() => {
     return (phones || []).filter((p) => p.category === "phone");
@@ -265,20 +314,27 @@ export function Hero({
             </span>
           </div>
 
-          {/* Headline */}
-          <div className="space-y-1">
-            <h1 className="font-display font-black text-2xl xs:text-3xl sm:text-4xl lg:text-5xl text-white leading-tight tracking-tight">
-              Upgrade To Flagship.{" "}
-              <span className="text-[#c5e84a] drop-shadow-sm">₹0 Downpayment.</span>
+          {/* Headline with Typewriter */}
+          <div className="space-y-1.5">
+            <h1 className="font-display font-black text-2xl xs:text-3xl sm:text-4xl lg:text-5xl text-white leading-tight tracking-tight min-h-[2.5em] xs:min-h-[2.2em] sm:min-h-[2.1em] flex flex-col justify-center">
+              <span className="sr-only">
+                Upgrade To Flagship with ₹0 Downpayment, Free Gift Box, Instant 5-Minute EMI and Official Brand Warranty at The Mobile Lounge Kakod
+              </span>
+              <span aria-hidden="true">
+                <span className="block sm:inline">Upgrade To Flagship.</span>{" "}
+                <span className="text-[#c5e84a] inline-flex items-center drop-shadow-sm min-w-[3ch]">
+                  <span>{typedText}</span>
+                  <span
+                    className="inline-block w-[2.5px] sm:w-[3.5px] h-[0.82em] ml-1 bg-[#c5e84a] animate-pulse rounded-full"
+                    aria-hidden="true"
+                  />
+                </span>
+              </span>
             </h1>
-            <p className="text-pink-200 font-extrabold text-xs sm:text-base">
-              Official Brand Warranty + Assured Free Gift Box 🎁
-            </p>
           </div>
 
-          <p className="text-white/90 text-xs sm:text-sm leading-relaxed max-w-xl font-medium">
-            100% genuine sealed-pack <strong className="text-white">Apple, Samsung, OnePlus & Vivo</strong> at
-            lower than online prices with instant 5-minute EMI in Kakod Main Market.
+          <p className="text-white/85 text-xs sm:text-sm leading-relaxed max-w-lg font-medium">
+            100% genuine sealed-pack <strong className="text-white font-bold">Apple, Samsung, OnePlus &amp; Vivo</strong> at lower than online prices in Kakod Main Market.
           </p>
 
           {/* Live Search Capsule with Dynamic Autocomplete Dropdown */}
