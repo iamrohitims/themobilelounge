@@ -4,7 +4,7 @@ const canonicalBaseUrl =
     ? rawUrl.replace(/\/$/, "")
     : process.env.VERCEL_PROJECT_PRODUCTION_URL
       ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-      : "https://themobilelounge.in";
+      : "https://themobilelounge.com";
 
 export const siteConfig = {
   name: "The Mobile Lounge",
@@ -23,7 +23,7 @@ export const siteConfig = {
     phoneRaw: "+917017289590",
     whatsapp: "917017289590",
     whatsappDisplay: "+91 70172 89590",
-    email: "contact@themobilelounge.in",
+    email: "contact@themobilelounge.com",
     instagramHandle: "themobilelounge_kakod",
     instagramUrl: "https://www.instagram.com/themobilelounge_kakod/",
   },

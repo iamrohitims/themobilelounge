@@ -75,7 +75,7 @@ describe("SEO & Schema.org Structured Data", () => {
         { ram: "8GB", storage: "128GB", color: "Black", price: 79900, mrp: 79900, inStock: true },
       ],
     };
-    const schema = getProductSchema(dummyProduct, "https://themobilelounge.in/phones/apple-iphone-16");
+    const schema = getProductSchema(dummyProduct, "https://themobilelounge.com/phones/apple-iphone-16");
     expect(schema["@type"]).toBe("Product");
     expect(schema.name).toBe("Apple iPhone 16");
     expect(schema.brand.name).toBe("Apple");
