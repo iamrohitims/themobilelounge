@@ -4062,7 +4062,7 @@
   },
   {
     "createdAt": "2026-11-10T06:51:19.176Z",
-    "updatedAt": "2026-11-10T07:16:03.979Z",
+    "updatedAt": "2026-11-11T09:28:06.487Z",
     "name": "Samsung Galaxy M15 5G",
     "slug": "samsung-galaxy-m15-5g",
     "brand": "Samsung",
@@ -4076,34 +4076,46 @@
     "specBadge": "",
     "images": [
       {
-        "src": "/uploads/products/samsung-galaxy-m15-5g/img-1.webp",
-        "alt": "Samsung Galaxy M15 5G Front View",
-        "color": "Default",
-        "id": "6af2c4b3d393f9365b0f01be"
+        "src": "/uploads/products/samsung-galaxy-m15-5g/img-1.jpg",
+        "alt": "Samsung Galaxy M15 5G| 50MP Triple Cam| 6000mAh Battery| MediaTek Dimensity 6100+| 4 Gen. OS Upgrade &amp; 5 Year Security Update| Super AMOLED Display| Without Charger high-res view",
+        "color": "",
+        "id": "6af4352659ab3c094b99e3ba"
       },
       {
-        "src": "/uploads/products/samsung-galaxy-m15-5g/img-2.webp",
-        "alt": "Samsung Galaxy M15 5G Back View",
-        "color": "Variant",
-        "id": "6af2c4b3d393f9365b0f01bf"
+        "src": "/uploads/products/samsung-galaxy-m15-5g/img-2.jpg",
+        "alt": "Samsung Galaxy M15 5G| 50MP Triple Cam| 6000mAh Battery| MediaTek Dimensity 6100+| 4 Gen. OS Upgrade &amp; 5 Year Security Update| Super AMOLED Display| Without Charger high-res view",
+        "color": "",
+        "id": "6af4352659ab3c094b99e3bb"
       },
       {
-        "src": "/uploads/products/samsung-galaxy-m15-5g/img-3.webp",
-        "alt": "Samsung Galaxy M15 5G Side Profile",
-        "color": "Variant",
-        "id": "6af2c4b3d393f9365b0f01c0"
+        "src": "/uploads/products/samsung-galaxy-m15-5g/img-3.jpg",
+        "alt": "Samsung Galaxy M15 5G| 50MP Triple Cam| 6000mAh Battery| MediaTek Dimensity 6100+| 4 Gen. OS Upgrade &amp; 5 Year Security Update| Super AMOLED Display| Without Charger high-res view",
+        "color": "",
+        "id": "6af4352659ab3c094b99e3bc"
       },
       {
-        "src": "/uploads/products/samsung-galaxy-m15-5g/img-4.webp",
-        "alt": "Samsung Galaxy M15 5G Camera Module",
-        "color": "Variant",
-        "id": "6af2c4b3d393f9365b0f01c1"
+        "src": "/uploads/products/samsung-galaxy-m15-5g/img-4.jpg",
+        "alt": "Samsung Galaxy M15 5G| 50MP Triple Cam| 6000mAh Battery| MediaTek Dimensity 6100+| 4 Gen. OS Upgrade &amp; 5 Year Security Update| Super AMOLED Display| Without Charger high-res view",
+        "color": "",
+        "id": "6af4352659ab3c094b99e3bd"
       },
       {
-        "src": "/uploads/products/samsung-galaxy-m15-5g/img-5.webp",
-        "alt": "Samsung Galaxy M15 5G In-Hand Display",
-        "color": "Variant",
-        "id": "6af2c4b3d393f9365b0f01c2"
+        "src": "/uploads/products/samsung-galaxy-m15-5g/img-5.jpg",
+        "alt": "Samsung Galaxy M15 5G| 50MP Triple Cam| 6000mAh Battery| MediaTek Dimensity 6100+| 4 Gen. OS Upgrade &amp; 5 Year Security Update| Super AMOLED Display| Without Charger high-res view",
+        "color": "",
+        "id": "6af4352659ab3c094b99e3be"
+      },
+      {
+        "src": "/uploads/products/samsung-galaxy-m15-5g/img-6.jpg",
+        "alt": "Samsung Galaxy M15 5G| 50MP Triple Cam| 6000mAh Battery| MediaTek Dimensity 6100+| 4 Gen. OS Upgrade &amp; 5 Year Security Update| Super AMOLED Display| Without Charger high-res view",
+        "color": "",
+        "id": "6af4352659ab3c094b99e3bf"
+      },
+      {
+        "src": "/uploads/products/samsung-galaxy-m15-5g/img-7.jpg",
+        "alt": "Samsung Galaxy M15 5G| 50MP Triple Cam| 6000mAh Battery| MediaTek Dimensity 6100+| 4 Gen. OS Upgrade &amp; 5 Year Security Update| Super AMOLED Display| Without Charger high-res view",
+        "color": "",
+        "id": "6af4352659ab3c094b99e3c0"
       }
     ],
     "variants": [
