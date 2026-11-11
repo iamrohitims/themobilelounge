@@ -311,6 +311,15 @@ export const SiteSettings: GlobalConfig = {
               },
             },
             {
+              name: 'googleReviewUrl',
+              type: 'text',
+              defaultValue: 'https://share.google/8qhHVs7TmFxegJl1N',
+              admin: {
+                description:
+                  'Direct Google Review link (e.g. from Google Business Profile -> "Ask for reviews", or your Google Maps profile: https://share.google/8qhHVs7TmFxegJl1N). Used by "Write on Google" buttons.',
+              },
+            },
+            {
               name: 'googleMapsEmbedUrl',
               type: 'textarea',
               admin: {

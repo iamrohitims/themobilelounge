@@ -11,7 +11,6 @@ import { InstagramSection } from "@/components/home/InstagramSection";
 import { WhyBuyFromUs } from "@/components/home/WhyBuyFromUs";
 import { CustomerReviews } from "@/components/home/CustomerReviews";
 import { VisitStoreSection } from "@/components/home/VisitStoreSection";
-import { LocalSeoSection } from "@/components/home/LocalSeoSection";
 import { FaqSection } from "@/components/home/FaqSection";
 import { getFaqSchema } from "@/lib/seo";
 import { getStoreSettings } from "@/lib/services/site-settings";
@@ -91,13 +90,10 @@ export default async function HomePage() {
         {/* 8. Curated Instagram Feed & Store Deliveries */}
         <InstagramSection reels={dynamicReels} />
 
-        {/* 9. Customer Love & Reviews */}
+        {/* 9. Customer Love & Testimonials */}
         <CustomerReviews reviews={reviews} />
 
-        {/* 10. Regional Local Coverage (Local SEO & Surrounding Towns) */}
-        <LocalSeoSection />
-
-        {/* 11. Visit Store (Map + Live Timings Badge) */}
+        {/* 10. Visit Store (Map + Live Timings Badge) */}
         <VisitStoreSection />
 
         {/* 12. Frequently Asked Questions */}

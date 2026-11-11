@@ -23,8 +23,14 @@ export interface Review {
   phoneBought: string;
   comment: string;
   verifiedPurchase: boolean;
-  source: "Google" | "Store Walk-in" | "Instagram";
+  source: "Google" | "Store Walk-in" | "Instagram" | "Customer Submission";
   helpfulCount: number;
+  avatarUrl?: string;
+  photoUrl?: string;
+  unboxingPhoto?: string;
+  invoiceNumber?: string;
+  customerPhone?: string;
+  status?: "published" | "pending" | "rejected";
 }
 
 export interface FAQ {

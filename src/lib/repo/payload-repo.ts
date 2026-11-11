@@ -469,20 +469,26 @@ class PayloadReviewRepository implements IReviewRepository {
       const res = await payload.find({
         collection: 'reviews',
         limit: 50,
+        sort: '-createdAt',
       })
       if (!res.docs.length) return jsonRepo.reviews.getAll()
-      return res.docs.map((r: any) => ({
-        id: String(r.id || r._id),
-        author: r.author,
-        location: r.location || 'Kakod',
-        rating: r.rating || 5,
-        date: r.date || '',
-        phoneBought: r.phoneBought || '',
-        comment: r.comment || '',
-        verifiedPurchase: r.verifiedPurchase ?? true,
-        source: r.source || 'Google',
-        helpfulCount: r.helpfulCount || 0,
-      }))
+      return res.docs
+        .filter((r: any) => r.status !== 'pending' && r.status !== 'rejected')
+        .map((r: any) => ({
+          id: String(r.id || r._id),
+          author: r.author,
+          location: r.location || 'Kakod',
+          rating: r.rating || 5,
+          date: r.date || '',
+          phoneBought: r.phoneBought || '',
+          comment: r.comment || '',
+          verifiedPurchase: r.verifiedPurchase ?? true,
+          source: r.source || 'Google',
+          helpfulCount: r.helpfulCount || 0,
+          photoUrl: r.photoUrl || '',
+          invoiceNumber: r.invoiceNumber || '',
+          status: r.status || 'published',
+        }))
     } catch {
       return jsonRepo.reviews.getAll()
     }

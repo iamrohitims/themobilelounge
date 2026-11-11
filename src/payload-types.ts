@@ -385,7 +385,11 @@ export interface Review {
   phoneBought: string;
   comment: string;
   verifiedPurchase?: boolean | null;
-  source?: ('Google' | 'Store Walk-in' | 'Instagram') | null;
+  source?: ('Google' | 'Store Walk-in' | 'Instagram' | 'Customer Submission') | null;
+  photoUrl?: string | null;
+  invoiceNumber?: string | null;
+  customerPhone?: string | null;
+  status?: ('published' | 'pending' | 'rejected') | null;
   helpfulCount?: number | null;
   updatedAt: string;
   createdAt: string;
@@ -724,6 +728,10 @@ export interface ReviewsSelect<T extends boolean = true> {
   comment?: T;
   verifiedPurchase?: T;
   source?: T;
+  photoUrl?: T;
+  invoiceNumber?: T;
+  customerPhone?: T;
+  status?: T;
   helpfulCount?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -948,6 +956,10 @@ export interface SiteSetting {
    */
   googleBusinessUrl?: string | null;
   /**
+   * Direct Google Review link (e.g. from Google Business Profile -> "Ask for reviews", or your Google Maps profile: https://share.google/8qhHVs7TmFxegJl1N). Used by "Write on Google" buttons.
+   */
+  googleReviewUrl?: string | null;
+  /**
    * Custom Google Maps Embed link OR full <iframe> code (from Google Maps -> Share -> "Embed a map"). If provided, this map embed is rendered on the website.
    */
   googleMapsEmbedUrl?: string | null;
@@ -1021,6 +1033,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         id?: T;
       };
   googleBusinessUrl?: T;
+  googleReviewUrl?: T;
   googleMapsEmbedUrl?: T;
   latitude?: T;
   longitude?: T;

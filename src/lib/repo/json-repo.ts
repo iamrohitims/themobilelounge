@@ -229,11 +229,13 @@ class JsonOfferRepository implements IOfferRepository {
 
 class JsonReviewRepository implements IReviewRepository {
   async getAll(): Promise<Review[]> {
-    return reviewsData as Review[];
+    return (reviewsData as Review[]).filter(
+      (r) => r.status !== "pending" && r.status !== "rejected"
+    );
   }
 
   async getStats(): Promise<{ averageRating: number; totalReviews: number }> {
-    const reviews = reviewsData as Review[];
+    const reviews = await this.getAll();
     const total = reviews.length;
     const sum = reviews.reduce((acc, r) => acc + r.rating, 0);
     const avg = total > 0 ? parseFloat((sum / total).toFixed(1)) : 5.0;

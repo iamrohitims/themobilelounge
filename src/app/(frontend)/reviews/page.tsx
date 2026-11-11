@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { dataRepo } from "@/lib/repo";
 import { siteConfig } from "@/config/site";
 import { getBreadcrumbSchema } from "@/lib/seo";
+import { getStoreSettings } from "@/lib/services/site-settings";
 import { Star, CheckCircle2, MessageSquare, ThumbsUp, ShieldCheck } from "lucide-react";
 
 const baseUrl = siteConfig.canonicalUrl || siteConfig.url;
@@ -46,9 +48,10 @@ export const metadata: Metadata = {
 };
 
 export default async function ReviewsPage() {
-  const [reviews, stats] = await Promise.all([
+  const [reviews, stats, storeSettings] = await Promise.all([
     dataRepo.reviews.getAll(),
     dataRepo.reviews.getStats(),
+    getStoreSettings(),
   ]);
 
   const breadcrumbSchema = getBreadcrumbSchema([
@@ -95,15 +98,25 @@ export default async function ReviewsPage() {
           </div>
         </div>
 
-        <a
-          href="https://g.page/r/themobilelounge/review"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-white dark:hover:bg-zinc-200 dark:text-black font-extrabold text-xs px-5 py-3 rounded-2xl transition shadow-md shrink-0 flex items-center gap-2"
-        >
-          <Star className="w-4 h-4 fill-amber-500 text-amber-500" />
-          <span>Write a Review on Google</span>
-        </a>
+        <div className="flex flex-wrap items-center gap-2.5">
+          <Link
+            href="/reviews/submit"
+            className="bg-[#ff5a1f] hover:bg-[#e04810] text-white font-extrabold text-xs px-4 py-2.5 rounded-xl transition shadow-md shrink-0 flex items-center gap-1.5 active:scale-95"
+          >
+            <CheckCircle2 className="w-4 h-4" />
+            <span>Submit Your Review 📸</span>
+          </Link>
+
+          <a
+            href={storeSettings.googleReviewUrl || "https://share.google/8qhHVs7TmFxegJl1N"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-white dark:hover:bg-zinc-200 dark:text-black font-extrabold text-xs px-4 py-2.5 rounded-xl transition shadow-md shrink-0 flex items-center gap-1.5"
+          >
+            <Star className="w-4 h-4 fill-amber-500 text-amber-500" />
+            <span>Write on Google</span>
+          </a>
+        </div>
       </div>
 
       {/* Reviews List */}
@@ -124,7 +137,7 @@ export default async function ReviewsPage() {
                     {rev.verifiedPurchase && (
                       <span className="text-[10px] bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-bold px-2 py-0.2 rounded-full flex items-center gap-1">
                         <CheckCircle2 className="w-3 h-3" />
-                        <span>Verified Buyer</span>
+                        <span>{rev.invoiceNumber ? "✓ GST Bill Verified" : "Verified Buyer"}</span>
                       </span>
                     )}
                   </div>
@@ -144,6 +157,24 @@ export default async function ReviewsPage() {
             <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed pt-1">
               &quot;{rev.comment}&quot;
             </p>
+
+            {rev.photoUrl && (
+              <div className="pt-2">
+                <div className="relative rounded-2xl overflow-hidden border border-zinc-200 dark:border-white/10 max-w-sm h-48 bg-black/30 group">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={rev.photoUrl}
+                    alt={`${rev.author} unboxing ${rev.phoneBought}`}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                  <div className="absolute bottom-2 left-2 px-2.5 py-1 rounded-full bg-black/75 backdrop-blur-md text-[10px] text-white font-bold flex items-center gap-1.5 border border-white/20">
+                    <ShieldCheck className="w-3 h-3 text-[#c5e84a]" />
+                    <span>Real Showroom Unboxing • Kakod</span>
+                  </div>
+                </div>
+              </div>
+            )}
 
             <div className="pt-2 border-t border-zinc-200 dark:border-white/10 flex items-center justify-between text-[11px] text-zinc-500">
               <span>Source: {rev.source} Reviews</span>

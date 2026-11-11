@@ -2,18 +2,21 @@
   {
     "id": "rev-1",
     "author": "Rahul Sharma",
-    "location": "Kakod Main Market",
+    "location": "Kakod",
     "rating": 5,
     "date": "2026-10-18",
     "phoneBought": "Apple iPhone 16 (128GB Teal)",
     "comment": "Got my iPhone 16 from The Mobile Lounge at a better price than Amazon and Flipkart! Bajaj EMI process took only 7 minutes and Vishal bhai gave a free smartwatch and premium tempered glass. Best shop in Kakod!",
     "verifiedPurchase": true,
     "source": "Google",
-    "helpfulCount": 42
+    "helpfulCount": 42,
+    "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80",
+    "photoUrl": "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=800&auto=format&fit=crop&q=80",
+    "invoiceNumber": "TML-2026-0891"
   },
   {
     "id": "rev-2",
-    "author": "Amit Kumar",
+    "author": "Amit Kumar & Family",
     "location": "Jahangirpur / Kakod",
     "rating": 5,
     "date": "2026-10-25",
@@ -21,7 +24,10 @@
     "comment": "Exchanged my old OnePlus 9 Pro and got ₹18,500 instant discount on S24 Ultra. The store team transferred all my 40GB WhatsApp chats and photos completely free. 100% genuine sealed pack with GST bill.",
     "verifiedPurchase": true,
     "source": "Google",
-    "helpfulCount": 29
+    "helpfulCount": 29,
+    "avatarUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+    "photoUrl": "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=800&auto=format&fit=crop&q=80",
+    "invoiceNumber": "TML-2026-0914"
   },
   {
     "id": "rev-3",
@@ -33,7 +39,10 @@
     "comment": "Saw their reels on Instagram (@themobilelounge_kakod) and drove down from Dankaur. Camera is unbelievable for portrait photos. Got ₹0 downpayment on IDFC bank card easily. Highly recommended!",
     "verifiedPurchase": true,
     "source": "Instagram",
-    "helpfulCount": 18
+    "helpfulCount": 18,
+    "avatarUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80",
+    "photoUrl": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=800&auto=format&fit=crop&q=80",
+    "invoiceNumber": "TML-2026-0945"
   },
   {
     "id": "rev-4",
@@ -45,7 +54,10 @@
     "comment": "Very polite behaviour and transparent pricing. No hidden fees or extra charges for credit card swipe. The genuine brand warranty and in-store support give full peace of mind. Kakod's top mobile lounge!",
     "verifiedPurchase": true,
     "source": "Store Walk-in",
-    "helpfulCount": 24
+    "helpfulCount": 24,
+    "avatarUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&auto=format&fit=crop&q=80",
+    "photoUrl": "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?w=800&auto=format&fit=crop&q=80",
+    "invoiceNumber": "TML-2026-0972"
   },
   {
     "id": "rev-5",
@@ -57,6 +69,24 @@
     "comment": "Bought on 9 months No Cost EMI with Home Credit. Approval was done on spot with just Aadhaar OTP. Also got free noise-cancelling earbuds with it. Best mobile store in Bulandshahr district.",
     "verifiedPurchase": true,
     "source": "Google",
-    "helpfulCount": 15
+    "helpfulCount": 15,
+    "avatarUrl": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
+    "photoUrl": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&auto=format&fit=crop&q=80",
+    "invoiceNumber": "TML-2026-1002"
+  },
+  {
+    "id": "rev-6",
+    "author": "Neha Solanki & Brother",
+    "location": "Jahangirpur Road, Kakod",
+    "rating": 5,
+    "date": "2026-11-09",
+    "phoneBought": "Redmi Note 14 Pro+ 5G",
+    "comment": "Super smooth experience! Vishal bhaiya helped us compare camera quality side-by-side with iPhone. Approved zero downpayment EMI within 10 minutes, plus free smartwatch gift box.",
+    "verifiedPurchase": true,
+    "source": "Google",
+    "helpfulCount": 31,
+    "avatarUrl": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300&auto=format&fit=crop&q=80",
+    "photoUrl": "https://images.unsplash.com/photo-1580910051074-3eb694886505?w=800&auto=format&fit=crop&q=80",
+    "invoiceNumber": "TML-2026-1028"
   }
 ]

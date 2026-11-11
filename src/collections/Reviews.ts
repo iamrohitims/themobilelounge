@@ -4,7 +4,7 @@ export const Reviews: CollectionConfig = {
   slug: 'reviews',
   admin: {
     useAsTitle: 'author',
-    defaultColumns: ['author', 'rating', 'phoneBought', 'verifiedPurchase'],
+    defaultColumns: ['author', 'rating', 'phoneBought', 'status', 'verifiedPurchase', 'invoiceNumber', 'date'],
   },
   fields: [
     {
@@ -53,6 +53,37 @@ export const Reviews: CollectionConfig = {
         { label: 'Google Review', value: 'Google' },
         { label: 'Store Walk-in', value: 'Store Walk-in' },
         { label: 'Instagram', value: 'Instagram' },
+        { label: 'Customer Submission', value: 'Customer Submission' },
+      ],
+    },
+    {
+      name: 'photoUrl',
+      type: 'text',
+      label: 'Customer / Unboxing Photo',
+      admin: {
+        components: {
+          Field: '@/components/admin/ReviewPhotoField#ReviewPhotoField',
+        },
+      },
+    },
+    {
+      name: 'invoiceNumber',
+      type: 'text',
+      label: 'GST Invoice / Bill Number (Verification)',
+    },
+    {
+      name: 'customerPhone',
+      type: 'text',
+      label: 'Customer Phone (Internal Verification)',
+    },
+    {
+      name: 'status',
+      type: 'select',
+      defaultValue: 'published',
+      options: [
+        { label: 'Published', value: 'published' },
+        { label: 'Pending Approval', value: 'pending' },
+        { label: 'Rejected', value: 'rejected' },
       ],
     },
     {

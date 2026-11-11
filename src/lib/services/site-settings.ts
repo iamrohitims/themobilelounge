@@ -37,6 +37,7 @@ export interface DynamicStoreSettings {
   heroQuickFilters: QuickFilterPill[]
   // Google Maps & Business Profile
   googleBusinessUrl: string
+  googleReviewUrl: string
   googleMapsEmbedUrl?: string
   latitude: number
   longitude: number
@@ -95,6 +96,7 @@ export async function getStoreSettings(): Promise<DynamicStoreSettings> {
     heroEyebrowText: 'Main Market, Kakod • ★ 4.9 Verified Reviews',
     heroQuickFilters: defaultQuickFilters.map((p) => ({ ...p, resolvedHref: resolveQuickFilterHref(p) })),
     googleBusinessUrl: 'https://share.google/8qhHVs7TmFxegJl1N',
+    googleReviewUrl: 'https://share.google/8qhHVs7TmFxegJl1N',
     latitude: 28.256,
     longitude: 77.834,
     mapQuery: 'VISHAL DISTRIBUTORS KAKOD',
@@ -181,6 +183,7 @@ export async function getStoreSettings(): Promise<DynamicStoreSettings> {
       heroEyebrowText: data.heroEyebrowText || defaults.heroEyebrowText,
       heroQuickFilters: enrichedQuickFilters,
       googleBusinessUrl: data.googleBusinessUrl || defaults.googleBusinessUrl,
+      googleReviewUrl: data.googleReviewUrl || data.googleBusinessUrl || defaults.googleReviewUrl,
       googleMapsEmbedUrl: rawEmbed,
       latitude: lat,
       longitude: lng,
