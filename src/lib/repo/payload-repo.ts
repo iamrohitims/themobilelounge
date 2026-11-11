@@ -109,7 +109,7 @@ function mapPayloadProduct(doc: any): Product & { isHotDeal?: boolean; hotDealBa
     boxContents: (doc.boxContents || []).map((b: any) => (typeof b === 'string' ? b : b.item || '')),
     freeGiftBundle: (doc.freeGiftBundle || []).map((g: any) => (typeof g === 'string' ? g : g.gift || '')),
     isHotDeal: doc.isHotDeal ?? false,
-    isMostDemanded: Boolean(doc.isMostDemanded),
+    isMostDemanded: doc.isMostDemanded === true ? true : doc.isMostDemanded === false ? false : undefined,
     hotDealBadge: doc.hotDealBadge || '',
     freeGift: doc.freeGift || '',
     emiMonthly: doc.emiMonthly || undefined,
@@ -233,15 +233,17 @@ class PayloadProductRepository implements IProductRepository {
       const newArrivals = all.slice(0, 8)
       // "Most Demanded Phones in Kakod" - Prioritizes products with isMostDemanded=true or tagged
       const bestSellers = all
-        .filter(
-          (p) =>
-            Boolean((p as any).isMostDemanded) ||
+        .filter((p) => {
+          if (p.slug === 'samsung-galaxy-m15-5g') return false
+          return (
+            (p as any).isMostDemanded === true ||
             p.tags.includes('most-demanded') ||
             p.tags.includes('bestseller')
-        )
+          )
+        })
         .sort((a, b) => {
-          const aDemanded = (a as any).isMostDemanded ? 1 : 0
-          const bDemanded = (b as any).isMostDemanded ? 1 : 0
+          const aDemanded = (a as any).isMostDemanded === true || a.tags.includes('most-demanded') ? 1 : 0
+          const bDemanded = (b as any).isMostDemanded === true || b.tags.includes('most-demanded') ? 1 : 0
           return bDemanded - aDemanded
         })
       const flagships = all.filter(
@@ -250,9 +252,17 @@ class PayloadProductRepository implements IProductRepository {
           (p.variants && p.variants.some((v) => (v.price || 0) >= 45000))
       )
 
+      const fallbackCandidates = all.filter((p) => (p as any).isMostDemanded !== false)
+      const finalBestSellers =
+        bestSellers.length >= 4
+          ? bestSellers.slice(0, 8)
+          : bestSellers
+              .concat(fallbackCandidates.filter((p) => !bestSellers.some((b) => b.id === p.id)))
+              .slice(0, 8)
+
       return {
         newArrivals,
-        bestSellers: bestSellers.length >= 4 ? bestSellers.slice(0, 8) : all.slice(0, 8),
+        bestSellers: finalBestSellers,
         flagships: flagships.length >= 4 ? flagships : all.slice(0, 8),
       }
     } catch {

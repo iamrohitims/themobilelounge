@@ -7,6 +7,7 @@ import {
   cleanupProductImagesOnChange,
   cleanupProductImagesOnDelete,
 } from './hooks/cleanupProductImages'
+import { syncDemandedTagsBeforeChange } from './hooks/syncDemandedTags'
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -18,6 +19,7 @@ export const Products: CollectionConfig = {
     },
   },
   hooks: {
+    beforeChange: [syncDemandedTagsBeforeChange],
     afterChange: [syncBrandOnAfterChange, cleanupProductImagesOnChange],
     afterDelete: [syncBrandOnAfterDelete, cleanupProductImagesOnDelete],
   },
