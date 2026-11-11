@@ -13,6 +13,7 @@ import {
   ShieldCheck,
   Send,
   CheckCircle2,
+  Heart,
 } from "lucide-react";
 import { InstagramIcon } from "@/components/ui/InstagramIcon";
 
@@ -265,9 +266,18 @@ export function Footer({ siteLogo = "/brand/logo.png" }: FooterProps = {}) {
           <p>
             © 2026 {siteConfig.name} (by Vishal Distributors), Kakod. All rights reserved.
           </p>
-          <p className="max-w-xl text-center md:text-right">
-            *Terms and conditions apply. EMI and interest rates shown are indicative and subject to
-            financing partner approval at store counter.
+          <p className="flex items-center justify-center md:justify-end gap-1.5 text-center md:text-right">
+            <span>Made with</span>
+            <Heart className="w-3.5 h-3.5 fill-red-500 text-red-500 inline-block" />
+            <span>by</span>
+            <a
+              href="https://www.linkedin.com/in/irohit-kumar/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-zinc-700 dark:text-zinc-200 hover:text-emerald-600 dark:hover:text-emerald-400 underline underline-offset-2 transition-colors"
+            >
+              Rohit Kumar
+            </a>
           </p>
         </div>
       </div>
