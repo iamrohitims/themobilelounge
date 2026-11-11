@@ -146,7 +146,7 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning className="scroll-smooth">
       <body
         suppressHydrationWarning
-        className={`${plusJakartaSans.variable} ${inter.variable} min-h-screen flex flex-col bg-[var(--background)] text-[var(--foreground)] font-sans selection:bg-[#ff5a1f] selection:text-white transition-colors duration-250`}
+        className={`${plusJakartaSans.variable} ${inter.variable} min-h-screen flex flex-col bg-[var(--background)] text-[var(--foreground)] font-sans selection:bg-[#ff5a1f] selection:text-white transition-colors duration-250 max-w-[1920px] mx-auto w-full`}
       >
         <script
           id="theme-init"
